@@ -35,6 +35,7 @@ struct player{
 	int joy_fd, *axis=NULL, num_of_axis=0, num_of_buttons=0, x;
 	char *button=NULL, name_of_joystick[80];
 	struct js_event js;
+	int varBut;
 };
 
 //FUNCTION DECLARATIONS
@@ -66,7 +67,7 @@ int main()
 		}
 		if(state==S_AUTO)
 		{
-
+		
 		}
 		if(state==S_TELEOP)
 		{
@@ -126,4 +127,27 @@ int initializeJoystick(struct player play)
 		, play.num_of_buttons );
 
 	fcntl( play.joy_fd, F_SETFL, O_NONBLOCK );	/* use non-blocking mode */
+	return 1;
 }
+int getJoyValues(struct player play)
+	{
+		read(joy_fd, &js, sizeof(struct js_event));
+		
+		/* see what to do with the event */
+		switch (js.type & ~JS_EVENT_INIT)
+		{
+		case JS_EVENT_AXIS:
+			play.axis   [ js.number ] = js.value;
+			break;
+		case JS_EVENT_BUTTON:
+			play.button [ js.number ] = js.value;
+			break;
+		}
+				char varBut = 0;
+		for(int x=0; x<6; x++)
+		{
+			if(button[x])play.varBut=play.varBut|(1<<x);
+		}
+		if(button[9])play.varBut=play.varBut|(1<<9);
+		if(button[10])play.varBut=play.varBut|(1<<10);
+	}
