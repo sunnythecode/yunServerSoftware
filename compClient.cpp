@@ -30,6 +30,7 @@ struct player{
 	int port;
 	int playerNum;
 	int teamName;
+	int sock;
 	//JOYSTICK INFO
 	String joyLoc;
 	int joy_fd, *axis=NULL, num_of_axis=0, num_of_buttons=0, x;
@@ -81,9 +82,8 @@ int initialize()
 {
 return 1;
 }
-int connectToServer(String address, int port)
+int connectToServer(String address, int port ,int sock)
 {
-	int sock;
 	struct sockaddr_in server;
 	char message[1000] , server_reply[2000];
      	//Create socket
@@ -130,24 +130,33 @@ int initializeJoystick(struct player play)
 	return 1;
 }
 int getJoyValues(struct player play)
+{
+	read(play.joy_fd, &play->js, sizeof(struct js_event));
+
+	/* see what to do with the event */
+	switch (play->js.type & ~JS_EVENT_INIT)
 	{
-		read(joy_fd, &js, sizeof(struct js_event));
-		
-		/* see what to do with the event */
-		switch (js.type & ~JS_EVENT_INIT)
-		{
-		case JS_EVENT_AXIS:
-			play.axis   [ js.number ] = js.value;
-			break;
-		case JS_EVENT_BUTTON:
-			play.button [ js.number ] = js.value;
-			break;
-		}
-				char varBut = 0;
-		for(int x=0; x<6; x++)
-		{
-			if(button[x])play.varBut=play.varBut|(1<<x);
-		}
-		if(button[9])play.varBut=play.varBut|(1<<9);
-		if(button[10])play.varBut=play.varBut|(1<<10);
+	case JS_EVENT_AXIS:
+		play.axis   [ play->js.number ] = play->js.value;
+		break;
+	case JS_EVENT_BUTTON:
+		play.button [ play->js.number ] = play->js.value;
+		break;
 	}
+	for(int x=0; x<6; x++)
+	{
+		if(button[x])play.varBut=play.varBut|(1<<x);
+	}
+	if(button[9])play.varBut=play.varBut|(1<<9);
+	if(button[10])play.varBut=play.varBut|(1<<10);
+}
+int sendJoyValues(struct player play)
+{
+	sprintf(message, "%d,%d,%d,%d,%d,%d,%d,%d,%c",play.axis[0],play.axis[1],play.axis[2],play.axis[3],play.axis[4],play.axis[5],play.axis[6],play.axis[7],play.varBut);
+	if( send(sock , message , strlen(message) , 0) < 0)
+      	{
+		puts("Send failed");
+		return 0;
+	}
+}
+
