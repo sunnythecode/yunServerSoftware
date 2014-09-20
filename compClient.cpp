@@ -18,21 +18,24 @@
 #define S_AUTO 9005
 #define S_TELEOP 9006
 
+using namespace std;
+
 int state;
-String address;
+char address[12];
 int port;
 
 //PLAYER
 
+
 struct player{
 	//SERVER INFO
-	String address;
+	char address[];
 	int port;
 	int playerNum;
 	int teamName;
 	int sock;
 	//JOYSTICK INFO
-	String joyLoc;
+	char joyLoc[];
 	int joy_fd, *axis=NULL, num_of_axis=0, num_of_buttons=0, x;
 	char *button=NULL, name_of_joystick[80];
 	struct js_event js;
@@ -42,7 +45,7 @@ struct player{
 //FUNCTION DECLARATIONS
 
 int initiliaze();
-int connectToServer(String address, int port)
+int connectToServer(char address[50], int port);
 
 int main()
 {	
@@ -59,8 +62,8 @@ int main()
 		}
 		if(state==S_NO_CONNECT)
 		{
-			if(connectToServer(player.address,player.port))initialize();
-			else state=S_ENTRY;
+			//if(connectToServer(player.address[],player.port))initialize();
+			//else state=S_ENTRY;
 		}
 		if(state==S_SCAN)
 		{
@@ -68,7 +71,7 @@ int main()
 		}
 		if(state==S_AUTO)
 		{
-		
+
 		}
 		if(state==S_TELEOP)
 		{
@@ -80,9 +83,9 @@ int main()
 
 int initialize()
 {
-return 1;
+	return 1;
 }
-int connectToServer(String address, int port ,int sock)
+int connectToServer(char address[], int port ,int sock)
 {
 	struct sockaddr_in server;
 	char message[1000] , server_reply[2000];
@@ -118,8 +121,8 @@ int initializeJoystick(struct player play)
 	ioctl( play.joy_fd, JSIOCGBUTTONS, &play.num_of_buttons );
 	ioctl( play.joy_fd, JSIOCGNAME(80), &play.name_of_joystick );
 
-	play.axis = (int *) calloc( num_of_axis, sizeof( int ) );
-	play.button = (char *) calloc( num_of_buttons, sizeof( char ) );
+	play.axis = (int *) calloc( play.num_of_axis, sizeof( int ) );
+	play.button = (char *) calloc( play.num_of_buttons, sizeof( char ) );
 
 	printf("Joystick detected: %s\n\t%d axis\n\t%d buttons\n\n"
 		, play.name_of_joystick
@@ -131,32 +134,35 @@ int initializeJoystick(struct player play)
 }
 int getJoyValues(struct player play)
 {
-	read(play.joy_fd, &play->js, sizeof(struct js_event));
+	read(play.joy_fd, &play.js, sizeof(struct js_event));
 
 	/* see what to do with the event */
-	switch (play->js.type & ~JS_EVENT_INIT)
+	switch (play.js.type & ~JS_EVENT_INIT)
 	{
 	case JS_EVENT_AXIS:
-		play.axis   [ play->js.number ] = play->js.value;
+		play.axis   [ play.js.number ] = play.js.value;
 		break;
 	case JS_EVENT_BUTTON:
-		play.button [ play->js.number ] = play->js.value;
+		play.button [ play.js.number ] = play.js.value;
 		break;
 	}
 	for(int x=0; x<6; x++)
 	{
-		if(button[x])play.varBut=play.varBut|(1<<x);
+		if(play.button[x])play.varBut=play.varBut|(1<<x);
 	}
-	if(button[9])play.varBut=play.varBut|(1<<9);
-	if(button[10])play.varBut=play.varBut|(1<<10);
+	if(play.button[9])play.varBut=play.varBut|(1<<9);
+	if(play.button[10])play.varBut=play.varBut|(1<<10);
+	return 1;
 }
 int sendJoyValues(struct player play)
 {
+	char message[1000];
 	sprintf(message, "%d,%d,%d,%d,%d,%d,%d,%d,%c",play.axis[0],play.axis[1],play.axis[2],play.axis[3],play.axis[4],play.axis[5],play.axis[6],play.axis[7],play.varBut);
-	if( send(sock , message , strlen(message) , 0) < 0)
+	if( send(play.sock , message , strlen(message) , 0) < 0)
       	{
 		puts("Send failed");
 		return 0;
 	}
+	return 1;
 }
 
