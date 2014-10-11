@@ -21,4 +21,5 @@ struct client
 	int id;
 	int socket;
 	bool isConnected;
+	struct *nextClient;
 };
