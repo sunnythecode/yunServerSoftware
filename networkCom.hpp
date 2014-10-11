@@ -15,8 +15,12 @@
 #include <ifaddrs.h>
 #include <netinet/in.h> 
 #include <net/if.h>
+#include <linux/joystick.h>
+#include <time.h>
+#include <stddef.h>
+#include <cstddef>
 
 
 
-void sendString(char message[], struct client *clientList);
+void sendString(char message[], struct client *clients);
 void recvString(struct client *client);
