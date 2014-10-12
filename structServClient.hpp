@@ -1,3 +1,4 @@
+#include <linux/joystick.h>
 struct player
 {
 	//SERVER INFO
@@ -6,21 +7,26 @@ struct player
 	int playerNum;
 	int teamName;
 	int socket;
-	bool isConnected = false;
+	bool isConnected;
 	int teamColor;
 	//JOYSTICK INFO
 	char joyLoc[];
-	int joy_fd, *axis = NULL, num_of_axis = 0, num_of_buttons = 0, x;
-	char *button = NULL, name_of_joystick[80];
+	int joy_fd, *axis, num_of_axis, num_of_buttons, x;
+	char *button, name_of_joystick[80];
 	struct js_event js;
 	int varBut;
+	struct player *nextPlayer;
 };
 
 struct client
 {
+	float mainTime, startTime, autoEndTime, teleEndTime;
 	int id;
 	int socket;
 	bool isConnected;
-	char buffer[];
+	char buffer[512];
+	bool buffFull;
+	bool isReady;
 	struct client *nextClient;
+	struct player player;
 };

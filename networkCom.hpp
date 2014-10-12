@@ -1,6 +1,16 @@
 #define MAX_CLIENTS 5
 #define MAX_BUFF 100
 #define FORMATING_ERROR -1
+#define BUFFER_FULL -8
+#define TIME_SET 7
+
+#define HANDSHAKE 1
+#define READYING 2
+#define UN_READYING 3
+#define TIME 4
+
+#define AUTO_LEN 15
+#define MATCH_LEN 120
 
 #include "structServClient.hpp"
 #include <stdio.h>
@@ -19,8 +29,11 @@
 #include <time.h>
 #include <stddef.h>
 #include <cstddef>
+#include <errno.h>
 
 
 
-void sendString(char message[], struct client *clients);
-void recvString(struct client *client);
+int sendString(char *message, struct client *clients);
+int recvString(struct client *client);
+int readyUp(struct client *client);
+int getConnectionType(struct client *client);
