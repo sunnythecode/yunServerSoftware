@@ -62,21 +62,24 @@ int readyUp(struct client *client)
 	int numReadyPlayers = 0;
 	for(struct client *mover = client; mover->nextClient; mover= mover->nextClient)
 	{
-		numReadyPlayers +=mover->isReady;
-		recvString(client);
-		if(client->buffFull)
+		for(struct player *playMove = mover->player; playMove->nextPlayer; playMove->nextPlayer)
 		{
-			if(getConnectionType(client)==READYING)
+			numReadyPlayers +=mover->isReady;
+			recvString(client);
+			if(client->buffFull)
 			{
-				client->isReady=true;
-				client->buffFull = false;
-			}
-			else if(getConnectionType(client)==UN_READYING)
-			{
-				client->isReady=false;
-				client->buffFull = false;
-			}
-		}	
+				if(getConnectionType(client)==READYING)
+				{
+					mover->isReady=true;
+					mover->buffFull = false;
+				}
+				else if(getConnectionType(client)==UN_READYING)
+				{
+					mover->isReady=false;
+					mover->buffFull = false;
+				}
+			}	
+		}
 	}
 	if(numReadyPlayers == MAX_CLIENTS)
 	{
@@ -106,7 +109,6 @@ void setTime(struct client *client)
 	client->autoEndTime = client->startTime + AUTO_LEN;
 	client->teleEndTime = client->startTime + MATCH_LEN;
 }
-void 
 
 int main()
 {

@@ -16,6 +16,7 @@ struct player
 	struct js_event js;
 	int varBut;
 	struct player *nextPlayer;
+	bool isReady;
 };
 
 struct client
