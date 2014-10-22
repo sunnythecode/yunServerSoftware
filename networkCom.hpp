@@ -8,6 +8,11 @@
 #define READYING 2
 #define UN_READYING 3
 #define TIME 4
+#define ANNOUNCE_SERVER 5
+#define BEGIN_MATCH 6
+#define BEGIN_TELEOP 7
+#define END_MATCH 8
+
 
 #define AUTO_LEN 15
 #define MATCH_LEN 120
@@ -34,6 +39,12 @@
 
 
 int sendString(char *message, struct client *clients);
+int sendString(char *message, struct player *player);
 int recvString(struct client *client);
 int readyUp(struct client *client);
 int getConnectionType(struct client *client);
+void announceServers(struct client *client);
+void sendBeginMatch(struct player *player);
+void sendBeginTeleop(struct player *player);
+void sendEndMatch(struct player *player);
+

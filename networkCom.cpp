@@ -32,6 +32,37 @@ int sendString(char *message, struct client *clients)
 	}
 	return nullPos - message;
 }
+
+int sendString(char *message, struct player *player)
+{
+	char* nullPos;
+	if(!(nullPos = strchr(message,'\0'))) return FORMATING_ERROR;
+	
+		int sendRet = send(player->socket, message, strlen(message),0);
+		
+		if(sendRet == nullPos - message) printf("Send successful\n");
+		else{
+			printf("Error :%d ",sendRet);
+			if(sendRet == EACCES) 
+			{
+				printf("Access Denied: Try running as root\n");
+				return EACCES;
+			}
+			else if(sendRet == EAGAIN || sendRet == EWOULDBLOCK)
+			{
+				printf("Message too long\n");
+				return EWOULDBLOCK;
+			}
+			else if(sendRet == ECONNRESET)
+			{
+				printf("Connecting reset by peer\n");
+				return ECONNRESET;
+			}
+			
+	}
+	return nullPos - message;
+}
+
 int recvString(struct client *client)
 {
 	if(!client->buffFull)
@@ -62,7 +93,7 @@ int readyUp(struct client *client)
 	int numReadyPlayers = 0;
 	for(struct client *mover = client; mover->nextClient; mover= mover->nextClient)
 	{
-		for(struct player *playMove = mover->player; playMove->nextPlayer; playMove->nextPlayer)
+		for(struct player *playMove = &mover->player; playMove->nextPlayer; playMove->nextPlayer)
 		{
 			numReadyPlayers +=mover->isReady;
 			recvString(client);
@@ -99,6 +130,20 @@ int readyUp(struct client *client)
 	}
 
 }
+
+void announceServers(struct client *client)
+{
+	int playPerClient=0;
+	for(struct player *mover = &client->player; mover->nextPlayer; mover= mover->nextPlayer)
+	{
+		playPerClient++;
+		mover->isReady=true;
+	}
+	char message[10];
+	sprintf(message,"5! %d",playPerClient);
+	sendString(message, client);
+}
+
 void setTime(struct client *client)
 {
 	char message[50];
@@ -109,7 +154,30 @@ void setTime(struct client *client)
 	client->autoEndTime = client->startTime + AUTO_LEN;
 	client->teleEndTime = client->startTime + MATCH_LEN;
 }
-
+void sendJoyPos(struct player *player)
+{
+	for(int x=0; x<6; x++)
+	{
+		if(player->button[x])player->varBut=player->varBut|(1<<x);
+	}
+	if(player->button[9])player->varBut=player->varBut|(1<<9);
+	if(player->button[10])player->varBut=player->varBut|(1<<10);
+	char message[500];
+	sprintf(message, "%d,%d,%d,%d,%d,%d,%d,%d,%c",player->axis[0],player->axis[1],player->axis[2],player->axis[3],player->axis[4],player->axis[5],player->axis[6],player->axis[7],player->varBut);
+	sendString(message, player);
+}
+void sendBeginMatch(struct player *player)
+{
+	sendString("6!",player);
+}
+void sendBeginTeleop(struct player *player)
+{
+	sendString("7!",player);
+}
+void sendEndMatch(struct player *player)
+{
+	sendString("8!",player);
+}
 int main()
 {
 	return 1;
