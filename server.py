@@ -24,12 +24,38 @@ print 'Socket now listening'
 conn, addr= s.accept()                      
 print 'Connected with ' + addr[0] + ':' + str(addr[1])
 #now keep talking with the client
+
+matchState = 0;
 while 1:
-
-
 	#loop back message from client	
-        data = conn.recv(1024)
-
-        conn.send(data)                               
+	data = conn.recv(1024) 
+	try:
+		delmPos = data.index('!')
+	except ValueError:
+		print "could not find delim"
+	print data
+	if data[0] == '1' :
+		sendCnt =conn.send("lancer")
+		print "number of chars sent: " + repr(sendCnt)   
+	if data[0] == '6':
+		matchState = 1 #matchstate 1 is match start, auto
+		print "matchStart"
+	if data[0] == '7':
+		matchState = 2 #matchstate 2 is teleop
+		print "teleop start"
+	if data[0] == '8':
+		matchState = 0 #matchstate 0 is matchEnd
+		print "match over"
+	if data[0] == '9' :
+		print data
+		try:
+			datagramLeng = ord(data[2])
+		except ValueError:
+			datagramLeng = 0;
+		if datagramLeng != len(data):
+			print "Packet size mismatch: " + repr(datagramLeng)
+		else:
+			print "packet recv complt"
+	
 s.close()
 	
