@@ -1,9 +1,11 @@
 #include <linux/joystick.h>
+#include <arpa/inet.h>
 struct player
 {
 	//SERVER INFO
 	int id;
-	int address;
+	char address[128];
+	int port;
 	int playerNum;
 	int teamName;
 	int socket;
@@ -17,6 +19,10 @@ struct player
 	int varBut;
 	struct player *nextPlayer;
 	bool isReady;
+	char buffer[512];
+	bool buffFull;
+	struct sockaddr_in server;
+
 };
 
 struct client

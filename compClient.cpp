@@ -238,26 +238,26 @@ int initializeJoystick(struct player play)
 	fcntl(play.joy_fd, F_SETFL, O_NONBLOCK); /* use non-blocking mode */
 	return 1;
 }
-int getJoyValues(struct player play)
+int getJoyValues(struct player *play)
 {
-	read(play.joy_fd, &play.js, sizeof(struct js_event));
+	read(play->joy_fd, &play->js, sizeof(struct js_event));
 
 	/* see what to do with the event */
-	switch (play.js.type & ~JS_EVENT_INIT)
+	switch (play->js.type & ~JS_EVENT_INIT)
 	{
 	case JS_EVENT_AXIS:
-		play.axis[play.js.number] = play.js.value;
+		play->axis[play->js.number] = play->js.value;
 		break;
 	case JS_EVENT_BUTTON:
-		play.button[play.js.number] = play.js.value;
+		play->button[play->js.number] = play->js.value;
 		break;
 	}
 	for (int x = 0; x < 6; x++)
 	{
-		if (play.button[x]) play.varBut = play.varBut | (1 << x);
+		if (play->button[x]) play->varBut = play->varBut | (1 << x);
 	}
-	if (play.button[9]) play.varBut = play.varBut | (1 << 9);
-	if (play.button[10]) play.varBut = play.varBut | (1 << 10);
+	if (play->button[9]) play->varBut = play->varBut | (1 << 9);
+	if (play->button[10]) play->varBut = play->varBut | (1 << 10);
 	return 1;
 }
 int sendJoyValues(struct player play)

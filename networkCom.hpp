@@ -12,7 +12,7 @@
 #define BEGIN_MATCH 6
 #define BEGIN_TELEOP 7
 #define END_MATCH 8
-
+#define JOY_STICK 9
 
 #define AUTO_LEN 15
 #define MATCH_LEN 120
@@ -47,4 +47,5 @@ void announceServers(struct client *client);
 void sendBeginMatch(struct player *player);
 void sendBeginTeleop(struct player *player);
 void sendEndMatch(struct player *player);
-
+int createSocket(struct client *cli);
+int createSocket(struct player *play);
