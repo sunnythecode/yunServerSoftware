@@ -12,7 +12,7 @@ struct player
 	bool isConnected;
 	int teamColor;
 	//JOYSTICK INFO
-	char joyLoc[];
+	char joyLoc[15];
 	int joy_fd, *axis, num_of_axis, num_of_buttons, x;
 	char *button, name_of_joystick[80];
 	struct js_event js;
@@ -36,4 +36,5 @@ struct client
 	bool isReady;
 	struct client *nextClient;
 	struct player player;
+
 };
