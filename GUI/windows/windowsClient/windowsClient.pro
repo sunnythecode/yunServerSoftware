@@ -15,6 +15,10 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    structServClient.hpp
 
 FORMS    += mainwindow.ui
+
+win32: LIBS += -lXinput
+win32:LIBS += -lWS2_32
