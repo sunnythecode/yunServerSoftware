@@ -1,3 +1,8 @@
+#ifndef CLIENT_NETWORK_COM_H
+#define CLIENT_NETWORK_COM_H
+
+
+
 #define MAX_CLIENTS 5
 #define MAX_BUFF 100
 #define FORMATING_ERROR -1
@@ -52,3 +57,6 @@ int createSocket(struct player *play);
 int handshake(struct player *play);
 int connect(struct player *play);
 void sendJoyPos(struct player *player);
+
+
+#endif // CLIENT_NETWORK_COM_H
