@@ -148,7 +148,6 @@ void MainWindow::on_Scan4robot_clicked()
         workerThread.start();
         emit this->scanNet(QString::number(this->currIp));
 
-
         ui->Scan4robot->setText("Cancel");//change search button to cancel button
     }
     else
@@ -156,7 +155,6 @@ void MainWindow::on_Scan4robot_clicked()
         this->debug("cancelled search, current thread will finish execution before being stoped");
         ui->Scan4robot->setText("Scan for Robots"); //change button back to search
         workerThread.exit(); //cancel thread
-        ui->scanProg->setValue(ui->scanProg->minimum()); //fill progress bar
 
     }
 }
@@ -273,13 +271,19 @@ bool MainWindow::bindJoystick(int playerNum)
     bool contConn[16];
     bool contFound = false;
     memset(contConn,0, sizeof(contConn));
+    QList<QComboBox *> visableCombo =ui->playerTabs->currentWidget()->findChildren<QComboBox*>();
+    QComboBox *currSel;
+
+    for(int i=0; i<visableCombo.length();i++)
+    {
+        if(visableCombo[i]->objectName().endsWith("contSel"))
+            currSel = visableCombo[i];
+    }
 
     if(playerStack[playerNum].joy_fd == UNNASSIGNED) //check if player is already assigned a controller
     {
-        if(ui->p1_contSel->currentText() == "any") //check if the user has specified a controller
+        if(currSel->currentText() == "any") //check if the user has specified a controller
         {
-
-
             for(int i=0; i<4;i++) //check which controllers are already assigned
             {
                 if(this->playerStack[i].joy_fd != UNNASSIGNED)
@@ -300,7 +304,8 @@ bool MainWindow::bindJoystick(int playerNum)
         }
         else //connect to the user selected controller
         {
-            int userSelection = ui->p1_contSel->currentIndex()-1;
+            int userSelection = currSel->currentIndex()-1;
+
             for(int i=0; i<4;i++) //check which controllers are already assigned
             {
                 if(this->playerStack[i].joy_fd != UNNASSIGNED)
