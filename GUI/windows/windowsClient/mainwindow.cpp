@@ -10,39 +10,35 @@ MainWindow::MainWindow(QWidget *parent) :
     this->timer1 = new QTimer(this);
     this->timer2 = new QTimer(this);
     //initialize player stack
-    this->playerStack.isConnected=false;
-    this->playerStack.nextPlayer =NULL;
+    for(int i =0; i<4;i++)
+    {
+        this->playerStack[i].isConnected=false;
+        this->playerStack[i].joy_fd = UNNASSIGNED;
+        this->playerStack[i].nextPlayer =NULL;
+
+        if(i<3)
+            this->playerStack[i].nextPlayer=this->playerStack +i;
+        else
+            this->playerStack[i].nextPlayer= NULL;
+    }
+
 
     ui->setupUi(this);
-    clearPlayerCont(&(this->playerStack));
+    clearPlayerCont(&(this->playerStack[0]));
     connect(timer1, SIGNAL(timeout()), this, SLOT(updateJoyVals()));
     connect(timer2, SIGNAL(timeout()),this, SLOT(updateJoyGUI()));
 
     timer1->start(3);
     timer2->start(100);
-    this->debug("test");
 
     //setup Player 1
 }
+
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-/*
-void MainWindow::updateValGraph()
-{
-        char data[255];
-        XINPUT_STATE player1;
-        int port =0;
-        while(!XInputGetState(port++,&player1) && port<15);
-        if(port<15)
-            sprintf(data, "LY:%6d RY:%6d bttn1:%6d", player1.Gamepad.sThumbLY, player1.Gamepad.sThumbRY, player1.Gamepad.wButtons);
-        else
-            sprintf(data, "CNF");
-}
-*/
 
 void netMap::scanIps(const QString &parameter)
 {
@@ -116,29 +112,9 @@ void netMap::scanIps(const QString &parameter)
     emit resultReady(*threadRes);
 }
 
-void MainWindow::pushPlayerStack(struct player *stack)
-{
-    while(stack->nextPlayer) stack = stack->nextPlayer;
-    stack->nextPlayer =(struct player *) malloc(sizeof(struct player));
-    stack->nextPlayer->isConnected =false;
-    stack->nextPlayer->nextPlayer = NULL;
-    clearPlayerCont(stack->nextPlayer);
-}
 
-void MainWindow::popPlayerStack(struct player *stack)
-{
-    struct player *mover = stack;
-    if(stack->nextPlayer)
-    {
-        while(mover->nextPlayer)
-        {
-            stack = mover;
-            mover = mover->nextPlayer;
-        }
-        stack->nextPlayer = NULL;
-        free(mover);
-    }
-}
+
+
 
 void MainWindow::deletePlayer(struct player *stack, struct player *del)
 {
@@ -160,20 +136,28 @@ void MainWindow::on_Scan4robot_clicked()
 {
     if(!workerThread.isRunning())
     {
-    this->debug("Clicked");
-    netMap *scanThread = new netMap;
-    scanThread->moveToThread(&workerThread);
-    connect(scanThread, SIGNAL(finished()), scanThread, SLOT(deleteLater()));
-    connect(this, SIGNAL(scanNet(QString)), scanThread, SLOT(scanIps(QString)));
-    connect(scanThread, SIGNAL(resultReady(QString)), this ,SLOT(handleResIP(QString)));
-    this->currIp = 0;
+        debug("searching network for clients");
 
-    workerThread.start();
-    emit this->scanNet(QString::number(this->currIp));
+        //start search on new thread
+        netMap *scanThread = new netMap;
+        scanThread->moveToThread(&workerThread);
+        connect(scanThread, SIGNAL(finished()), scanThread, SLOT(deleteLater()));
+        connect(this, SIGNAL(scanNet(QString)), scanThread, SLOT(scanIps(QString)));
+        connect(scanThread, SIGNAL(resultReady(QString)), this ,SLOT(handleResIP(QString)));
+        this->currIp = 0;  //start search from ip 0
+        workerThread.start();
+        emit this->scanNet(QString::number(this->currIp));
+
+
+        ui->Scan4robot->setText("Cancel");//change search button to cancel button
     }
     else
     {
-        this->debug("running");
+        this->debug("cancelled search, current thread will finish execution before being stoped");
+        ui->Scan4robot->setText("Scan for Robots"); //change button back to search
+        workerThread.exit(); //cancel thread
+        ui->scanProg->setValue(ui->scanProg->minimum()); //fill progress bar
+
     }
 }
 
@@ -198,12 +182,6 @@ void MainWindow::on_connect2robot_clicked()
     ui->clientList->addItem(ui->ipBox->text());
 }
 
-void MainWindow::on_cancelButton_clicked()
-{
-    this->currIp=255;
-    workerThread.exit();
-
-}
 void MainWindow::handleResIP(const QString &res)
 {
     this->debug("Scanned IP " + QString::number(this->currIp));
@@ -223,18 +201,17 @@ void MainWindow::debug(QString input)
 }
 void MainWindow::updateJoyVals()
 {
-    struct player *mover = &(this->playerStack);
-    do{
-        if(mover->isReady)
+    for(int i=0; i<4;i++)
+    {
+        if(this->playerStack[i].isReady)
         {
-            int err = XInputGetState(mover->joy_fd, &(mover->controller));
+            int err = XInputGetState(this->playerStack[i].joy_fd, &(this->playerStack[i].controller));
             if(err == ERROR_DEVICE_NOT_CONNECTED)
             {
-
-                clearPlayerCont(mover);
+                clearPlayerCont(&(this->playerStack[i]));
             }
         }
-    }while(mover->nextPlayer);
+    }
 }
 void MainWindow::clearPlayerCont(struct player *play)
 {
@@ -245,38 +222,132 @@ void MainWindow::clearPlayerCont(struct player *play)
 
 void MainWindow::updateJoyGUI()
 {
-    if(ui->player1->isVisible())
-    {
-        ui->p1_val_leftX->display(this->playerStack.controller.Gamepad.sThumbLX);
-        ui->p1_val_leftY->display(this->playerStack.controller.Gamepad.sThumbLY);
-        ui->p1_val_rightX->display(this->playerStack.controller.Gamepad.sThumbRX);
-        ui->p1_val_rightY->display(this->playerStack.controller.Gamepad.sThumbRY);
-        ui->p1_val_but->setText(QString::number(this->playerStack.controller.Gamepad.wButtons));
-    }
 
+        QList<QLCDNumber *> visableLCD =ui->playerTabs->currentWidget()->findChildren<QLCDNumber *>();
+        QList<QLabel *> visableLabel =ui->playerTabs->currentWidget()->findChildren<QLabel*>();
+        for(int i =0; i<visableLCD.length(); i++)
+        {
+            if(visableLCD[i]->objectName().endsWith("val_leftX"))
+            {
+                visableLCD[i]->display(this->playerStack[ui->playerTabs->currentIndex()].controller.Gamepad.sThumbLX);
+            }
+            else if(visableLCD[i]->objectName().endsWith("val_leftY"))
+            {
+                visableLCD[i]->display(this->playerStack[ui->playerTabs->currentIndex()].controller.Gamepad.sThumbLY);
+            }
+            else if(visableLCD[i]->objectName().endsWith("val_rightX"))
+            {
+                visableLCD[i]->display(this->playerStack[ui->playerTabs->currentIndex()].controller.Gamepad.sThumbRX);
+            }
+            else if(visableLCD[i]->objectName().endsWith("val_rightY"))
+            {
+                visableLCD[i]->display(this->playerStack[ui->playerTabs->currentIndex()].controller.Gamepad.sThumbRY);
+            }
+            else
+            {
+                visableLCD[i]->display(0);
+            }
+        }
+        for(int i=0; i<visableLabel.length(); i++)
+        {
+            if(visableLabel[i]->objectName().endsWith("val_but"))
+            {
+                QString output = "0000000000000000";
+                int buttons = this->playerStack[ui->playerTabs->currentIndex()].controller.Gamepad.wButtons;
+                for(int j=0; j < 16; j++)
+                {
+                    if(buttons & 1<<j)
+                        output[j] = '1';
+                    else
+                        output[j] = '0';
+                }
+                visableLabel[i]->setText(output);
+            }
+        }
 }
 
+bool MainWindow::bindJoystick(int playerNum)
+{
+    bool retVal = false;
+    QList<QPushButton *> visablePButtons =ui->playerTabs->currentWidget()->findChildren<QPushButton *>();
+    bool contConn[16];
+    bool contFound = false;
+    memset(contConn,0, sizeof(contConn));
+
+    if(playerStack[playerNum].joy_fd == UNNASSIGNED) //check if player is already assigned a controller
+    {
+        if(ui->p1_contSel->currentText() == "any") //check if the user has specified a controller
+        {
+
+
+            for(int i=0; i<4;i++) //check which controllers are already assigned
+            {
+                if(this->playerStack[i].joy_fd != UNNASSIGNED)
+                    contConn[this->playerStack[i].joy_fd] = true;
+            }
+            for(int i=0; i<16 && !contFound; i++) //look through controllers for a connected controller that isnt assigned
+            {
+                int error=XInputGetState(i,&(playerStack[playerNum].controller));
+                if(error!=ERROR_DEVICE_NOT_CONNECTED && !contConn[i])
+                {
+                        debug("Successful connected player: " + QString::number(ui->playerTabs->currentIndex()+1)+ " to controller: " + QString::number(i));
+                        playerStack[playerNum].joy_fd=i;
+                        contFound=true;
+                        playerStack[playerNum].isReady=true;
+                        visablePButtons[0]->setText("Unlink Controller");
+                }
+            }
+        }
+        else //connect to the user selected controller
+        {
+            int userSelection = ui->p1_contSel->currentIndex()-1;
+            for(int i=0; i<4;i++) //check which controllers are already assigned
+            {
+                if(this->playerStack[i].joy_fd != UNNASSIGNED)
+                    contConn[this->playerStack[i].joy_fd] = true;
+            }
+            int error=XInputGetState(userSelection,&(playerStack[playerNum].controller));
+            if(error!=ERROR_DEVICE_NOT_CONNECTED && !contConn[userSelection])
+            {
+                    debug("Successful connected player " + QString::number(ui->playerTabs->currentIndex()+1)+ " to controller: " + QString::number(userSelection));
+                    playerStack[playerNum].joy_fd=userSelection;
+                    playerStack[playerNum].isReady=true;
+                    visablePButtons[0]->setText("Unlink Controller");
+                    retVal = true;
+            }
+        }
+        if(playerStack[playerNum].joy_fd == UNNASSIGNED)
+        {
+            debug("Could not find controller for player " + QString::number(ui->playerTabs->currentIndex()+1));
+        }
+    }
+    else //already has a controller assigned to them so we are going to unlink it from them
+    {
+        playerStack[playerNum].joy_fd = UNNASSIGNED;
+        playerStack[playerNum].isReady = false;
+        visablePButtons[0]->setText("Link Controller");
+        debug("Unlinked controller from player " + QString::number(ui->playerTabs->currentIndex()+1));
+    }
+    return retVal;
+}
 
 void MainWindow::on_p1_conCont_clicked()
 {
-    bool contConn[16];
-    bool contFound = false;
-    struct player *mover = &(this->playerStack);
-    memset(contConn,0, sizeof(contConn));
-    while(mover->nextPlayer)
-    {
-        if(mover->joy_fd <16 && mover->joy_fd>=0)
-            contConn[mover->joy_fd] = true;
-    }
-    for(int i=0; i<16 && !contFound; i++)
-    {
-        int error=XInputGetState(i,&(playerStack.controller));
-        if(error==ERROR_SUCCESS && !contConn[i])
-        {
-                debug("Connect Successful");
-                playerStack.joy_fd=i;
-                contFound=true;
-                playerStack.isReady=true;
-        }
-    }
+    bindJoystick(ui->playerTabs->currentIndex());
+}
+
+
+void MainWindow::on_p2_conCont_clicked()
+{
+    bindJoystick(ui->playerTabs->currentIndex());
+}
+
+void MainWindow::on_p3_conCont_clicked()
+{
+     bindJoystick(ui->playerTabs->currentIndex());
+}
+
+void MainWindow::on_p4_conCont_clicked()
+{
+     bindJoystick(ui->playerTabs->currentIndex());
 }

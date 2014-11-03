@@ -5,6 +5,8 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 
+#define UNNASSIGNED -1
+
 struct player
 {
 	//SERVER INFO

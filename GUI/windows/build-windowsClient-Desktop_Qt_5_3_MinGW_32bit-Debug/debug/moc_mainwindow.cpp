@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[14];
-    char stringdata[204];
+    QByteArrayData data[16];
+    char stringdata[246];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -39,16 +39,19 @@ QT_MOC_LITERAL(6, 68, 21),
 QT_MOC_LITERAL(7, 90, 24),
 QT_MOC_LITERAL(8, 115, 11),
 QT_MOC_LITERAL(9, 127, 3),
-QT_MOC_LITERAL(10, 131, 23),
-QT_MOC_LITERAL(11, 155, 13),
-QT_MOC_LITERAL(12, 169, 12),
-QT_MOC_LITERAL(13, 182, 21)
+QT_MOC_LITERAL(10, 131, 13),
+QT_MOC_LITERAL(11, 145, 12),
+QT_MOC_LITERAL(12, 158, 21),
+QT_MOC_LITERAL(13, 180, 21),
+QT_MOC_LITERAL(14, 202, 21),
+QT_MOC_LITERAL(15, 224, 21)
     },
     "MainWindow\0scanNet\0\0on_clientList_itemClicked\0"
     "QListWidgetItem*\0item\0on_Scan4robot_clicked\0"
     "on_connect2robot_clicked\0handleResIP\0"
-    "res\0on_cancelButton_clicked\0updateJoyVals\0"
-    "updateJoyGUI\0on_p1_conCont_clicked"
+    "res\0updateJoyVals\0updateJoyGUI\0"
+    "on_p1_conCont_clicked\0on_p2_conCont_clicked\0"
+    "on_p3_conCont_clicked\0on_p4_conCont_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -58,7 +61,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       9,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -66,17 +69,19 @@ static const uint qt_meta_data_MainWindow[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   59,    2, 0x06 /* Public */,
+       1,    1,   69,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       3,    1,   62,    2, 0x08 /* Private */,
-       6,    0,   65,    2, 0x08 /* Private */,
-       7,    0,   66,    2, 0x08 /* Private */,
-       8,    1,   67,    2, 0x08 /* Private */,
-      10,    0,   70,    2, 0x08 /* Private */,
-      11,    0,   71,    2, 0x08 /* Private */,
-      12,    0,   72,    2, 0x08 /* Private */,
-      13,    0,   73,    2, 0x08 /* Private */,
+       3,    1,   72,    2, 0x08 /* Private */,
+       6,    0,   75,    2, 0x08 /* Private */,
+       7,    0,   76,    2, 0x08 /* Private */,
+       8,    1,   77,    2, 0x08 /* Private */,
+      10,    0,   80,    2, 0x08 /* Private */,
+      11,    0,   81,    2, 0x08 /* Private */,
+      12,    0,   82,    2, 0x08 /* Private */,
+      13,    0,   83,    2, 0x08 /* Private */,
+      14,    0,   84,    2, 0x08 /* Private */,
+      15,    0,   85,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    2,
@@ -86,6 +91,8 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QString,    9,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -104,10 +111,12 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 2: _t->on_Scan4robot_clicked(); break;
         case 3: _t->on_connect2robot_clicked(); break;
         case 4: _t->handleResIP((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 5: _t->on_cancelButton_clicked(); break;
-        case 6: _t->updateJoyVals(); break;
-        case 7: _t->updateJoyGUI(); break;
-        case 8: _t->on_p1_conCont_clicked(); break;
+        case 5: _t->updateJoyVals(); break;
+        case 6: _t->updateJoyGUI(); break;
+        case 7: _t->on_p1_conCont_clicked(); break;
+        case 8: _t->on_p2_conCont_clicked(); break;
+        case 9: _t->on_p3_conCont_clicked(); break;
+        case 10: _t->on_p4_conCont_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -147,13 +156,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 9)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 9;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 9)
+        if (_id < 11)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 9;
+        _id -= 11;
     }
     return _id;
 }
