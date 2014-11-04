@@ -6,16 +6,19 @@
 #include <ws2tcpip.h>
 
 #define UNNASSIGNED -1
+#define LOCAL_HOST "127.0.0.1"
+#define RED 100
+#define BLUE 101
 
 struct player
 {
 	//SERVER INFO
 	int id;
-	char address[128];
+    QString address;
 	int port;
 	int playerNum;
-	int teamName;
-	int socket;
+    int teamName;
+    SOCKET socket;
 	bool isConnected;
 	int teamColor;
 
@@ -29,8 +32,9 @@ struct player
 	char buffer[512];
 	bool buffFull;
 	struct sockaddr_in server;
+    struct addrinfo *add_inf;
     XINPUT_STATE controller;
-    SOCKET comLine;
+
 };
 
 struct client

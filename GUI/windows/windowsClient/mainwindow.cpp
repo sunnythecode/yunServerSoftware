@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent) :
         this->playerStack[i].isConnected=false;
         this->playerStack[i].joy_fd = UNNASSIGNED;
         this->playerStack[i].nextPlayer =NULL;
+        this->playerStack[i].socket = INVALID_SOCKET;
+        this->playerStack[i].isReady = false;
 
         if(i<3)
             this->playerStack[i].nextPlayer=this->playerStack +i;
@@ -51,7 +53,7 @@ void netMap::scanIps(const QString &parameter)
     PHOSTENT hostinfo;
     int iResult,ipPos;
     static QString *threadRes = new QString();
-    *threadRes = "127.0.0.1";
+    *threadRes = LOCAL_HOST;
 
     ipPos = parameter.toInt();
     //startup and get local IP
@@ -95,14 +97,10 @@ void netMap::scanIps(const QString &parameter)
             WSACleanup();
         }
 
-        // Connect to server.
         iResult = ::connect(ConnectSocket, result->ai_addr, (int)result->ai_addrlen);
-        if (iResult == SOCKET_ERROR) {
-            closesocket(ConnectSocket);
-            ConnectSocket = INVALID_SOCKET;
-        }
-        else
+        if (iResult != SOCKET_ERROR)
         {
+
             *threadRes = QString::fromUtf8(inet_ntoa(subNet));
         }
         closesocket(ConnectSocket); //reset socket for next iteration
@@ -177,14 +175,92 @@ void MainWindow::deletePlayer(struct player *stack, int playerNum)
 
 void MainWindow::on_connect2robot_clicked()
 {
-    ui->clientList->addItem(ui->ipBox->text());
+    struct player *currPlayer = &(this->playerStack[ui->playerTabs->currentIndex()]);
+    WSADATA wsaData;
+    struct addrinfo hints;
+    int iResult;
+    int ipAlreadyTaken = -1;
+
+    for(int i=0; i<4 && ipAlreadyTaken == -1;i++)
+    {
+        if (ui->ipBox->text() == this->playerStack[i].address)
+            ipAlreadyTaken =i;
+    }
+    if(currPlayer->socket == INVALID_SOCKET && ipAlreadyTaken == -1)
+    {
+        //startup
+        iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+
+        ZeroMemory( &hints, sizeof(hints) );
+        hints.ai_family = AF_UNSPEC;
+        hints.ai_socktype = SOCK_STREAM;
+        hints.ai_protocol = IPPROTO_TCP;
+
+        iResult = getaddrinfo(ui->ipBox->text().toLocal8Bit(), DEFAULT_PORT, &hints, &(currPlayer->add_inf));
+        if ( iResult == 0)
+        {
+            // Create a SOCKET for connecting to server
+            currPlayer->socket = socket(currPlayer->add_inf->ai_family, currPlayer->add_inf->ai_socktype,currPlayer->add_inf->ai_protocol);
+            if (currPlayer->socket == INVALID_SOCKET) {
+                debug("socket failed with error: " + QString::number(WSAGetLastError()));
+                WSACleanup();
+            }
+
+            iResult = ::connect(currPlayer->socket, currPlayer->add_inf->ai_addr, (int)currPlayer->add_inf->ai_addrlen);
+            if (iResult == SOCKET_ERROR)
+            {
+                debug("Connection failed to ip: " + ui->ipBox->text()+  " with error: " + QString::number(WSAGetLastError()));
+                currPlayer->socket = INVALID_SOCKET;
+                closesocket(currPlayer->socket);
+            }
+            else
+            {
+                currPlayer->isConnected =true;
+                currPlayer->address = ui->ipBox->text().toLocal8Bit();
+                QList<QLabel *> visableLabel =ui->playerTabs->currentWidget()->findChildren<QLabel*>(); //create list of visable label widgets
+                for(int i=0; i< visableLabel.length(); i++)
+                {
+                    if(visableLabel[i]->objectName().endsWith("val_ipAdd"))
+                    {
+                        visableLabel[i]->setText(ui->ipBox->text());
+                    }
+                    else if(visableLabel[i]->objectName().endsWith("val_robStat"))
+                    {
+                        visableLabel[i]->setText("Not Ready");
+                    }
+                    else if(visableLabel[i]->objectName().endsWith("val_robMod"))
+                    {
+                        visableLabel[i]->setText("Idle");
+                    }
+                    else if(visableLabel[i]->objectName().endsWith("val_teamCol"))
+                    {
+                        visableLabel[i]->setText("Red");
+                        currPlayer->teamColor=RED;
+                    }
+                }
+            }
+            //NEED TO HANDLE CONNECTION ERRORS HERE!
+        }
+        else
+        {
+            freeaddrinfo(currPlayer->add_inf);
+            debug("could not get address info, failed with error code: " + QString::number(WSAGetLastError()));
+        }
+    }
+    else
+    {
+        if(ipAlreadyTaken == -1)
+            debug("player's socket is alread linked to robot at ip: " + currPlayer->address);
+        else
+            debug("IP address already linked to player " + QString::number(ipAlreadyTaken+1));
+    }
 }
 
 void MainWindow::handleResIP(const QString &res)
 {
     this->debug("Scanned IP " + QString::number(this->currIp));
     ui->scanProg->setValue(this->currIp);
-    if(res!="127.0.0.1")
+    if(res!=LOCAL_HOST)
         ui->clientList->addItem(res);
     this->currIp++;
     if(currIp<=255)emit this->scanNet(QString::number(this->currIp));
@@ -221,9 +297,9 @@ void MainWindow::clearPlayerCont(struct player *play)
 void MainWindow::updateJoyGUI()
 {
 
-        QList<QLCDNumber *> visableLCD =ui->playerTabs->currentWidget()->findChildren<QLCDNumber *>();
-        QList<QLabel *> visableLabel =ui->playerTabs->currentWidget()->findChildren<QLabel*>();
-        for(int i =0; i<visableLCD.length(); i++)
+        QList<QLCDNumber *> visableLCD =ui->playerTabs->currentWidget()->findChildren<QLCDNumber *>(); //create list of visable LCD widgets
+        QList<QLabel *> visableLabel =ui->playerTabs->currentWidget()->findChildren<QLabel*>(); //create list of visable label widgets
+        for(int i =0; i<visableLCD.length(); i++) //update LCD data
         {
             if(visableLCD[i]->objectName().endsWith("val_leftX"))
             {
@@ -246,7 +322,7 @@ void MainWindow::updateJoyGUI()
                 visableLCD[i]->display(0);
             }
         }
-        for(int i=0; i<visableLabel.length(); i++)
+        for(int i=0; i<visableLabel.length(); i++) //display buttons pressed in 16bit binary
         {
             if(visableLabel[i]->objectName().endsWith("val_but"))
             {
@@ -274,7 +350,7 @@ bool MainWindow::bindJoystick(int playerNum)
     QList<QComboBox *> visableCombo =ui->playerTabs->currentWidget()->findChildren<QComboBox*>();
     QComboBox *currSel;
 
-    for(int i=0; i<visableCombo.length();i++)
+    for(int i=0; i<visableCombo.length();i++)  //find comboBox then save the user selected number
     {
         if(visableCombo[i]->objectName().endsWith("contSel"))
             currSel = visableCombo[i];
@@ -340,7 +416,6 @@ void MainWindow::on_p1_conCont_clicked()
 {
     bindJoystick(ui->playerTabs->currentIndex());
 }
-
 
 void MainWindow::on_p2_conCont_clicked()
 {
