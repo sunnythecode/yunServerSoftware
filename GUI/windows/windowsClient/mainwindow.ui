@@ -234,138 +234,6 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>30</y>
-        <width>156</width>
-        <height>108</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item>
-          <widget class="QLabel" name="p1_lab_ipAdd">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>IP Address</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="p1_val_ipAdd">
-           <property name="text">
-            <string>NONE</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_6">
-         <item>
-          <widget class="QLabel" name="p1_lab_robStat">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Robot Status</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="p1_val_robStat">
-           <property name="text">
-            <string>UNKNOWN</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_7">
-         <item>
-          <widget class="QLabel" name="p1_lab_robMod">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Robot Mode</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="p1_val_robMod">
-           <property name="text">
-            <string>UNKNOWN</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_8">
-         <item>
-          <widget class="QLabel" name="p1_lab_teamCol">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Team Color</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="p1_val_teamCol">
-           <property name="text">
-            <string>UNKNOWN</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
      <widget class="QWidget" name="">
       <property name="geometry">
        <rect>
@@ -480,6 +348,167 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>231</width>
+        <height>110</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_54">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <item>
+            <widget class="QLabel" name="p1_lab_ipAdd">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>IP Address</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="p1_val_ipAdd">
+             <property name="text">
+              <string>NONE</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <widget class="QLabel" name="p1_lab_robStat">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Robot Status</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="p1_val_robStat">
+             <property name="text">
+              <string>UNKNOWN</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_7">
+           <item>
+            <widget class="QLabel" name="p1_lab_robMod">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Robot Mode</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="p1_val_robMod">
+             <property name="text">
+              <string>UNKNOWN</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_8">
+           <item>
+            <widget class="QLabel" name="p1_lab_teamCol">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Team Color</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="p1_val_teamCol">
+             <property name="text">
+              <string>UNKNOWN</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_34">
+         <item>
+          <widget class="QPushButton" name="p1_disCon">
+           <property name="text">
+            <string>Disconnect</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="p1_chng_stat">
+           <property name="text">
+            <string>Change Status</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="p1_chng_team">
+           <property name="text">
+            <string>Change Team</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
      <zorder>layoutWidget</zorder>
      <zorder>line</zorder>
      <zorder>p1_lab_rob</zorder>
@@ -491,6 +520,9 @@
      <zorder>p1_contSel</zorder>
      <zorder>p1_lab_but</zorder>
      <zorder>p1_val_but</zorder>
+     <zorder>p1_disCon</zorder>
+     <zorder>p1_chng_stat</zorder>
+     <zorder>p1_chng_team</zorder>
     </widget>
     <widget class="QWidget" name="player2_tab">
      <attribute name="title">
@@ -707,138 +739,6 @@
        <enum>Qt::Vertical</enum>
       </property>
      </widget>
-     <widget class="QWidget" name="layoutWidget_6">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>30</y>
-        <width>156</width>
-        <height>108</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_21">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_33">
-         <item>
-          <widget class="QLabel" name="p2_lab_ipAdd">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>IP Address</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="p2_val_ipAdd">
-           <property name="text">
-            <string>NONE</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_34">
-         <item>
-          <widget class="QLabel" name="p2_lab_robStat">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Robot Status</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="p2_val_robStat">
-           <property name="text">
-            <string>UNKNOWN</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_35">
-         <item>
-          <widget class="QLabel" name="p2_lab_robMod">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Robot Mode</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="p2_val_robMod">
-           <property name="text">
-            <string>UNKNOWN</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_36">
-         <item>
-          <widget class="QLabel" name="p2_lab_teamCol">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Team Color</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="p2_val_teamCol">
-           <property name="text">
-            <string>UNKNOWN</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
      <widget class="QWidget" name="layoutWidget_7">
       <property name="geometry">
        <rect>
@@ -937,6 +837,167 @@
           <string>0000000000000000</string>
          </property>
         </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>231</width>
+        <height>110</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_55">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_21">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_33">
+           <item>
+            <widget class="QLabel" name="p2_lab_ipAdd">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>IP Address</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="p2_val_ipAdd">
+             <property name="text">
+              <string>NONE</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_34">
+           <item>
+            <widget class="QLabel" name="p2_lab_robStat">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Robot Status</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="p2_val_robStat">
+             <property name="text">
+              <string>UNKNOWN</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_35">
+           <item>
+            <widget class="QLabel" name="p2_lab_robMod">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Robot Mode</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="p2_val_robMod">
+             <property name="text">
+              <string>UNKNOWN</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_36">
+           <item>
+            <widget class="QLabel" name="p2_lab_teamCol">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Team Color</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="p2_val_teamCol">
+             <property name="text">
+              <string>UNKNOWN</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_35">
+         <item>
+          <widget class="QPushButton" name="p2_disCon">
+           <property name="text">
+            <string>Disconnect</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="p2_chng_stat">
+           <property name="text">
+            <string>Change Status</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="p2_chng_team">
+           <property name="text">
+            <string>Change Team</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -1156,138 +1217,6 @@
        <enum>Qt::Vertical</enum>
       </property>
      </widget>
-     <widget class="QWidget" name="layoutWidget_11">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>30</y>
-        <width>156</width>
-        <height>108</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_26">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_41">
-         <item>
-          <widget class="QLabel" name="p3_lab_ipAdd">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>IP Address</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="p3_val_ipAdd">
-           <property name="text">
-            <string>NONE</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_42">
-         <item>
-          <widget class="QLabel" name="p3_lab_robStat">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Robot Status</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="p3_val_robStat">
-           <property name="text">
-            <string>UNKNOWN</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_43">
-         <item>
-          <widget class="QLabel" name="p3_lab_robMod">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Robot Mode</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="p3_val_robMod">
-           <property name="text">
-            <string>UNKNOWN</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_44">
-         <item>
-          <widget class="QLabel" name="p3_lab_teamCol">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Team Color</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="p3_val_teamCol">
-           <property name="text">
-            <string>UNKNOWN</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
      <widget class="QWidget" name="layoutWidget_12">
       <property name="geometry">
        <rect>
@@ -1386,6 +1315,167 @@
           <string>0000000000000000</string>
          </property>
         </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>231</width>
+        <height>110</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_56">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_26">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_41">
+           <item>
+            <widget class="QLabel" name="p3_lab_ipAdd">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>IP Address</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="p3_val_ipAdd">
+             <property name="text">
+              <string>NONE</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_42">
+           <item>
+            <widget class="QLabel" name="p3_lab_robStat">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Robot Status</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="p3_val_robStat">
+             <property name="text">
+              <string>UNKNOWN</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_43">
+           <item>
+            <widget class="QLabel" name="p3_lab_robMod">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Robot Mode</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="p3_val_robMod">
+             <property name="text">
+              <string>UNKNOWN</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_44">
+           <item>
+            <widget class="QLabel" name="p3_lab_teamCol">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Team Color</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="p3_val_teamCol">
+             <property name="text">
+              <string>UNKNOWN</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_36">
+         <item>
+          <widget class="QPushButton" name="p3_disCon">
+           <property name="text">
+            <string>Disconnect</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="p3_chng_stat">
+           <property name="text">
+            <string>Change Status</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="p3_chng_team">
+           <property name="text">
+            <string>Change Team</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -1605,138 +1695,6 @@
        <enum>Qt::Vertical</enum>
       </property>
      </widget>
-     <widget class="QWidget" name="layoutWidget_16">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>30</y>
-        <width>156</width>
-        <height>108</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_31">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_49">
-         <item>
-          <widget class="QLabel" name="p4_lab_ipAdd">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>IP Address</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="p4_val_ipAdd">
-           <property name="text">
-            <string>NONE</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_50">
-         <item>
-          <widget class="QLabel" name="p4_lab_robStat">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Robot Status</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="p4_val_robStat">
-           <property name="text">
-            <string>UNKNOWN</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_51">
-         <item>
-          <widget class="QLabel" name="p4_lab_robMod">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Robot Mode</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="p4_val_robMod">
-           <property name="text">
-            <string>UNKNOWN</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_52">
-         <item>
-          <widget class="QLabel" name="p4_lab_teamCol">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Team Color</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="p4_val_teamCol">
-           <property name="text">
-            <string>UNKNOWN</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
      <widget class="QWidget" name="layoutWidget_17">
       <property name="geometry">
        <rect>
@@ -1835,6 +1793,167 @@
           <string>0000000000000000</string>
          </property>
         </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>231</width>
+        <height>110</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_57">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_31">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_49">
+           <item>
+            <widget class="QLabel" name="p4_lab_ipAdd">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>IP Address</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="p4_val_ipAdd">
+             <property name="text">
+              <string>NONE</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_50">
+           <item>
+            <widget class="QLabel" name="p4_lab_robStat">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Robot Status</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="p4_val_robStat">
+             <property name="text">
+              <string>UNKNOWN</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_51">
+           <item>
+            <widget class="QLabel" name="p4_lab_robMod">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Robot Mode</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="p4_val_robMod">
+             <property name="text">
+              <string>UNKNOWN</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_52">
+           <item>
+            <widget class="QLabel" name="p4_lab_teamCol">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Team Color</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="p4_val_teamCol">
+             <property name="text">
+              <string>UNKNOWN</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_37">
+         <item>
+          <widget class="QPushButton" name="p4_disCon">
+           <property name="text">
+            <string>Disconnect</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="p4_chng_stat">
+           <property name="text">
+            <string>Change Status</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="p4_chng_team">
+           <property name="text">
+            <string>Change Team</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>

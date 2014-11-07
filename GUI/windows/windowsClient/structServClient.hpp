@@ -9,6 +9,7 @@
 #define LOCAL_HOST "127.0.0.1"
 #define RED 100
 #define BLUE 101
+#define NO_GAMEPAD_LINKED -1
 
 struct player
 {

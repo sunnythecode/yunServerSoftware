@@ -55,6 +55,30 @@ private slots:
 
     void on_p4_conCont_clicked();
 
+    void on_p1_disCon_clicked();
+
+    void on_p2_disCon_clicked();
+
+    void on_p3_disCon_clicked();
+
+    void on_p4_disCon_clicked();
+
+    void on_p1_chng_stat_clicked();
+
+    void on_p2_chng_stat_clicked();
+
+    void on_p3_chng_stat_clicked();
+
+    void on_p4_chng_stat_clicked();
+
+    void on_p4_chng_team_clicked();
+
+    void on_p2_chng_team_clicked();
+
+    void on_p3_chng_team_clicked();
+
+    void on_p1_chng_team_clicked();
+
 private:
     Ui::MainWindow *ui;
     void pushPlayerStack(struct player *stack);
@@ -63,6 +87,9 @@ private:
     void deletePlayer(struct player *stack, int playerNum);
     void clearPlayerCont(struct player *play);
     bool bindJoystick(int playerNum);
+    void disConRobot(int playerNum);
+    void toggleRobotReady(void);
+    void toggleRobotTeam(void);
 
 signals:
       void scanNet(const QString &);

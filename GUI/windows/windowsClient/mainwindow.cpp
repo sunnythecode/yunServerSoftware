@@ -14,7 +14,6 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         this->playerStack[i].isConnected=false;
         this->playerStack[i].joy_fd = UNNASSIGNED;
-        this->playerStack[i].nextPlayer =NULL;
         this->playerStack[i].socket = INVALID_SOCKET;
         this->playerStack[i].isReady = false;
 
@@ -35,7 +34,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //setup Player 1
 }
-
 
 MainWindow::~MainWindow()
 {
@@ -277,7 +275,7 @@ void MainWindow::updateJoyVals()
 {
     for(int i=0; i<4;i++)
     {
-        if(this->playerStack[i].isReady)
+        if(this->playerStack[i].joy_fd != UNNASSIGNED)
         {
             int err = XInputGetState(this->playerStack[i].joy_fd, &(this->playerStack[i].controller));
             if(err == ERROR_DEVICE_NOT_CONNECTED)
@@ -290,8 +288,7 @@ void MainWindow::updateJoyVals()
 void MainWindow::clearPlayerCont(struct player *play)
 {
    debug("Controller DC'ED");
-   play->isReady=false;
-   play->joy_fd = -1;
+   play->joy_fd = UNNASSIGNED;
 }
 
 void MainWindow::updateJoyGUI()
@@ -373,7 +370,6 @@ bool MainWindow::bindJoystick(int playerNum)
                         debug("Successful connected player: " + QString::number(ui->playerTabs->currentIndex()+1)+ " to controller: " + QString::number(i));
                         playerStack[playerNum].joy_fd=i;
                         contFound=true;
-                        playerStack[playerNum].isReady=true;
                         visablePButtons[0]->setText("Unlink Controller");
                 }
             }
@@ -392,7 +388,6 @@ bool MainWindow::bindJoystick(int playerNum)
             {
                     debug("Successful connected player " + QString::number(ui->playerTabs->currentIndex()+1)+ " to controller: " + QString::number(userSelection));
                     playerStack[playerNum].joy_fd=userSelection;
-                    playerStack[playerNum].isReady=true;
                     visablePButtons[0]->setText("Unlink Controller");
                     retVal = true;
             }
@@ -402,14 +397,96 @@ bool MainWindow::bindJoystick(int playerNum)
             debug("Could not find controller for player " + QString::number(ui->playerTabs->currentIndex()+1));
         }
     }
-    else //already has a controller assigned to them so we are going to unlink it from them
+    else //player already has a controller assigned to them so we are going to unlink it from them
     {
         playerStack[playerNum].joy_fd = UNNASSIGNED;
-        playerStack[playerNum].isReady = false;
         visablePButtons[0]->setText("Link Controller");
         debug("Unlinked controller from player " + QString::number(ui->playerTabs->currentIndex()+1));
     }
     return retVal;
+}
+
+void MainWindow::disConRobot(int playerNum)
+{
+    if(this->playerStack[playerNum].isConnected)
+    {
+        this->playerStack[playerNum].address = "";
+        this->playerStack[playerNum].isConnected=false;
+        this->playerStack[playerNum].isReady = false;
+        closesocket(this->playerStack[playerNum].socket);
+        this->playerStack[playerNum].socket = INVALID_SOCKET;
+        freeaddrinfo(this->playerStack[playerNum].add_inf);
+
+        QList<QLabel *> visableLabel =ui->playerTabs->currentWidget()->findChildren<QLabel*>(); //create list of visable label widgets
+        for(int i=0; i< visableLabel.length(); i++)
+        {
+            if(visableLabel[i]->objectName().endsWith("val_ipAdd"))
+            {
+                visableLabel[i]->setText("NONE");
+            }
+            else if(visableLabel[i]->objectName().endsWith("val_robStat"))
+            {
+                visableLabel[i]->setText("UNKNOWN");
+            }
+            else if(visableLabel[i]->objectName().endsWith("val_robMod"))
+            {
+                visableLabel[i]->setText("UNKNOWN");
+            }
+            else if(visableLabel[i]->objectName().endsWith("val_teamCol"))
+            {
+                visableLabel[i]->setText("UNKNOWN");
+                this->playerStack[playerNum].teamColor=0;
+            }
+        }
+    }
+}
+void MainWindow::toggleRobotReady()
+{
+    struct player *currPlayer = &(this->playerStack[ui->playerTabs->currentIndex()]);
+    QList<QLabel *> visableLabel =ui->playerTabs->currentWidget()->findChildren<QLabel*>();
+    QLabel *readyLabel;
+    for(int i=0; i < visableLabel.length(); i++)
+    {
+        if(visableLabel[i]->objectName().endsWith("val_robStat"))
+            readyLabel = visableLabel[i];
+    }
+    if(currPlayer->isConnected)
+    {
+        if(currPlayer->isReady)
+        {
+            currPlayer->isReady = false;
+            readyLabel->setText("Not Ready");
+        }
+        else
+        {
+            currPlayer->isReady = true;
+            readyLabel->setText("Ready");
+        }
+    }
+}
+void MainWindow::toggleRobotTeam(void)
+{
+    struct player *currPlayer = &(this->playerStack[ui->playerTabs->currentIndex()]);
+    QList<QLabel *> visableLabel =ui->playerTabs->currentWidget()->findChildren<QLabel*>();
+    QLabel *readyLabel;
+    for(int i=0; i < visableLabel.length(); i++)
+    {
+        if(visableLabel[i]->objectName().endsWith("val_teamCol"))
+            readyLabel = visableLabel[i];
+    }
+    if(currPlayer->isConnected)
+    {
+        if(currPlayer->teamColor == BLUE)
+        {
+            currPlayer->teamColor = RED;
+            readyLabel->setText("RED");
+        }
+        else
+        {
+            currPlayer->teamColor = BLUE;
+            readyLabel->setText("BLUE");
+        }
+    }
 }
 
 void MainWindow::on_p1_conCont_clicked()
@@ -430,4 +507,64 @@ void MainWindow::on_p3_conCont_clicked()
 void MainWindow::on_p4_conCont_clicked()
 {
      bindJoystick(ui->playerTabs->currentIndex());
+}
+
+void MainWindow::on_p1_disCon_clicked()
+{
+    disConRobot(ui->playerTabs->currentIndex());
+}
+
+void MainWindow::on_p2_disCon_clicked()
+{
+    disConRobot(ui->playerTabs->currentIndex());
+}
+
+void MainWindow::on_p3_disCon_clicked()
+{
+    disConRobot(ui->playerTabs->currentIndex());
+}
+
+void MainWindow::on_p4_disCon_clicked()
+{
+    disConRobot(ui->playerTabs->currentIndex());
+}
+
+void MainWindow::on_p1_chng_stat_clicked()
+{
+    toggleRobotReady();
+}
+
+void MainWindow::on_p2_chng_stat_clicked()
+{
+    toggleRobotReady();
+}
+
+void MainWindow::on_p3_chng_stat_clicked()
+{
+    toggleRobotReady();
+}
+
+void MainWindow::on_p4_chng_stat_clicked()
+{
+    toggleRobotReady();
+}
+
+void MainWindow::on_p1_chng_team_clicked()
+{
+    toggleRobotTeam();
+}
+
+void MainWindow::on_p2_chng_team_clicked()
+{
+    toggleRobotTeam();
+}
+
+void MainWindow::on_p3_chng_team_clicked()
+{
+    toggleRobotTeam();
+}
+
+void MainWindow::on_p4_chng_team_clicked()
+{
+    toggleRobotTeam();
 }
