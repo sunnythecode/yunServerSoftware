@@ -1,5 +1,3 @@
-
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -23,13 +21,12 @@ MainWindow::MainWindow(QWidget *parent) :
             this->playerStack[i].nextPlayer= NULL;
     }
 
-
     ui->setupUi(this);
     clearPlayerCont(&(this->playerStack[0]));
-    connect(timer1, SIGNAL(timeout()), this, SLOT(updateJoyVals()));
-    connect(timer2, SIGNAL(timeout()),this, SLOT(updateJoyGUI()));
+    connect(timer1, SIGNAL(timeout()), this, SLOT(updateJoyVals()));  //update joystick values for all players with a connected joystick
+    connect(timer2, SIGNAL(timeout()),this, SLOT(updateJoyGUI()));    //update gui if joystick is connected
 
-    timer1->start(3);
+    timer1->start(20);
     timer2->start(100);
 
     //setup Player 1
@@ -151,7 +148,6 @@ void MainWindow::on_Scan4robot_clicked()
         this->debug("cancelled search, current thread will finish execution before being stoped");
         ui->Scan4robot->setText("Scan for Robots"); //change button back to search
         workerThread.exit(); //cancel thread
-
     }
 }
 
@@ -281,6 +277,20 @@ void MainWindow::updateJoyVals()
             if(err == ERROR_DEVICE_NOT_CONNECTED)
             {
                 clearPlayerCont(&(this->playerStack[i]));
+            }
+
+            if(this->playerStack[i].socket != INVALID_SOCKET)
+            {
+                QString outputBuff = "9!3";
+                //packJoystick state into string
+                outputBuff.append(((char)(this->playerStack[i].controller.Gamepad.sThumbLX>>8)) + ((char)(this->playerStack[i].controller.Gamepad.sThumbLX&0xFF)));
+                outputBuff.append(((char)(this->playerStack[i].controller.Gamepad.sThumbLY>>8)) + ((char)(this->playerStack[i].controller.Gamepad.sThumbLY&0xFF)));
+                outputBuff.append(((char)(this->playerStack[i].controller.Gamepad.sThumbRX>>8)) + ((char)(this->playerStack[i].controller.Gamepad.sThumbRX&0xFF)));
+                outputBuff.append(((char)(this->playerStack[i].controller.Gamepad.sThumbRY>>8)) + ((char)(this->playerStack[i].controller.Gamepad.sThumbLY&0xFF)));
+                outputBuff.append(((char)(this->playerStack[i].controller.Gamepad.wButtons>>8)) + ((char)(this->playerStack[i].controller.Gamepad.wButtons&0xFF)));
+
+                outputBuff[2] = outputBuff.length();//update datagram length
+                send(this->playerStack[i].socket, outputBuff.toLocal8Bit(), outputBuff.length(), 0);
             }
         }
     }

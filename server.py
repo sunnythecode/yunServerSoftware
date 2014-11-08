@@ -40,7 +40,6 @@ while 1:
             except ValueError:
                     print "could not find delim"
                     connState = False
-            print data
             if len(data) > 1 :
                     if data[0] == '1' :
                             sendCnt =conn.send("lancer")
@@ -55,15 +54,13 @@ while 1:
                             matchState = 0 #matchstate 0 is matchEnd
                             print "match over"
                     if data[0] == '9' :
-                            print data
                             try:
                                     datagramLeng = ord(data[2])
                             except ValueError:
                                     datagramLeng = 0;
                             if datagramLeng != len(data):
-                                    print "Packet size mismatch: " + repr(datagramLeng)
+                                    print data + " -Packet size mismatch: " + repr(datagramLeng)
                             else:
-                                    print "packet recv complt"
-            
+                                    print data +  " -Packet recv complt\n"        
     s.close()
 	

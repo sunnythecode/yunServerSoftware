@@ -105,4 +105,6 @@ signals:
     void resultReady(const QString &result);
 };
 
+
 #endif // MAINWINDOW_H
+
