@@ -25,7 +25,6 @@ while 1:
     conn, addr= s.accept()                      
     print 'Connected with ' + addr[0] + ':' + str(addr[1])
     #now keep talking with the client
-
     matchState = 0;
     connState = True
     while connState:

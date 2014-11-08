@@ -146,90 +146,126 @@ void MainWindow::on_Scan4robot_clicked()
     }
 }
 
-void MainWindow::on_connect2robot_clicked()
+void MainWindow::on_connect2robot_clicked()  //THIS MESS SHOULD BE MOVED TO IT'S OWN THREAD
 {
-    struct player *currPlayer = &(this->playerStack[ui->playerTabs->currentIndex()]);
-    WSADATA wsaData;
-    struct addrinfo hints;
-    int iResult;
-    int ipAlreadyTaken = -1;
-
-    //check that the IP the user is trying to connect to isn't already asigned to another player
-    for(int i=0; i<4 && ipAlreadyTaken == -1;i++)
-    {
-        if (ui->ipBox->text() == this->playerStack[i].address)
-            ipAlreadyTaken =i;
-    }
-
-    if(currPlayer->socket == INVALID_SOCKET && ipAlreadyTaken == -1)
-    {
-        //startup
-        iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
-
-        ZeroMemory( &hints, sizeof(hints) );
-        hints.ai_family = AF_UNSPEC;
-        hints.ai_socktype = SOCK_STREAM;
-        hints.ai_protocol = IPPROTO_TCP;
-
-        iResult = getaddrinfo(ui->ipBox->text().toLocal8Bit(), DEFAULT_PORT, &hints, &(currPlayer->add_inf));
-        if ( iResult == 0)
+    if(ui->playerTabs->currentIndex()<4) // check that the user isn't on the debug tab
         {
-            // Create a SOCKET for connecting to server
-            currPlayer->socket = socket(currPlayer->add_inf->ai_family, currPlayer->add_inf->ai_socktype,currPlayer->add_inf->ai_protocol);
-            if (currPlayer->socket == INVALID_SOCKET) {
-                debug("socket failed with error: " + QString::number(WSAGetLastError()));
-                WSACleanup();
-            }
+        struct player *currPlayer = &(this->playerStack[ui->playerTabs->currentIndex()]);
+        WSADATA wsaData;
+        struct addrinfo hints;
+        int iResult;
+        int ipAlreadyTaken = -1;
 
-            //try to connect
-            iResult = ::connect(currPlayer->socket, currPlayer->add_inf->ai_addr, (int)currPlayer->add_inf->ai_addrlen);
-            if (iResult == SOCKET_ERROR)
+        //check that the IP the user is trying to connect to isn't already asigned to another player
+        for(int i=0; i<4 && ipAlreadyTaken == -1;i++)
+        {
+            if (ui->ipBox->text() == this->playerStack[i].address)
+                ipAlreadyTaken =i;
+        }
+
+        if(currPlayer->socket == INVALID_SOCKET && ipAlreadyTaken == -1)
+        {
+            //startup
+            iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+
+            ZeroMemory( &hints, sizeof(hints) );
+            hints.ai_family = AF_UNSPEC;
+            hints.ai_socktype = SOCK_STREAM;
+            hints.ai_protocol = IPPROTO_TCP;
+
+            iResult = getaddrinfo(ui->ipBox->text().toLocal8Bit(), DEFAULT_PORT, &hints, &(currPlayer->add_inf));
+            if ( iResult == 0)
             {
-                debug("Connection failed to ip: " + ui->ipBox->text()+  " with error: " + QString::number(WSAGetLastError()));
-                currPlayer->socket = INVALID_SOCKET;
-                closesocket(currPlayer->socket);
+                // Create a SOCKET for connecting to server
+                currPlayer->socket = socket(currPlayer->add_inf->ai_family, currPlayer->add_inf->ai_socktype,currPlayer->add_inf->ai_protocol);
+                if (currPlayer->socket == INVALID_SOCKET) {
+                    debug("socket failed with error: " + QString::number(WSAGetLastError()));
+                    WSACleanup();
+                }
+                else
+                {
+                    //set socket recv and snd timeout to 200ms
+                    DWORD dwTime = 200;
+                    setsockopt(currPlayer->socket, SOL_SOCKET, SO_RCVTIMEO, (const char*)&dwTime, sizeof(dwTime));
+                    setsockopt(currPlayer->socket, SOL_SOCKET, SO_SNDTIMEO, (const char*)&dwTime, sizeof(dwTime));
+                }
+
+                //try to connect
+                iResult = ::connect(currPlayer->socket, currPlayer->add_inf->ai_addr, (int)currPlayer->add_inf->ai_addrlen);
+                if (iResult == SOCKET_ERROR)
+                {
+                    debug("Connection failed to ip: " + ui->ipBox->text()+  " with error: " + QString::number(WSAGetLastError()));
+                    currPlayer->socket = INVALID_SOCKET;
+                    closesocket(currPlayer->socket);
+                }
+                else
+                {
+                    //update player info and UI
+                    currPlayer->isConnected =true;
+                    currPlayer->address = ui->ipBox->text().toLocal8Bit();
+                    QList<QLabel *> visableLabel =ui->playerTabs->currentWidget()->findChildren<QLabel*>(); //create list of visable label widgets
+                    for(int i=0; i< visableLabel.length(); i++)
+                    {
+                        if(visableLabel[i]->objectName().endsWith("val_ipAdd"))
+                        {
+                            visableLabel[i]->setText(ui->ipBox->text());
+                        }
+                        else if(visableLabel[i]->objectName().endsWith("val_robStat"))
+                        {
+                            visableLabel[i]->setText("Not Ready");
+                        }
+                        else if(visableLabel[i]->objectName().endsWith("val_robMod"))
+                        {
+                            visableLabel[i]->setText("Idle");
+                        }
+                        else if(visableLabel[i]->objectName().endsWith("val_teamCol"))
+                        {
+                            visableLabel[i]->setText("Red");
+                            currPlayer->teamColor=RED;
+                        }
+                    }
+                }
+                //NEED TO HANDLE CONNECTION ERRORS HERE!
             }
             else
             {
-                //update player info and UI
-                currPlayer->isConnected =true;
-                currPlayer->address = ui->ipBox->text().toLocal8Bit();
-                QList<QLabel *> visableLabel =ui->playerTabs->currentWidget()->findChildren<QLabel*>(); //create list of visable label widgets
-                for(int i=0; i< visableLabel.length(); i++)
-                {
-                    if(visableLabel[i]->objectName().endsWith("val_ipAdd"))
-                    {
-                        visableLabel[i]->setText(ui->ipBox->text());
-                    }
-                    else if(visableLabel[i]->objectName().endsWith("val_robStat"))
-                    {
-                        visableLabel[i]->setText("Not Ready");
-                    }
-                    else if(visableLabel[i]->objectName().endsWith("val_robMod"))
-                    {
-                        visableLabel[i]->setText("Idle");
-                    }
-                    else if(visableLabel[i]->objectName().endsWith("val_teamCol"))
-                    {
-                        visableLabel[i]->setText("Red");
-                        currPlayer->teamColor=RED;
-                    }
-                }
+                freeaddrinfo(currPlayer->add_inf);
+                debug("could not get address info, failed with error code: " + QString::number(WSAGetLastError()));
             }
-            //NEED TO HANDLE CONNECTION ERRORS HERE!
         }
         else
         {
-            freeaddrinfo(currPlayer->add_inf);
-            debug("could not get address info, failed with error code: " + QString::number(WSAGetLastError()));
+            if(ipAlreadyTaken == -1)
+                debug("player's socket is alread linked to robot at ip: " + currPlayer->address);
+            else
+                debug("IP address already linked to player " + QString::number(ipAlreadyTaken+1));
+        }
+
+        if(currPlayer->isConnected)
+        {
+            //check if valid connection to robot was created
+            char recvBuff[255];
+            int attempts = 0;
+            char *stringLoc;
+
+            //attempt to enterrogate robot for the passphrase until the passphrase is returned or the max number of retries has been reched
+            while( !(stringLoc = strstr(recvBuff, INTERROGATION_RESPONSE)) && attempts++ <MAX_INTERROGATION_RETRIES)
+            {
+                send(currPlayer->socket, CLIENT_INTERROGATION_PHRASE, sizeof(CLIENT_INTERROGATION_PHRASE), 0);
+                recv(currPlayer->socket,recvBuff, 255, 0);
+            }
+
+            //if the robot did not pass the interrogation then disconnect it
+            if(!stringLoc)
+            {
+                debug("Robot at IP: " + ui->ipBox->text() + " did not respond to interrogation with correct passphrase");
+                disConRobot(ui->playerTabs->currentIndex());
+            }
         }
     }
     else
     {
-        if(ipAlreadyTaken == -1)
-            debug("player's socket is alread linked to robot at ip: " + currPlayer->address);
-        else
-            debug("IP address already linked to player " + QString::number(ipAlreadyTaken+1));
+        debug("You need to select the player tab which you wish to connect this IP to");
     }
 }
 
@@ -269,11 +305,16 @@ void MainWindow::updateJoyVals()
             {
                 QString outputBuff = "9!3";
                 //packJoystick state into string by converting the 16 bit number into two char variables, first char is int15:8 second char is int7:0
-                outputBuff.append(((char)(this->playerStack[i].controller.Gamepad.sThumbLX>>8)) + ((char)(this->playerStack[i].controller.Gamepad.sThumbLX&0xFF)));
-                outputBuff.append(((char)(this->playerStack[i].controller.Gamepad.sThumbLY>>8)) + ((char)(this->playerStack[i].controller.Gamepad.sThumbLY&0xFF)));
-                outputBuff.append(((char)(this->playerStack[i].controller.Gamepad.sThumbRX>>8)) + ((char)(this->playerStack[i].controller.Gamepad.sThumbRX&0xFF)));
-                outputBuff.append(((char)(this->playerStack[i].controller.Gamepad.sThumbRY>>8)) + ((char)(this->playerStack[i].controller.Gamepad.sThumbLY&0xFF)));
-                outputBuff.append(((char)(this->playerStack[i].controller.Gamepad.wButtons>>8)) + ((char)(this->playerStack[i].controller.Gamepad.wButtons&0xFF)));
+                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.sThumbLX>>8));
+                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.sThumbLX&0xFF));
+                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.sThumbLY>>8));
+                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.sThumbLY&0xFF));
+                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.sThumbRX>>8));
+                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.sThumbRX&0xFF));
+                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.sThumbRY>>8));
+                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.sThumbLY&0xFF));
+                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.wButtons>>8));
+                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.wButtons&0xFF));
 
                 outputBuff[2] = outputBuff.length();//update datagram length
                 send(this->playerStack[i].socket, outputBuff.toLocal8Bit(), outputBuff.length(), 0);

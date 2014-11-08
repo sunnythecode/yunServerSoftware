@@ -11,6 +11,13 @@
 #define BLUE 101
 #define NO_GAMEPAD_LINKED -1
 
+#define CLIENT_INTERROGATION_PHRASE "1!3"
+#define INTERROGATION_RESPONSE "lancer"
+#define MAX_INTERROGATION_RETRIES 3
+#define MAX_SEND_RETRIES 1
+#define MAX_RECV_RETIRES 1
+
+
 struct player
 {
 	//SERVER INFO
