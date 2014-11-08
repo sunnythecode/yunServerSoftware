@@ -5,6 +5,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+     ui->setupUi(this);
+
     this->timer1 = new QTimer(this);
     this->timer2 = new QTimer(this);
 
@@ -24,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
             this->playerStack[i].nextPlayer= NULL;
     }
 
-    ui->setupUi(this);
+
 
 
     //connect function timers and start them
