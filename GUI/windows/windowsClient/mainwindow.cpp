@@ -38,6 +38,76 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void highSpeedNetMap::fastScanIps(const QString &parameter)
+{
+    WSADATA wsaData;
+    SOCKET ConnectSocket = INVALID_SOCKET;
+    struct addrinfo *result = NULL,
+                    hints;
+    char name[255],*ip;
+    IN_ADDR subNet;
+    PHOSTENT hostinfo;
+    int iResult,ipPos;
+    static QString *threadRes = new QString();
+    *threadRes = parameter;
+
+    //startup and get local IP
+    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+    if (iResult != 0) {
+        printf("WSAStartup failed with error: %d\n", iResult);
+    }
+    else
+    {
+        if( gethostname ( name, sizeof(name)) == 0) //get local hostname
+        {
+            if((hostinfo = gethostbyname(name)) != NULL) //get IP by hostname
+            {
+               int nCount = 0;
+               while(hostinfo->h_addr_list[nCount]) // if hostname is associated with more than 1 IP then select the last one
+               {
+                    ip = inet_ntoa(*(struct in_addr *)hostinfo->h_addr_list[nCount]);;
+                    nCount++;
+               }
+            }
+        }
+    }
+
+    ZeroMemory( &hints, sizeof(hints) );
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_protocol = IPPROTO_TCP;
+
+
+    //change last bit of IP to match input paramater
+    ipPos = parameter.toInt();
+    subNet.S_un.S_addr = inet_addr(ip);
+    subNet.S_un.S_un_b.s_b4=ipPos;
+
+    //try to connect to IP
+    iResult = getaddrinfo(inet_ntoa(subNet), DEFAULT_PORT, &hints, &result);
+    if ( iResult == 0 )
+    {
+        // Create a SOCKET for connecting to server
+        ConnectSocket = socket(result->ai_family, result->ai_socktype,
+            result->ai_protocol);
+        if (ConnectSocket == INVALID_SOCKET) {
+            printf("socket failed with error: %d\n", WSAGetLastError());
+            WSACleanup();
+        }
+
+        iResult = ::connect(ConnectSocket, result->ai_addr, (int)result->ai_addrlen);
+        if (iResult != SOCKET_ERROR)
+        {
+
+            *threadRes = QString::fromUtf8(inet_ntoa(subNet));
+        }
+        closesocket(ConnectSocket); //reset socket for next iteration
+        ConnectSocket = INVALID_SOCKET;
+        freeaddrinfo(result);
+    }
+    emit fastResultReady(*threadRes);
+}
+
 void netMap::scanIps(const QString &parameter)
 {
     WSADATA wsaData;
@@ -118,7 +188,10 @@ void MainWindow::on_clientList_itemClicked(QListWidgetItem *item)
 
 void MainWindow::on_Scan4robot_clicked()
 {
-    if(!workerThread.isRunning()) //check that the thread isn't already running
+    bool threadIsRunning = false;
+
+    for(int i=0; i<255 && !threadIsRunning; i++) threadIsRunning = runAllTheThreads[i].isRunning();
+    if(!threadIsRunning) //check that the thread isn't already running
     {
         debug("searching network for clients");
 
@@ -130,8 +203,20 @@ void MainWindow::on_Scan4robot_clicked()
         connect(scanThread, SIGNAL(resultReady(QString)), this ,SLOT(handleResIP(QString)));
 
         this->currIp = 0;  //start search from ip 0
-        workerThread.start();
+      //  workerThread.start();
         emit this->scanNet(QString::number(this->currIp));
+
+        highSpeedNetMap *threadStack[255];
+        for(int i =0; i<255; i++)
+        {
+            threadStack[i] = new highSpeedNetMap;
+            threadStack[i]->moveToThread(&(runAllTheThreads[i]));
+            connect(threadStack[i], SIGNAL(finished()), threadStack[i], SLOT(deleteLater()));
+            connect(this, SIGNAL(fastScanNet(QString)),threadStack[i] , SLOT(fastScanIps(QString)));
+            connect(threadStack[i], SIGNAL(fastResultReady(QString)), this ,SLOT(handleFastResIP(QString)));
+            runAllTheThreads[i].start();
+            emit this->fastScanNet(QString::number(i));
+        }
 
         ui->Scan4robot->setText("Cancel");//change search button to cancel button
     }
@@ -140,6 +225,7 @@ void MainWindow::on_Scan4robot_clicked()
         this->debug("cancelled search, current thread will finish execution before being stoped");
         ui->Scan4robot->setText("Scan for Robots"); //change button back to search
         workerThread.exit(); //cancel thread
+        for(int i=0; i<255;i++)runAllTheThreads[i].exit();
     }
 }
 
@@ -266,6 +352,24 @@ void MainWindow::on_connect2robot_clicked()  //THIS MESS SHOULD BE MOVED TO IT'S
     }
 }
 
+void MainWindow::handleFastResIP(const QString &res)
+{
+
+    if(res.length()>8)
+    {
+        //update UI with data from thread
+        this->debug("located Robot at: " + res);
+        ui->clientList->addItem(res);
+    }
+    else
+    {
+        debug("Thread " + res + " could not find a robot");
+        this->runAllTheThreads[res.toInt()].exit();
+    }
+
+    ui->scanProg->setValue(ui->scanProg->value()+1);
+}
+
 void MainWindow::handleResIP(const QString &res)
 {
     //update UI with data from thread
@@ -297,8 +401,8 @@ void MainWindow::updateJoyVals()
                 clearPlayerCont(&(this->playerStack[i]));
             }
 
-            //if player's socket is connected to a robot push data across the network bridge to the robot
-            if(this->playerStack[i].socket != INVALID_SOCKET)
+            //if player's socket is connected to a robot push data across the network bridge to the robot and the player is ready
+            if(this->playerStack[i].socket != INVALID_SOCKET && this->playerStack[i].isReady)
             {
                 QString outputBuff = "9!3";
                 //packJoystick state into string by converting the 16 bit number into two char variables, first char is int15:8 second char is int7:0

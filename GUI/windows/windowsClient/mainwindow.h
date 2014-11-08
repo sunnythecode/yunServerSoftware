@@ -8,6 +8,10 @@
 #include <QListWidgetItem>
 #include <QThread>
 
+#include <iostream>
+#include <vector>
+#include <sstream>
+
 #include<structServClient.hpp>
 
 #include <xinput.h>
@@ -37,6 +41,7 @@ public:
     QTimer *timer1;
     QTimer *timer2;
     QThread workerThread;
+    QThread runAllTheThreads[255];
     void debug(const char* input);
     void debug(QString input);
 
@@ -46,6 +51,7 @@ private slots:
     void on_Scan4robot_clicked();
     void on_connect2robot_clicked();
     void handleResIP(const QString &res);
+    void handleFastResIP(const QString &res);
     void updateJoyVals();
     void updateJoyGUI();
     void on_p1_conCont_clicked();
@@ -89,6 +95,7 @@ private:
 
 signals:
       void scanNet(const QString &);
+      void fastScanNet(const QString &);
 };
 class netMap : public QObject
 {
@@ -101,6 +108,17 @@ signals:
     void resultReady(const QString &result);
 };
 
+class highSpeedNetMap : public QObject
+{
+     Q_OBJECT
+     QThread localThreadAddress;
+public slots:
+     void fastScanIps(const QString &parameter);
+
+signals:
+     void fastResultReady(const QString &result);
+
+};
 
 #endif // MAINWINDOW_H
 
