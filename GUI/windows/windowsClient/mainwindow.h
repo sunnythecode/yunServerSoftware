@@ -81,10 +81,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    void pushPlayerStack(struct player *stack);
-    void popPlayerStack(struct player *stack);
-    void deletePlayer(struct player *stack, struct player *del);
-    void deletePlayer(struct player *stack, int playerNum);
     void clearPlayerCont(struct player *play);
     bool bindJoystick(int playerNum);
     void disConRobot(int playerNum);
