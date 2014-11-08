@@ -7,14 +7,17 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     this->timer1 = new QTimer(this);
     this->timer2 = new QTimer(this);
+
     //initialize player stack
     for(int i =0; i<4;i++)
     {
+        clearPlayerCont(&(this->playerStack[i])); //make sure player doesn't have a controller linked to them
         this->playerStack[i].isConnected=false;
         this->playerStack[i].joy_fd = UNNASSIGNED;
         this->playerStack[i].socket = INVALID_SOCKET;
         this->playerStack[i].isReady = false;
 
+        //special case for last member of stack
         if(i<3)
             this->playerStack[i].nextPlayer=this->playerStack +i;
         else
@@ -22,14 +25,13 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     ui->setupUi(this);
-    clearPlayerCont(&(this->playerStack[0]));
+
+
+    //connect function timers and start them
     connect(timer1, SIGNAL(timeout()), this, SLOT(updateJoyVals()));  //update joystick values for all players with a connected joystick
     connect(timer2, SIGNAL(timeout()),this, SLOT(updateJoyGUI()));    //update gui if joystick is connected
-
     timer1->start(20);
     timer2->start(100);
-
-    //setup Player 1
 }
 
 MainWindow::~MainWindow()
@@ -50,7 +52,8 @@ void netMap::scanIps(const QString &parameter)
     static QString *threadRes = new QString();
     *threadRes = LOCAL_HOST;
 
-    ipPos = parameter.toInt();
+
+
     //startup and get local IP
     iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
     if (iResult != 0) {
@@ -58,12 +61,12 @@ void netMap::scanIps(const QString &parameter)
     }
     else
     {
-        if( gethostname ( name, sizeof(name)) == 0)
+        if( gethostname ( name, sizeof(name)) == 0) //get local hostname
         {
-            if((hostinfo = gethostbyname(name)) != NULL)
+            if((hostinfo = gethostbyname(name)) != NULL) //get IP by hostname
             {
                int nCount = 0;
-               while(hostinfo->h_addr_list[nCount])
+               while(hostinfo->h_addr_list[nCount]) // if hostname is associated with more than 1 IP then select the last one
                {
                     ip = inet_ntoa(*(struct in_addr *)hostinfo->h_addr_list[nCount]);;
                     nCount++;
@@ -78,9 +81,12 @@ void netMap::scanIps(const QString &parameter)
     hints.ai_protocol = IPPROTO_TCP;
 
 
-    subNet.S_un.S_addr = inet_addr(ip); //convert to data struct
-    subNet.S_un.S_un_b.s_b4=ipPos; //change last bit of ip
+    //change last bit of IP to match input paramater
+    ipPos = parameter.toInt();
+    subNet.S_un.S_addr = inet_addr(ip);
+    subNet.S_un.S_un_b.s_b4=ipPos;
 
+    //try to connect to IP
     iResult = getaddrinfo(inet_ntoa(subNet), DEFAULT_PORT, &hints, &result);
     if ( iResult == 0 )
     {
@@ -106,20 +112,6 @@ void netMap::scanIps(const QString &parameter)
 }
 
 
-
-
-
-void MainWindow::deletePlayer(struct player *stack, struct player *del)
-{
-   while(stack != del && stack->nextPlayer)
-       stack = stack->nextPlayer;
-   if(stack->nextPlayer == del)
-   {
-       stack->nextPlayer = del->nextPlayer;
-       free(del);
-   }
-}
-
 void MainWindow::on_clientList_itemClicked(QListWidgetItem *item)
 {
     ui->ipBox->setText(item->text());
@@ -127,7 +119,7 @@ void MainWindow::on_clientList_itemClicked(QListWidgetItem *item)
 
 void MainWindow::on_Scan4robot_clicked()
 {
-    if(!workerThread.isRunning())
+    if(!workerThread.isRunning()) //check that the thread isn't already running
     {
         debug("searching network for clients");
 
@@ -137,35 +129,20 @@ void MainWindow::on_Scan4robot_clicked()
         connect(scanThread, SIGNAL(finished()), scanThread, SLOT(deleteLater()));
         connect(this, SIGNAL(scanNet(QString)), scanThread, SLOT(scanIps(QString)));
         connect(scanThread, SIGNAL(resultReady(QString)), this ,SLOT(handleResIP(QString)));
+
         this->currIp = 0;  //start search from ip 0
         workerThread.start();
         emit this->scanNet(QString::number(this->currIp));
 
         ui->Scan4robot->setText("Cancel");//change search button to cancel button
     }
-    else
+    else //if the button is clicked and the thread is already working exit the thread and update the UI
     {
         this->debug("cancelled search, current thread will finish execution before being stoped");
         ui->Scan4robot->setText("Scan for Robots"); //change button back to search
         workerThread.exit(); //cancel thread
     }
 }
-
-void MainWindow::deletePlayer(struct player *stack, int playerNum)
-{
-    struct player *mover = stack;
-    while(mover->playerNum != playerNum && mover->nextPlayer)
-    {
-        stack = mover;
-        mover = mover->nextPlayer;
-    }
-    if(mover->playerNum == playerNum)
-    {
-        stack->nextPlayer = mover->nextPlayer;
-        free(mover);
-    }
-}
-
 
 void MainWindow::on_connect2robot_clicked()
 {
@@ -175,11 +152,13 @@ void MainWindow::on_connect2robot_clicked()
     int iResult;
     int ipAlreadyTaken = -1;
 
+    //check that the IP the user is trying to connect to isn't already asigned to another player
     for(int i=0; i<4 && ipAlreadyTaken == -1;i++)
     {
         if (ui->ipBox->text() == this->playerStack[i].address)
             ipAlreadyTaken =i;
     }
+
     if(currPlayer->socket == INVALID_SOCKET && ipAlreadyTaken == -1)
     {
         //startup
@@ -200,6 +179,7 @@ void MainWindow::on_connect2robot_clicked()
                 WSACleanup();
             }
 
+            //try to connect
             iResult = ::connect(currPlayer->socket, currPlayer->add_inf->ai_addr, (int)currPlayer->add_inf->ai_addrlen);
             if (iResult == SOCKET_ERROR)
             {
@@ -209,6 +189,7 @@ void MainWindow::on_connect2robot_clicked()
             }
             else
             {
+                //update player info and UI
                 currPlayer->isConnected =true;
                 currPlayer->address = ui->ipBox->text().toLocal8Bit();
                 QList<QLabel *> visableLabel =ui->playerTabs->currentWidget()->findChildren<QLabel*>(); //create list of visable label widgets
@@ -252,6 +233,7 @@ void MainWindow::on_connect2robot_clicked()
 
 void MainWindow::handleResIP(const QString &res)
 {
+    //update UI with data from thread
     this->debug("Scanned IP " + QString::number(this->currIp));
     ui->scanProg->setValue(this->currIp);
     if(res!=LOCAL_HOST)
@@ -269,20 +251,22 @@ void MainWindow::debug(QString input)
 }
 void MainWindow::updateJoyVals()
 {
-    for(int i=0; i<4;i++)
+    for(int i=0; i<4;i++) //for each player
     {
         if(this->playerStack[i].joy_fd != UNNASSIGNED)
         {
+            //update joystick state
             int err = XInputGetState(this->playerStack[i].joy_fd, &(this->playerStack[i].controller));
             if(err == ERROR_DEVICE_NOT_CONNECTED)
             {
                 clearPlayerCont(&(this->playerStack[i]));
             }
 
+            //if player's socket is connected to a robot push data across the network bridge to the robot
             if(this->playerStack[i].socket != INVALID_SOCKET)
             {
                 QString outputBuff = "9!3";
-                //packJoystick state into string
+                //packJoystick state into string by converting the 16 bit number into two char variables, first char is int15:8 second char is int7:0
                 outputBuff.append(((char)(this->playerStack[i].controller.Gamepad.sThumbLX>>8)) + ((char)(this->playerStack[i].controller.Gamepad.sThumbLX&0xFF)));
                 outputBuff.append(((char)(this->playerStack[i].controller.Gamepad.sThumbLY>>8)) + ((char)(this->playerStack[i].controller.Gamepad.sThumbLY&0xFF)));
                 outputBuff.append(((char)(this->playerStack[i].controller.Gamepad.sThumbRX>>8)) + ((char)(this->playerStack[i].controller.Gamepad.sThumbRX&0xFF)));
@@ -291,6 +275,7 @@ void MainWindow::updateJoyVals()
 
                 outputBuff[2] = outputBuff.length();//update datagram length
                 send(this->playerStack[i].socket, outputBuff.toLocal8Bit(), outputBuff.length(), 0);
+                //SHOULD HANDLE ERRORS HERE
             }
         }
     }
@@ -418,7 +403,7 @@ bool MainWindow::bindJoystick(int playerNum)
 
 void MainWindow::disConRobot(int playerNum)
 {
-    if(this->playerStack[playerNum].isConnected)
+    if(this->playerStack[playerNum].isConnected) //only run if player is already connected to a robot
     {
         this->playerStack[playerNum].address = "";
         this->playerStack[playerNum].isConnected=false;
