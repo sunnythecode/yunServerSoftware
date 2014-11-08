@@ -60,6 +60,6 @@ while 1:
                             if datagramLeng != len(data):
                                     print data + " -Packet size mismatch: " + repr(datagramLeng)
                             else:
-                                    print data +  " -PRC\n"        
+                                    print data + " - " + str(len(data)) + " - PRC\n"      
     s.close()
 	

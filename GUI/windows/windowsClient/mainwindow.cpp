@@ -26,9 +26,6 @@ MainWindow::MainWindow(QWidget *parent) :
             this->playerStack[i].nextPlayer= NULL;
     }
 
-
-
-
     //connect function timers and start them
     connect(timer1, SIGNAL(timeout()), this, SLOT(updateJoyVals()));  //update joystick values for all players with a connected joystick
     connect(timer2, SIGNAL(timeout()),this, SLOT(updateJoyGUI()));    //update gui if joystick is connected
@@ -325,7 +322,6 @@ void MainWindow::updateJoyVals()
 }
 void MainWindow::clearPlayerCont(struct player *play)
 {
-   debug("Controller DC'ED");
    play->joy_fd = UNNASSIGNED;
 }
 
