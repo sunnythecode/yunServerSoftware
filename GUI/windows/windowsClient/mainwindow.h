@@ -40,6 +40,7 @@ public:
 
     QTimer *timer1;
     QTimer *timer2;
+    QTimer *timer3;
     QThread workerThread;
     QThread runAllTheThreads[255];
     void debug(const char* input);
@@ -50,10 +51,11 @@ private slots:
     void on_clientList_itemClicked(QListWidgetItem *item);
     void on_Scan4robot_clicked();
     void on_connect2robot_clicked();
-    void handleResIP(const QString &res);
-    void handleFastResIP(const QString &res);
+    void handleFastResIP(QString res);
     void updateJoyVals();
     void updateJoyGUI();
+
+    void updateProgBar();
     void on_p1_conCont_clicked();
     void on_p2_conCont_clicked();
 
@@ -94,31 +96,23 @@ private:
     void toggleRobotTeam(void);
 
 signals:
-      void scanNet(const QString &);
-      void fastScanNet(const QString &);
+      void fastScanNet();
 };
-class netMap : public QObject
-{
-    Q_OBJECT
-    QThread workerThread;
-public slots:
-    void scanIps(const QString &parameter);
 
-signals:
-    void resultReady(const QString &result);
-};
 
 class highSpeedNetMap : public QObject
 {
      Q_OBJECT
-     QThread localThreadAddress;
+public:
+    int targetIp;
+    QString result;
 public slots:
-     void fastScanIps(const QString &parameter);
+     void fastScanIps();
 
 signals:
-     void fastResultReady(const QString &result);
-
+     void fastResultReady(QString);
 };
+
 
 #endif // MAINWINDOW_H
 
