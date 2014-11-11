@@ -62,11 +62,11 @@ public:
     QVBoxLayout *verticalLayout_5;
     QLCDNumber *p1_val_leftX;
     QLCDNumber *p1_val_leftY;
-    QWidget *widget;
+    QWidget *layoutWidget2;
     QHBoxLayout *horizontalLayout_9;
     QPushButton *p1_conCont;
     QComboBox *p1_contSel;
-    QWidget *widget1;
+    QWidget *layoutWidget3;
     QHBoxLayout *horizontalLayout_54;
     QVBoxLayout *verticalLayout_4;
     QHBoxLayout *horizontalLayout_4;
@@ -113,7 +113,7 @@ public:
     QHBoxLayout *horizontalLayout_31;
     QLabel *p2_lab_but;
     QLabel *p2_val_but;
-    QWidget *widget2;
+    QWidget *layoutWidget4;
     QHBoxLayout *horizontalLayout_55;
     QVBoxLayout *verticalLayout_21;
     QHBoxLayout *horizontalLayout_33;
@@ -160,7 +160,7 @@ public:
     QHBoxLayout *horizontalLayout_39;
     QLabel *p3_lab_but;
     QLabel *p3_val_but;
-    QWidget *widget3;
+    QWidget *layoutWidget5;
     QHBoxLayout *horizontalLayout_56;
     QVBoxLayout *verticalLayout_26;
     QHBoxLayout *horizontalLayout_41;
@@ -207,7 +207,7 @@ public:
     QHBoxLayout *horizontalLayout_47;
     QLabel *p41_lab_but;
     QLabel *p4_val_but;
-    QWidget *widget4;
+    QWidget *layoutWidget6;
     QHBoxLayout *horizontalLayout_57;
     QVBoxLayout *verticalLayout_31;
     QHBoxLayout *horizontalLayout_49;
@@ -228,7 +228,7 @@ public:
     QPushButton *p4_chng_team;
     QWidget *debugTab;
     QListWidget *debugList;
-    QWidget *layoutWidget2;
+    QWidget *layoutWidget7;
     QVBoxLayout *verticalLayout_2;
     QListWidget *clientList;
     QVBoxLayout *verticalLayout;
@@ -380,29 +380,29 @@ public:
 
         horizontalLayout_2->addLayout(verticalLayout_5);
 
-        widget = new QWidget(player1_tab);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(310, 110, 161, 25));
-        horizontalLayout_9 = new QHBoxLayout(widget);
+        layoutWidget2 = new QWidget(player1_tab);
+        layoutWidget2->setObjectName(QStringLiteral("layoutWidget2"));
+        layoutWidget2->setGeometry(QRect(310, 110, 161, 25));
+        horizontalLayout_9 = new QHBoxLayout(layoutWidget2);
         horizontalLayout_9->setSpacing(6);
         horizontalLayout_9->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
         horizontalLayout_9->setContentsMargins(0, 0, 0, 0);
-        p1_conCont = new QPushButton(widget);
+        p1_conCont = new QPushButton(layoutWidget2);
         p1_conCont->setObjectName(QStringLiteral("p1_conCont"));
         p1_conCont->setMinimumSize(QSize(90, 23));
 
         horizontalLayout_9->addWidget(p1_conCont);
 
-        p1_contSel = new QComboBox(widget);
+        p1_contSel = new QComboBox(layoutWidget2);
         p1_contSel->setObjectName(QStringLiteral("p1_contSel"));
 
         horizontalLayout_9->addWidget(p1_contSel);
 
-        widget1 = new QWidget(player1_tab);
-        widget1->setObjectName(QStringLiteral("widget1"));
-        widget1->setGeometry(QRect(10, 30, 231, 110));
-        horizontalLayout_54 = new QHBoxLayout(widget1);
+        layoutWidget3 = new QWidget(player1_tab);
+        layoutWidget3->setObjectName(QStringLiteral("layoutWidget3"));
+        layoutWidget3->setGeometry(QRect(10, 30, 231, 110));
+        horizontalLayout_54 = new QHBoxLayout(layoutWidget3);
         horizontalLayout_54->setSpacing(6);
         horizontalLayout_54->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_54->setObjectName(QStringLiteral("horizontalLayout_54"));
@@ -413,14 +413,14 @@ public:
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setSpacing(6);
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
-        p1_lab_ipAdd = new QLabel(widget1);
+        p1_lab_ipAdd = new QLabel(layoutWidget3);
         p1_lab_ipAdd->setObjectName(QStringLiteral("p1_lab_ipAdd"));
         p1_lab_ipAdd->setMinimumSize(QSize(80, 20));
         p1_lab_ipAdd->setMaximumSize(QSize(80, 20));
 
         horizontalLayout_4->addWidget(p1_lab_ipAdd);
 
-        p1_val_ipAdd = new QLabel(widget1);
+        p1_val_ipAdd = new QLabel(layoutWidget3);
         p1_val_ipAdd->setObjectName(QStringLiteral("p1_val_ipAdd"));
 
         horizontalLayout_4->addWidget(p1_val_ipAdd);
@@ -431,14 +431,14 @@ public:
         horizontalLayout_6 = new QHBoxLayout();
         horizontalLayout_6->setSpacing(6);
         horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
-        p1_lab_robStat = new QLabel(widget1);
+        p1_lab_robStat = new QLabel(layoutWidget3);
         p1_lab_robStat->setObjectName(QStringLiteral("p1_lab_robStat"));
         p1_lab_robStat->setMinimumSize(QSize(80, 20));
         p1_lab_robStat->setMaximumSize(QSize(80, 20));
 
         horizontalLayout_6->addWidget(p1_lab_robStat);
 
-        p1_val_robStat = new QLabel(widget1);
+        p1_val_robStat = new QLabel(layoutWidget3);
         p1_val_robStat->setObjectName(QStringLiteral("p1_val_robStat"));
 
         horizontalLayout_6->addWidget(p1_val_robStat);
@@ -449,14 +449,14 @@ public:
         horizontalLayout_7 = new QHBoxLayout();
         horizontalLayout_7->setSpacing(6);
         horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
-        p1_lab_robMod = new QLabel(widget1);
+        p1_lab_robMod = new QLabel(layoutWidget3);
         p1_lab_robMod->setObjectName(QStringLiteral("p1_lab_robMod"));
         p1_lab_robMod->setMinimumSize(QSize(80, 20));
         p1_lab_robMod->setMaximumSize(QSize(80, 20));
 
         horizontalLayout_7->addWidget(p1_lab_robMod);
 
-        p1_val_robMod = new QLabel(widget1);
+        p1_val_robMod = new QLabel(layoutWidget3);
         p1_val_robMod->setObjectName(QStringLiteral("p1_val_robMod"));
 
         horizontalLayout_7->addWidget(p1_val_robMod);
@@ -467,14 +467,14 @@ public:
         horizontalLayout_8 = new QHBoxLayout();
         horizontalLayout_8->setSpacing(6);
         horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
-        p1_lab_teamCol = new QLabel(widget1);
+        p1_lab_teamCol = new QLabel(layoutWidget3);
         p1_lab_teamCol->setObjectName(QStringLiteral("p1_lab_teamCol"));
         p1_lab_teamCol->setMinimumSize(QSize(80, 20));
         p1_lab_teamCol->setMaximumSize(QSize(80, 20));
 
         horizontalLayout_8->addWidget(p1_lab_teamCol);
 
-        p1_val_teamCol = new QLabel(widget1);
+        p1_val_teamCol = new QLabel(layoutWidget3);
         p1_val_teamCol->setObjectName(QStringLiteral("p1_val_teamCol"));
 
         horizontalLayout_8->addWidget(p1_val_teamCol);
@@ -488,17 +488,17 @@ public:
         verticalLayout_34 = new QVBoxLayout();
         verticalLayout_34->setSpacing(6);
         verticalLayout_34->setObjectName(QStringLiteral("verticalLayout_34"));
-        p1_disCon = new QPushButton(widget1);
+        p1_disCon = new QPushButton(layoutWidget3);
         p1_disCon->setObjectName(QStringLiteral("p1_disCon"));
 
         verticalLayout_34->addWidget(p1_disCon);
 
-        p1_chng_stat = new QPushButton(widget1);
+        p1_chng_stat = new QPushButton(layoutWidget3);
         p1_chng_stat->setObjectName(QStringLiteral("p1_chng_stat"));
 
         verticalLayout_34->addWidget(p1_chng_stat);
 
-        p1_chng_team = new QPushButton(widget1);
+        p1_chng_team = new QPushButton(layoutWidget3);
         p1_chng_team->setObjectName(QStringLiteral("p1_chng_team"));
 
         verticalLayout_34->addWidget(p1_chng_team);
@@ -508,19 +508,13 @@ public:
 
         playerTabs->addTab(player1_tab, QString());
         layoutWidget->raise();
+        layoutWidget->raise();
         line->raise();
         p1_lab_rob->raise();
         p1_lab_cont->raise();
         layoutWidget_2->raise();
         layoutWidget->raise();
         layoutWidget->raise();
-        p1_conCont->raise();
-        p1_contSel->raise();
-        p1_lab_but->raise();
-        p1_val_but->raise();
-        p1_disCon->raise();
-        p1_chng_stat->raise();
-        p1_chng_team->raise();
         player2_tab = new QWidget();
         player2_tab->setObjectName(QStringLiteral("player2_tab"));
         layoutWidget_3 = new QWidget(player2_tab);
@@ -662,10 +656,10 @@ public:
 
         horizontalLayout_31->addWidget(p2_val_but);
 
-        widget2 = new QWidget(player2_tab);
-        widget2->setObjectName(QStringLiteral("widget2"));
-        widget2->setGeometry(QRect(10, 30, 231, 110));
-        horizontalLayout_55 = new QHBoxLayout(widget2);
+        layoutWidget4 = new QWidget(player2_tab);
+        layoutWidget4->setObjectName(QStringLiteral("layoutWidget4"));
+        layoutWidget4->setGeometry(QRect(10, 30, 231, 110));
+        horizontalLayout_55 = new QHBoxLayout(layoutWidget4);
         horizontalLayout_55->setSpacing(6);
         horizontalLayout_55->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_55->setObjectName(QStringLiteral("horizontalLayout_55"));
@@ -676,14 +670,14 @@ public:
         horizontalLayout_33 = new QHBoxLayout();
         horizontalLayout_33->setSpacing(6);
         horizontalLayout_33->setObjectName(QStringLiteral("horizontalLayout_33"));
-        p2_lab_ipAdd = new QLabel(widget2);
+        p2_lab_ipAdd = new QLabel(layoutWidget4);
         p2_lab_ipAdd->setObjectName(QStringLiteral("p2_lab_ipAdd"));
         p2_lab_ipAdd->setMinimumSize(QSize(80, 20));
         p2_lab_ipAdd->setMaximumSize(QSize(80, 20));
 
         horizontalLayout_33->addWidget(p2_lab_ipAdd);
 
-        p2_val_ipAdd = new QLabel(widget2);
+        p2_val_ipAdd = new QLabel(layoutWidget4);
         p2_val_ipAdd->setObjectName(QStringLiteral("p2_val_ipAdd"));
 
         horizontalLayout_33->addWidget(p2_val_ipAdd);
@@ -694,14 +688,14 @@ public:
         horizontalLayout_34 = new QHBoxLayout();
         horizontalLayout_34->setSpacing(6);
         horizontalLayout_34->setObjectName(QStringLiteral("horizontalLayout_34"));
-        p2_lab_robStat = new QLabel(widget2);
+        p2_lab_robStat = new QLabel(layoutWidget4);
         p2_lab_robStat->setObjectName(QStringLiteral("p2_lab_robStat"));
         p2_lab_robStat->setMinimumSize(QSize(80, 20));
         p2_lab_robStat->setMaximumSize(QSize(80, 20));
 
         horizontalLayout_34->addWidget(p2_lab_robStat);
 
-        p2_val_robStat = new QLabel(widget2);
+        p2_val_robStat = new QLabel(layoutWidget4);
         p2_val_robStat->setObjectName(QStringLiteral("p2_val_robStat"));
 
         horizontalLayout_34->addWidget(p2_val_robStat);
@@ -712,14 +706,14 @@ public:
         horizontalLayout_35 = new QHBoxLayout();
         horizontalLayout_35->setSpacing(6);
         horizontalLayout_35->setObjectName(QStringLiteral("horizontalLayout_35"));
-        p2_lab_robMod = new QLabel(widget2);
+        p2_lab_robMod = new QLabel(layoutWidget4);
         p2_lab_robMod->setObjectName(QStringLiteral("p2_lab_robMod"));
         p2_lab_robMod->setMinimumSize(QSize(80, 20));
         p2_lab_robMod->setMaximumSize(QSize(80, 20));
 
         horizontalLayout_35->addWidget(p2_lab_robMod);
 
-        p2_val_robMod = new QLabel(widget2);
+        p2_val_robMod = new QLabel(layoutWidget4);
         p2_val_robMod->setObjectName(QStringLiteral("p2_val_robMod"));
 
         horizontalLayout_35->addWidget(p2_val_robMod);
@@ -730,14 +724,14 @@ public:
         horizontalLayout_36 = new QHBoxLayout();
         horizontalLayout_36->setSpacing(6);
         horizontalLayout_36->setObjectName(QStringLiteral("horizontalLayout_36"));
-        p2_lab_teamCol = new QLabel(widget2);
+        p2_lab_teamCol = new QLabel(layoutWidget4);
         p2_lab_teamCol->setObjectName(QStringLiteral("p2_lab_teamCol"));
         p2_lab_teamCol->setMinimumSize(QSize(80, 20));
         p2_lab_teamCol->setMaximumSize(QSize(80, 20));
 
         horizontalLayout_36->addWidget(p2_lab_teamCol);
 
-        p2_val_teamCol = new QLabel(widget2);
+        p2_val_teamCol = new QLabel(layoutWidget4);
         p2_val_teamCol->setObjectName(QStringLiteral("p2_val_teamCol"));
 
         horizontalLayout_36->addWidget(p2_val_teamCol);
@@ -751,17 +745,17 @@ public:
         verticalLayout_35 = new QVBoxLayout();
         verticalLayout_35->setSpacing(6);
         verticalLayout_35->setObjectName(QStringLiteral("verticalLayout_35"));
-        p2_disCon = new QPushButton(widget2);
+        p2_disCon = new QPushButton(layoutWidget4);
         p2_disCon->setObjectName(QStringLiteral("p2_disCon"));
 
         verticalLayout_35->addWidget(p2_disCon);
 
-        p2_chng_stat = new QPushButton(widget2);
+        p2_chng_stat = new QPushButton(layoutWidget4);
         p2_chng_stat->setObjectName(QStringLiteral("p2_chng_stat"));
 
         verticalLayout_35->addWidget(p2_chng_stat);
 
-        p2_chng_team = new QPushButton(widget2);
+        p2_chng_team = new QPushButton(layoutWidget4);
         p2_chng_team->setObjectName(QStringLiteral("p2_chng_team"));
 
         verticalLayout_35->addWidget(p2_chng_team);
@@ -911,10 +905,10 @@ public:
 
         horizontalLayout_39->addWidget(p3_val_but);
 
-        widget3 = new QWidget(player3_tab);
-        widget3->setObjectName(QStringLiteral("widget3"));
-        widget3->setGeometry(QRect(10, 30, 231, 110));
-        horizontalLayout_56 = new QHBoxLayout(widget3);
+        layoutWidget5 = new QWidget(player3_tab);
+        layoutWidget5->setObjectName(QStringLiteral("layoutWidget5"));
+        layoutWidget5->setGeometry(QRect(10, 30, 231, 110));
+        horizontalLayout_56 = new QHBoxLayout(layoutWidget5);
         horizontalLayout_56->setSpacing(6);
         horizontalLayout_56->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_56->setObjectName(QStringLiteral("horizontalLayout_56"));
@@ -925,14 +919,14 @@ public:
         horizontalLayout_41 = new QHBoxLayout();
         horizontalLayout_41->setSpacing(6);
         horizontalLayout_41->setObjectName(QStringLiteral("horizontalLayout_41"));
-        p3_lab_ipAdd = new QLabel(widget3);
+        p3_lab_ipAdd = new QLabel(layoutWidget5);
         p3_lab_ipAdd->setObjectName(QStringLiteral("p3_lab_ipAdd"));
         p3_lab_ipAdd->setMinimumSize(QSize(80, 20));
         p3_lab_ipAdd->setMaximumSize(QSize(80, 20));
 
         horizontalLayout_41->addWidget(p3_lab_ipAdd);
 
-        p3_val_ipAdd = new QLabel(widget3);
+        p3_val_ipAdd = new QLabel(layoutWidget5);
         p3_val_ipAdd->setObjectName(QStringLiteral("p3_val_ipAdd"));
 
         horizontalLayout_41->addWidget(p3_val_ipAdd);
@@ -943,14 +937,14 @@ public:
         horizontalLayout_42 = new QHBoxLayout();
         horizontalLayout_42->setSpacing(6);
         horizontalLayout_42->setObjectName(QStringLiteral("horizontalLayout_42"));
-        p3_lab_robStat = new QLabel(widget3);
+        p3_lab_robStat = new QLabel(layoutWidget5);
         p3_lab_robStat->setObjectName(QStringLiteral("p3_lab_robStat"));
         p3_lab_robStat->setMinimumSize(QSize(80, 20));
         p3_lab_robStat->setMaximumSize(QSize(80, 20));
 
         horizontalLayout_42->addWidget(p3_lab_robStat);
 
-        p3_val_robStat = new QLabel(widget3);
+        p3_val_robStat = new QLabel(layoutWidget5);
         p3_val_robStat->setObjectName(QStringLiteral("p3_val_robStat"));
 
         horizontalLayout_42->addWidget(p3_val_robStat);
@@ -961,14 +955,14 @@ public:
         horizontalLayout_43 = new QHBoxLayout();
         horizontalLayout_43->setSpacing(6);
         horizontalLayout_43->setObjectName(QStringLiteral("horizontalLayout_43"));
-        p3_lab_robMod = new QLabel(widget3);
+        p3_lab_robMod = new QLabel(layoutWidget5);
         p3_lab_robMod->setObjectName(QStringLiteral("p3_lab_robMod"));
         p3_lab_robMod->setMinimumSize(QSize(80, 20));
         p3_lab_robMod->setMaximumSize(QSize(80, 20));
 
         horizontalLayout_43->addWidget(p3_lab_robMod);
 
-        p3_val_robMod = new QLabel(widget3);
+        p3_val_robMod = new QLabel(layoutWidget5);
         p3_val_robMod->setObjectName(QStringLiteral("p3_val_robMod"));
 
         horizontalLayout_43->addWidget(p3_val_robMod);
@@ -979,14 +973,14 @@ public:
         horizontalLayout_44 = new QHBoxLayout();
         horizontalLayout_44->setSpacing(6);
         horizontalLayout_44->setObjectName(QStringLiteral("horizontalLayout_44"));
-        p3_lab_teamCol = new QLabel(widget3);
+        p3_lab_teamCol = new QLabel(layoutWidget5);
         p3_lab_teamCol->setObjectName(QStringLiteral("p3_lab_teamCol"));
         p3_lab_teamCol->setMinimumSize(QSize(80, 20));
         p3_lab_teamCol->setMaximumSize(QSize(80, 20));
 
         horizontalLayout_44->addWidget(p3_lab_teamCol);
 
-        p3_val_teamCol = new QLabel(widget3);
+        p3_val_teamCol = new QLabel(layoutWidget5);
         p3_val_teamCol->setObjectName(QStringLiteral("p3_val_teamCol"));
 
         horizontalLayout_44->addWidget(p3_val_teamCol);
@@ -1000,17 +994,17 @@ public:
         verticalLayout_36 = new QVBoxLayout();
         verticalLayout_36->setSpacing(6);
         verticalLayout_36->setObjectName(QStringLiteral("verticalLayout_36"));
-        p3_disCon = new QPushButton(widget3);
+        p3_disCon = new QPushButton(layoutWidget5);
         p3_disCon->setObjectName(QStringLiteral("p3_disCon"));
 
         verticalLayout_36->addWidget(p3_disCon);
 
-        p3_chng_stat = new QPushButton(widget3);
+        p3_chng_stat = new QPushButton(layoutWidget5);
         p3_chng_stat->setObjectName(QStringLiteral("p3_chng_stat"));
 
         verticalLayout_36->addWidget(p3_chng_stat);
 
-        p3_chng_team = new QPushButton(widget3);
+        p3_chng_team = new QPushButton(layoutWidget5);
         p3_chng_team->setObjectName(QStringLiteral("p3_chng_team"));
 
         verticalLayout_36->addWidget(p3_chng_team);
@@ -1160,10 +1154,10 @@ public:
 
         horizontalLayout_47->addWidget(p4_val_but);
 
-        widget4 = new QWidget(Player4_tab);
-        widget4->setObjectName(QStringLiteral("widget4"));
-        widget4->setGeometry(QRect(10, 30, 231, 110));
-        horizontalLayout_57 = new QHBoxLayout(widget4);
+        layoutWidget6 = new QWidget(Player4_tab);
+        layoutWidget6->setObjectName(QStringLiteral("layoutWidget6"));
+        layoutWidget6->setGeometry(QRect(10, 30, 231, 110));
+        horizontalLayout_57 = new QHBoxLayout(layoutWidget6);
         horizontalLayout_57->setSpacing(6);
         horizontalLayout_57->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_57->setObjectName(QStringLiteral("horizontalLayout_57"));
@@ -1174,14 +1168,14 @@ public:
         horizontalLayout_49 = new QHBoxLayout();
         horizontalLayout_49->setSpacing(6);
         horizontalLayout_49->setObjectName(QStringLiteral("horizontalLayout_49"));
-        p4_lab_ipAdd = new QLabel(widget4);
+        p4_lab_ipAdd = new QLabel(layoutWidget6);
         p4_lab_ipAdd->setObjectName(QStringLiteral("p4_lab_ipAdd"));
         p4_lab_ipAdd->setMinimumSize(QSize(80, 20));
         p4_lab_ipAdd->setMaximumSize(QSize(80, 20));
 
         horizontalLayout_49->addWidget(p4_lab_ipAdd);
 
-        p4_val_ipAdd = new QLabel(widget4);
+        p4_val_ipAdd = new QLabel(layoutWidget6);
         p4_val_ipAdd->setObjectName(QStringLiteral("p4_val_ipAdd"));
 
         horizontalLayout_49->addWidget(p4_val_ipAdd);
@@ -1192,14 +1186,14 @@ public:
         horizontalLayout_50 = new QHBoxLayout();
         horizontalLayout_50->setSpacing(6);
         horizontalLayout_50->setObjectName(QStringLiteral("horizontalLayout_50"));
-        p4_lab_robStat = new QLabel(widget4);
+        p4_lab_robStat = new QLabel(layoutWidget6);
         p4_lab_robStat->setObjectName(QStringLiteral("p4_lab_robStat"));
         p4_lab_robStat->setMinimumSize(QSize(80, 20));
         p4_lab_robStat->setMaximumSize(QSize(80, 20));
 
         horizontalLayout_50->addWidget(p4_lab_robStat);
 
-        p4_val_robStat = new QLabel(widget4);
+        p4_val_robStat = new QLabel(layoutWidget6);
         p4_val_robStat->setObjectName(QStringLiteral("p4_val_robStat"));
 
         horizontalLayout_50->addWidget(p4_val_robStat);
@@ -1210,14 +1204,14 @@ public:
         horizontalLayout_51 = new QHBoxLayout();
         horizontalLayout_51->setSpacing(6);
         horizontalLayout_51->setObjectName(QStringLiteral("horizontalLayout_51"));
-        p4_lab_robMod = new QLabel(widget4);
+        p4_lab_robMod = new QLabel(layoutWidget6);
         p4_lab_robMod->setObjectName(QStringLiteral("p4_lab_robMod"));
         p4_lab_robMod->setMinimumSize(QSize(80, 20));
         p4_lab_robMod->setMaximumSize(QSize(80, 20));
 
         horizontalLayout_51->addWidget(p4_lab_robMod);
 
-        p4_val_robMod = new QLabel(widget4);
+        p4_val_robMod = new QLabel(layoutWidget6);
         p4_val_robMod->setObjectName(QStringLiteral("p4_val_robMod"));
 
         horizontalLayout_51->addWidget(p4_val_robMod);
@@ -1228,14 +1222,14 @@ public:
         horizontalLayout_52 = new QHBoxLayout();
         horizontalLayout_52->setSpacing(6);
         horizontalLayout_52->setObjectName(QStringLiteral("horizontalLayout_52"));
-        p4_lab_teamCol = new QLabel(widget4);
+        p4_lab_teamCol = new QLabel(layoutWidget6);
         p4_lab_teamCol->setObjectName(QStringLiteral("p4_lab_teamCol"));
         p4_lab_teamCol->setMinimumSize(QSize(80, 20));
         p4_lab_teamCol->setMaximumSize(QSize(80, 20));
 
         horizontalLayout_52->addWidget(p4_lab_teamCol);
 
-        p4_val_teamCol = new QLabel(widget4);
+        p4_val_teamCol = new QLabel(layoutWidget6);
         p4_val_teamCol->setObjectName(QStringLiteral("p4_val_teamCol"));
 
         horizontalLayout_52->addWidget(p4_val_teamCol);
@@ -1249,17 +1243,17 @@ public:
         verticalLayout_37 = new QVBoxLayout();
         verticalLayout_37->setSpacing(6);
         verticalLayout_37->setObjectName(QStringLiteral("verticalLayout_37"));
-        p4_disCon = new QPushButton(widget4);
+        p4_disCon = new QPushButton(layoutWidget6);
         p4_disCon->setObjectName(QStringLiteral("p4_disCon"));
 
         verticalLayout_37->addWidget(p4_disCon);
 
-        p4_chng_stat = new QPushButton(widget4);
+        p4_chng_stat = new QPushButton(layoutWidget6);
         p4_chng_stat->setObjectName(QStringLiteral("p4_chng_stat"));
 
         verticalLayout_37->addWidget(p4_chng_stat);
 
-        p4_chng_team = new QPushButton(widget4);
+        p4_chng_team = new QPushButton(layoutWidget6);
         p4_chng_team->setObjectName(QStringLiteral("p4_chng_team"));
 
         verticalLayout_37->addWidget(p4_chng_team);
@@ -1274,15 +1268,15 @@ public:
         debugList->setObjectName(QStringLiteral("debugList"));
         debugList->setGeometry(QRect(0, 0, 701, 151));
         playerTabs->addTab(debugTab, QString());
-        layoutWidget2 = new QWidget(centralWidget);
-        layoutWidget2->setObjectName(QStringLiteral("layoutWidget2"));
-        layoutWidget2->setGeometry(QRect(10, 10, 441, 311));
-        verticalLayout_2 = new QVBoxLayout(layoutWidget2);
+        layoutWidget7 = new QWidget(centralWidget);
+        layoutWidget7->setObjectName(QStringLiteral("layoutWidget7"));
+        layoutWidget7->setGeometry(QRect(10, 10, 441, 311));
+        verticalLayout_2 = new QVBoxLayout(layoutWidget7);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
-        clientList = new QListWidget(layoutWidget2);
+        clientList = new QListWidget(layoutWidget7);
         clientList->setObjectName(QStringLiteral("clientList"));
 
         verticalLayout_2->addWidget(clientList);
@@ -1293,24 +1287,28 @@ public:
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        ipBox = new QLineEdit(layoutWidget2);
+        ipBox = new QLineEdit(layoutWidget7);
         ipBox->setObjectName(QStringLiteral("ipBox"));
 
         horizontalLayout->addWidget(ipBox);
 
-        connect2robot = new QPushButton(layoutWidget2);
+        connect2robot = new QPushButton(layoutWidget7);
         connect2robot->setObjectName(QStringLiteral("connect2robot"));
 
         horizontalLayout->addWidget(connect2robot);
 
-        Scan4robot = new QPushButton(layoutWidget2);
+        Scan4robot = new QPushButton(layoutWidget7);
         Scan4robot->setObjectName(QStringLiteral("Scan4robot"));
         Scan4robot->setMinimumSize(QSize(90, 23));
         Scan4robot->setMaximumSize(QSize(90, 23));
+        Scan4robot->setAcceptDrops(false);
+        Scan4robot->setCheckable(false);
+        Scan4robot->setDefault(false);
+        Scan4robot->setFlat(false);
 
         horizontalLayout->addWidget(Scan4robot);
 
-        scanProg = new QProgressBar(layoutWidget2);
+        scanProg = new QProgressBar(layoutWidget7);
         scanProg->setObjectName(QStringLiteral("scanProg"));
         scanProg->setMaximum(255);
         scanProg->setValue(0);

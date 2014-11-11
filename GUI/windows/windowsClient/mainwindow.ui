@@ -234,7 +234,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>310</x>
@@ -348,7 +348,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -510,19 +510,13 @@
       </layout>
      </widget>
      <zorder>layoutWidget</zorder>
+     <zorder>layoutWidget</zorder>
      <zorder>line</zorder>
      <zorder>p1_lab_rob</zorder>
      <zorder>p1_lab_cont</zorder>
      <zorder>layoutWidget_2</zorder>
      <zorder>layoutWidget</zorder>
      <zorder>layoutWidget</zorder>
-     <zorder>p1_conCont</zorder>
-     <zorder>p1_contSel</zorder>
-     <zorder>p1_lab_but</zorder>
-     <zorder>p1_val_but</zorder>
-     <zorder>p1_disCon</zorder>
-     <zorder>p1_chng_stat</zorder>
-     <zorder>p1_chng_team</zorder>
     </widget>
     <widget class="QWidget" name="player2_tab">
      <attribute name="title">
@@ -840,7 +834,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -1318,7 +1312,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -1796,7 +1790,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -2015,8 +2009,20 @@
              <height>23</height>
             </size>
            </property>
+           <property name="acceptDrops">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>Scan for Robots</string>
+           </property>
+           <property name="checkable">
+            <bool>false</bool>
+           </property>
+           <property name="default">
+            <bool>false</bool>
+           </property>
+           <property name="flat">
+            <bool>false</bool>
            </property>
           </widget>
          </item>
