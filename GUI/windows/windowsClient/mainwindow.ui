@@ -2042,8 +2042,75 @@
      </item>
     </layout>
    </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>30</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Match Info</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>70</y>
+      <width>154</width>
+      <height>48</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_8">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_10">
+       <item>
+        <widget class="QLabel" name="t_left_lab">
+         <property name="text">
+          <string>Time Left: </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLCDNumber" name="t_left_val"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_11">
+       <item>
+        <widget class="QLabel" name="curr_match_mode">
+         <property name="text">
+          <string>Current Match Mode</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="curr_match_val">
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
    <zorder>layoutWidget</zorder>
    <zorder>playerTabs</zorder>
+   <zorder>label</zorder>
+   <zorder>curr_match_mode</zorder>
+   <zorder>t_left_lab</zorder>
+   <zorder>t_left_val</zorder>
+   <zorder>curr_match_val</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
