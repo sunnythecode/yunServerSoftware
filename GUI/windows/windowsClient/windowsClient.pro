@@ -13,10 +13,12 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    matchstatus.cpp
 
 HEADERS  += mainwindow.h \
-    structServClient.hpp
+    structServClient.hpp \
+    matchstatus.h
 
 FORMS    += mainwindow.ui
 

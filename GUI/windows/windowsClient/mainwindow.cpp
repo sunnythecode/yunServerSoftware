@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->timer1 = new QTimer(this);
     this->timer2 = new QTimer(this);
     this->timer3 = new QTimer(this);
-
+    this->status = new MatchStatus();
     //initialize player stack
     for(int i =0; i<4;i++)
     {
@@ -27,7 +27,10 @@ MainWindow::MainWindow(QWidget *parent) :
             this->playerStack[i].nextPlayer= NULL;
     }
 
+
     //connect function timers and start them
+    connect (status->matchTimer, SIGNAL(timeout()), this, SLOT(updateGameTimer()));
+    connect (status, SIGNAL(stateChanged()), this, SLOT(updateState()));
     connect(timer1, SIGNAL(timeout()), this, SLOT(updateJoyVals()));  //update joystick values for all players with a connected joystick
     connect(timer2, SIGNAL(timeout()),this, SLOT(updateJoyGUI()));    //update gui if joystick is connected
     connect(timer3, SIGNAL(timeout()), this, SLOT(updateProgBar()));   //reset the progress bar to 0 when robot search is done
@@ -636,4 +639,36 @@ void MainWindow::on_p3_chng_team_clicked()
 void MainWindow::on_p4_chng_team_clicked()
 {
     toggleRobotTeam();
+}
+
+void MainWindow::on_readyMatch_clicked()
+{
+    int numReadyPlayers;
+    for(numReadyPlayers=0;numReadyPlayers<4 && playerStack[numReadyPlayers].isReady;numReadyPlayers++);
+    if(numReadyPlayers==4 && !status->matchStarted)
+    {
+        ui->curr_match_val->setText("READY");
+        status->ready=true;
+    }
+    else status->ready=false;
+}
+
+void MainWindow::on_startMatch_clicked()
+{
+    if(status->ready && !status->matchStarted)
+    {
+        status->resetGameTimer(AUTO);
+        status->matchTimer->start(1000);
+        status->matchStarted=true;
+        ui->t_left_val->display(status->gameTimer);
+        ui->curr_match_val->setText("AUTO");
+    }
+}
+void MainWindow::updateGameTimer()
+{
+    ui->t_left_val->display(status->gameTimer);
+}
+void MainWindow::updateState()
+{
+    ui->curr_match_val->setText("TELEOP");
 }

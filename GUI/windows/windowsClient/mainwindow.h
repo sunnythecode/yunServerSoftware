@@ -12,6 +12,7 @@
 #include <vector>
 #include <sstream>
 
+#include "matchstatus.h"
 #include<structServClient.hpp>
 
 #include <xinput.h>
@@ -37,7 +38,7 @@ public:
     struct player playerStack[4];
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
+    MatchStatus *status;
     QTimer *timer1;
     QTimer *timer2;
     QTimer *timer3;
@@ -86,6 +87,11 @@ private slots:
 
     void on_p1_chng_team_clicked();
 
+    void on_readyMatch_clicked();
+
+    void on_startMatch_clicked();
+    void updateGameTimer();
+    void updateState();
 private:
     Ui::MainWindow *ui;
     void clearPlayerCont(struct player *play);
@@ -106,8 +112,7 @@ public:
     int targetIp;
     QString result;
 public slots:
-     void fastScanIps();
-
+    void fastScanIps();
 signals:
      void fastResultReady(QString);
 };
