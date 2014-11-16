@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>VEX COMPETITION</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QTabWidget" name="playerTabs">
@@ -354,7 +354,7 @@
         <x>10</x>
         <y>30</y>
         <width>231</width>
-        <height>110</height>
+        <height>114</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_54">
@@ -495,6 +495,19 @@
           <widget class="QPushButton" name="p1_chng_stat">
            <property name="text">
             <string>Change Status</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>PushButton</string>
+           </property>
+           <property name="checkable">
+            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -2060,7 +2073,7 @@
      <string>Match Info</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>510</x>
@@ -2082,7 +2095,15 @@
           </widget>
          </item>
          <item>
-          <widget class="QLCDNumber" name="t_left_val"/>
+          <widget class="QLCDNumber" name="t_left_val">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -2130,8 +2151,6 @@
    <zorder>layoutWidget</zorder>
    <zorder>playerTabs</zorder>
    <zorder>label</zorder>
-   <zorder>readyMatch</zorder>
-   <zorder>startMatch</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

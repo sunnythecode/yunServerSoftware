@@ -31,11 +31,14 @@ MainWindow::MainWindow(QWidget *parent) :
     //connect function timers and start them
     connect (status->matchTimer, SIGNAL(timeout()), this, SLOT(updateGameTimer()));
     connect (status, SIGNAL(stateChanged()), this, SLOT(updateState()));
+    connect (status, SIGNAL(matchOver()), this,SLOT(matchIsOver()));
     connect(timer1, SIGNAL(timeout()), this, SLOT(updateJoyVals()));  //update joystick values for all players with a connected joystick
     connect(timer2, SIGNAL(timeout()),this, SLOT(updateJoyGUI()));    //update gui if joystick is connected
     connect(timer3, SIGNAL(timeout()), this, SLOT(updateProgBar()));   //reset the progress bar to 0 when robot search is done
     timer1->start(20);
     timer2->start(100);
+    ui->curr_match_val->setText("NOT READY");
+    ui->t_left_val->setPalette(Qt::red);
 }
 
 MainWindow::~MainWindow()
@@ -326,17 +329,17 @@ void MainWindow::updateJoyVals()
 {
     for(int i=0; i<4;i++) //for each player
     {
-        if(this->playerStack[i].joy_fd != UNNASSIGNED)
+        if(this->playerStack[i].joy_fd != UNNASSIGNED)//if there is a joystick connected
         {
             //update joystick state
             int err = XInputGetState(this->playerStack[i].joy_fd, &(this->playerStack[i].controller));
-            if(err == ERROR_DEVICE_NOT_CONNECTED)
+            if(err == ERROR_DEVICE_NOT_CONNECTED)//if no joystick connected
             {
-                clearPlayerCont(&(this->playerStack[i]));
+                clearPlayerCont(&(this->playerStack[i]));//disconnect joystick
             }
 
             //if player's socket is connected to a robot push data across the network bridge to the robot and the player is ready
-            if(this->playerStack[i].socket != INVALID_SOCKET && this->playerStack[i].isReady)
+            if(this->playerStack[i].socket != INVALID_SOCKET && ((this->playerStack[i].isReady && !this->status->ready) || this->status->teleop))
             {
                 QString outputBuff = "9!3";
                 //packJoystick state into string by converting the 16 bit number into two char variables, first char is int15:8 second char is int7:0
@@ -348,12 +351,19 @@ void MainWindow::updateJoyVals()
                 outputBuff.append((char)(this->playerStack[i].controller.Gamepad.sThumbRX&0xFF));
                 outputBuff.append((char)(this->playerStack[i].controller.Gamepad.sThumbRY>>8));
                 outputBuff.append((char)(this->playerStack[i].controller.Gamepad.sThumbLY&0xFF));
+                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.bLeftTrigger>>8));
+                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.bLeftTrigger&0xFF));
+                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.bRightTrigger>>8));
+                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.bRightTrigger&0xFF));
                 outputBuff.append((char)(this->playerStack[i].controller.Gamepad.wButtons>>8));
                 outputBuff.append((char)(this->playerStack[i].controller.Gamepad.wButtons&0xFF));
 
                 outputBuff[2] = outputBuff.length();//update datagram length
-                send(this->playerStack[i].socket, outputBuff.toLocal8Bit(), outputBuff.length(), 0);
-                //SHOULD HANDLE ERRORS HERE
+                int sendErr = send(this->playerStack[i].socket, outputBuff.toLocal8Bit(), outputBuff.length(), 0);
+                if(sendErr != outputBuff.length())
+                {
+                    //SHOULD HANDLE ERRORS HERE
+                }
             }
         }
     }
@@ -645,7 +655,7 @@ void MainWindow::on_readyMatch_clicked()
 {
     int numReadyPlayers;
     for(numReadyPlayers=0;numReadyPlayers<4 && playerStack[numReadyPlayers].isReady;numReadyPlayers++);
-    if(numReadyPlayers==4 && !status->matchStarted)
+    if(numReadyPlayers==1 && !status->matchStarted)
     {
         ui->curr_match_val->setText("READY");
         status->ready=true;
@@ -660,6 +670,7 @@ void MainWindow::on_startMatch_clicked()
         status->resetGameTimer(AUTO);
         status->matchTimer->start(1000);
         status->matchStarted=true;
+        ui->t_left_val->setPalette(Qt::blue);
         ui->t_left_val->display(status->gameTimer);
         ui->curr_match_val->setText("AUTO");
     }
@@ -671,4 +682,25 @@ void MainWindow::updateGameTimer()
 void MainWindow::updateState()
 {
     ui->curr_match_val->setText("TELEOP");
+     ui->t_left_val->setPalette(Qt::green);
+}
+void MainWindow::matchIsOver()
+{
+    QList<QLabel *> visableLabel;
+    ui->curr_match_val->setText("NOT READY");
+    ui->t_left_val->setPalette(Qt::red);
+    for(int i = 0; i<4;i++)
+    {
+        playerStack[i].isReady=false;
+
+    }
+    for(int j = 0; j < ui->playerTabs->count(); j++)
+    {
+       visableLabel =ui->playerTabs->widget(j)->findChildren<QLabel*>();
+        for(int i = 0 ; i < visableLabel.length(); i++)
+        {
+            if(visableLabel[i]->objectName().endsWith("val_robStat"))
+                visableLabel[i]->setText("NOT READY");
+        }
+    }
 }

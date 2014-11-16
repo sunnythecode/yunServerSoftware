@@ -92,6 +92,7 @@ private slots:
     void on_startMatch_clicked();
     void updateGameTimer();
     void updateState();
+    void matchIsOver();
 private:
     Ui::MainWindow *ui;
     void clearPlayerCont(struct player *play);

@@ -16,7 +16,7 @@ void MatchStatus::resetGameTimer(bool mode)
 void MatchStatus::decreaseTime()
 {
     this->gameTimer--;
-    if(this->gameTimer >= 0)
+    if(this->gameTimer <= 0)
     {
         if(!this->teleop)
         {
