@@ -1,9 +1,15 @@
 import socket
+import serial
 import sys
  
 HOST = ''   # Symbolic name, meaning all available interfaces
 PORT = 8888 # Arbitrary non-privileged port
 data =' '
+ser = serial.Serial('/dev/ttyATH0', 9600) # open serial port
+print ser.portstr
+ser.open()
+ser.flushInput()
+
 while 1:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -60,6 +66,7 @@ while 1:
                             if datagramLeng != len(data):
                                     print data + " -Packet size mismatch: " + repr(datagramLeng)
                             else:
+                                    ser.write(data)
                                     print data + " - " + str(len(data)) + " - PRC\n"      
     s.close()
 	
