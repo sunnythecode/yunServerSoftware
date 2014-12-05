@@ -84,6 +84,7 @@ public:
     QVBoxLayout *verticalLayout_34;
     QPushButton *p1_disCon;
     QPushButton *p1_chng_stat;
+    QPushButton *pushButton;
     QPushButton *p1_chng_team;
     QWidget *player2_tab;
     QWidget *layoutWidget_3;
@@ -237,6 +238,19 @@ public:
     QPushButton *connect2robot;
     QPushButton *Scan4robot;
     QProgressBar *scanProg;
+    QLabel *label;
+    QWidget *layoutWidget8;
+    QVBoxLayout *verticalLayout_9;
+    QVBoxLayout *verticalLayout_8;
+    QHBoxLayout *horizontalLayout_10;
+    QLabel *t_left_lab;
+    QLCDNumber *t_left_val;
+    QHBoxLayout *horizontalLayout_11;
+    QLabel *curr_match_mode;
+    QLabel *curr_match_val;
+    QHBoxLayout *horizontalLayout_12;
+    QPushButton *readyMatch;
+    QPushButton *startMatch;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -401,7 +415,7 @@ public:
 
         layoutWidget3 = new QWidget(player1_tab);
         layoutWidget3->setObjectName(QStringLiteral("layoutWidget3"));
-        layoutWidget3->setGeometry(QRect(10, 30, 231, 110));
+        layoutWidget3->setGeometry(QRect(10, 30, 231, 114));
         horizontalLayout_54 = new QHBoxLayout(layoutWidget3);
         horizontalLayout_54->setSpacing(6);
         horizontalLayout_54->setContentsMargins(11, 11, 11, 11);
@@ -497,6 +511,13 @@ public:
         p1_chng_stat->setObjectName(QStringLiteral("p1_chng_stat"));
 
         verticalLayout_34->addWidget(p1_chng_stat);
+
+        pushButton = new QPushButton(layoutWidget3);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setEnabled(false);
+        pushButton->setCheckable(false);
+
+        verticalLayout_34->addWidget(pushButton);
 
         p1_chng_team = new QPushButton(layoutWidget3);
         p1_chng_team->setObjectName(QStringLiteral("p1_chng_team"));
@@ -1321,9 +1342,84 @@ public:
 
         verticalLayout_2->addLayout(verticalLayout);
 
+        label = new QLabel(centralWidget);
+        label->setObjectName(QStringLiteral("label"));
+        label->setGeometry(QRect(540, 30, 101, 31));
+        QFont font1;
+        font1.setPointSize(16);
+        label->setFont(font1);
+        layoutWidget8 = new QWidget(centralWidget);
+        layoutWidget8->setObjectName(QStringLiteral("layoutWidget8"));
+        layoutWidget8->setGeometry(QRect(510, 70, 160, 81));
+        verticalLayout_9 = new QVBoxLayout(layoutWidget8);
+        verticalLayout_9->setSpacing(6);
+        verticalLayout_9->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_9->setObjectName(QStringLiteral("verticalLayout_9"));
+        verticalLayout_9->setContentsMargins(0, 0, 0, 0);
+        verticalLayout_8 = new QVBoxLayout();
+        verticalLayout_8->setSpacing(6);
+        verticalLayout_8->setObjectName(QStringLiteral("verticalLayout_8"));
+        horizontalLayout_10 = new QHBoxLayout();
+        horizontalLayout_10->setSpacing(6);
+        horizontalLayout_10->setObjectName(QStringLiteral("horizontalLayout_10"));
+        t_left_lab = new QLabel(layoutWidget8);
+        t_left_lab->setObjectName(QStringLiteral("t_left_lab"));
+
+        horizontalLayout_10->addWidget(t_left_lab);
+
+        t_left_val = new QLCDNumber(layoutWidget8);
+        t_left_val->setObjectName(QStringLiteral("t_left_val"));
+        QFont font2;
+        font2.setPointSize(12);
+        font2.setBold(false);
+        font2.setWeight(50);
+        t_left_val->setFont(font2);
+
+        horizontalLayout_10->addWidget(t_left_val);
+
+
+        verticalLayout_8->addLayout(horizontalLayout_10);
+
+        horizontalLayout_11 = new QHBoxLayout();
+        horizontalLayout_11->setSpacing(6);
+        horizontalLayout_11->setObjectName(QStringLiteral("horizontalLayout_11"));
+        curr_match_mode = new QLabel(layoutWidget8);
+        curr_match_mode->setObjectName(QStringLiteral("curr_match_mode"));
+
+        horizontalLayout_11->addWidget(curr_match_mode);
+
+        curr_match_val = new QLabel(layoutWidget8);
+        curr_match_val->setObjectName(QStringLiteral("curr_match_val"));
+
+        horizontalLayout_11->addWidget(curr_match_val);
+
+
+        verticalLayout_8->addLayout(horizontalLayout_11);
+
+
+        verticalLayout_9->addLayout(verticalLayout_8);
+
+        horizontalLayout_12 = new QHBoxLayout();
+        horizontalLayout_12->setSpacing(6);
+        horizontalLayout_12->setObjectName(QStringLiteral("horizontalLayout_12"));
+        readyMatch = new QPushButton(layoutWidget8);
+        readyMatch->setObjectName(QStringLiteral("readyMatch"));
+
+        horizontalLayout_12->addWidget(readyMatch);
+
+        startMatch = new QPushButton(layoutWidget8);
+        startMatch->setObjectName(QStringLiteral("startMatch"));
+
+        horizontalLayout_12->addWidget(startMatch);
+
+
+        verticalLayout_9->addLayout(horizontalLayout_12);
+
         MainWindow->setCentralWidget(centralWidget);
         layoutWidget->raise();
+        layoutWidget->raise();
         playerTabs->raise();
+        label->raise();
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 720, 21));
@@ -1345,7 +1441,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "VEX COMPETITION", 0));
         p1_lab_rob->setText(QApplication::translate("MainWindow", "Robot", 0));
         p1_lab_cont->setText(QApplication::translate("MainWindow", "Controller", 0));
         p1_lab_rightX->setText(QApplication::translate("MainWindow", "Right Stick: X-axis", 0));
@@ -1385,6 +1481,7 @@ public:
         p1_val_teamCol->setText(QApplication::translate("MainWindow", "UNKNOWN", 0));
         p1_disCon->setText(QApplication::translate("MainWindow", "Disconnect", 0));
         p1_chng_stat->setText(QApplication::translate("MainWindow", "Change Status", 0));
+        pushButton->setText(QApplication::translate("MainWindow", "PushButton", 0));
         p1_chng_team->setText(QApplication::translate("MainWindow", "Change Team", 0));
         playerTabs->setTabText(playerTabs->indexOf(player1_tab), QApplication::translate("MainWindow", "Player 1", 0));
         p2_lab_rightX->setText(QApplication::translate("MainWindow", "Right Stick: X-axis", 0));
@@ -1513,6 +1610,12 @@ public:
         playerTabs->setTabText(playerTabs->indexOf(debugTab), QApplication::translate("MainWindow", "Debug", 0));
         connect2robot->setText(QApplication::translate("MainWindow", "connect", 0));
         Scan4robot->setText(QApplication::translate("MainWindow", "Scan for Robots", 0));
+        label->setText(QApplication::translate("MainWindow", "Match Info", 0));
+        t_left_lab->setText(QApplication::translate("MainWindow", "Time Left: ", 0));
+        curr_match_mode->setText(QApplication::translate("MainWindow", "Current Match Mode", 0));
+        curr_match_val->setText(QApplication::translate("MainWindow", "TextLabel", 0));
+        readyMatch->setText(QApplication::translate("MainWindow", "Ready Match", 0));
+        startMatch->setText(QApplication::translate("MainWindow", "Start Match", 0));
     } // retranslateUi
 
 };

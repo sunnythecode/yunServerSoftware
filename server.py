@@ -5,7 +5,7 @@ import sys
 HOST = ''   # Symbolic name, meaning all available interfaces
 PORT = 8888 # Arbitrary non-privileged port
 data =' '
-ser = serial.Serial('/dev/ttyATH0', 9600) # open serial port
+ser = serial.Serial('/dev/ttyATH0', 115200) # open serial port
 print ser.portstr
 ser.open()
 ser.flushInput()

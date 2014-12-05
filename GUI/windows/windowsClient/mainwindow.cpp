@@ -341,22 +341,25 @@ void MainWindow::updateJoyVals()
             //if player's socket is connected to a robot push data across the network bridge to the robot and the player is ready
             if(this->playerStack[i].socket != INVALID_SOCKET && ((this->playerStack[i].isReady && !this->status->ready) || this->status->teleop))
             {
-                QString outputBuff = "9!3";
+                QString outputBuff = "9!";
                 //packJoystick state into string by converting the 16 bit number into two char variables, first char is int15:8 second char is int7:0
-                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.sThumbLX>>8));
-                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.sThumbLX&0xFF));
-                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.sThumbLY>>8));
-                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.sThumbLY&0xFF));
-                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.sThumbRX>>8));
-                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.sThumbRX&0xFF));
-                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.sThumbRY>>8));
-                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.sThumbLY&0xFF));
-                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.bLeftTrigger>>8));
-                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.bLeftTrigger&0xFF));
-                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.bRightTrigger>>8));
-                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.bRightTrigger&0xFF));
-                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.wButtons>>8));
-                outputBuff.append((char)(this->playerStack[i].controller.Gamepad.wButtons&0xFF));
+                outputBuff.append(',');
+                outputBuff.append(QString::number(((this->playerStack[i].controller.Gamepad.sThumbLX + 32768)/255)));
+                outputBuff.append(',');
+                outputBuff.append(QString::number(((this->playerStack[i].controller.Gamepad.sThumbLY + 32768)/255)));
+                outputBuff.append(',');
+                outputBuff.append(QString::number(((this->playerStack[i].controller.Gamepad.sThumbRX + 32768)/255)));
+                outputBuff.append(',');
+                outputBuff.append(QString::number(((this->playerStack[i].controller.Gamepad.sThumbRY + 32768)/255)));
+                outputBuff.append(',');
+                outputBuff.append(QString::number(((this->playerStack[i].controller.Gamepad.bLeftTrigger + 32768)/255)));
+                outputBuff.append(',');
+                outputBuff.append(QString::number(((this->playerStack[i].controller.Gamepad.bRightTrigger + 32768)/255)));
+                outputBuff.append(',');
+                outputBuff.append(QString::number((this->playerStack[i].controller.Gamepad.wButtons>>8)));
+                outputBuff.append(',');
+                outputBuff.append(QString::number((this->playerStack[i].controller.Gamepad.wButtons&0xFF)));
+                outputBuff.append('?');
 
                 outputBuff[2] = outputBuff.length();//update datagram length
                 int sendErr = send(this->playerStack[i].socket, outputBuff.toLocal8Bit(), outputBuff.length(), 0);
