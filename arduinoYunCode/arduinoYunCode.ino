@@ -3,13 +3,28 @@
 #include <string.h>
 #define LED_DELAY 100
 #define MOTOR_WATCHDOG_DELAY 200
-#define MOTOR_IDLE 95
+#define MOTOR_IDLE 93
+#define MOTOR_MAX 190
+#define MOTOR_MIN 0
+#define L_STICK_DEADZONE 5
+#define R_STICK_DEADZONE 10
 #define MIN_STRING 22
+
+#define MTR1_SIG 5  
+#define MTR1_POS 6
+#define MTR1_GND 7
+
+#define MTR2_SIG 2
+#define MTR2_POS 3
+#define MTR2_GND 4
+
 char data_read[40];
 bool ledState;
 bool updateOutputs = false;
-Servo pin2, pin3, pin6, pin7, pin8, pin9,pin10;
+Servo mtr1, mtr2;
 long ledTimeout, motorWatchdog;
+
+
 void setup() {
   // put your setup code here, to run once:
   Serial1.begin(115200); // Set the baud.
@@ -17,29 +32,35 @@ void setup() {
   {
   }
   Serial.begin(115200);
-  pin2.attach(2);
-  pin3.attach(3);
-  pin6.attach(6);
-  pin7.attach(7);
-  pin10.attach(10);
-  pinMode(4,OUTPUT);
-  pinMode(5,OUTPUT);
-  
-  pinMode(8,OUTPUT);
-  pinMode(9,OUTPUT);
-  
+  pinMode(MTR1_SIG, OUTPUT);
+  pinMode(MTR1_POS, OUTPUT);
+  pinMode(MTR1_GND, OUTPUT);
+
+  pinMode(MTR2_SIG, OUTPUT);
+  pinMode(MTR2_POS, OUTPUT);
+  pinMode(MTR2_GND, OUTPUT);
+
+  digitalWrite(MTR1_POS, HIGH);
+  digitalWrite(MTR1_GND, LOW);
+  digitalWrite(MTR2_POS, HIGH);
+  digitalWrite(MTR2_GND, LOW);
+
+  mtr1.attach(MTR1_SIG);
+  mtr2.attach(MTR2_SIG);
+
+
   digitalWrite(13, HIGH);
   ledState = true;
   ledTimeout = millis() + LED_DELAY;
   motorWatchdog = millis();
 }
 int loopCount = 0;
-    byte oneVal;
-    byte twoVal;
-    byte threeVal;
-    byte fourVal;
-    byte fiveVal;
-    byte sixVal;
+byte oneVal;
+byte twoVal;
+byte threeVal;
+byte fourVal;
+byte fiveVal;
+byte sixVal;
 void loop() {
   if (Serial1.available() > MIN_STRING)
   {
@@ -57,13 +78,13 @@ void loop() {
   {
     updateOutputs = false;
     data_read[0] = '0';
-    oneVal = map(atoi(strtok(data_read, ",")), 0, 255, 0, 190);
-    twoVal = map(atoi(strtok(NULL, ",")), 0, 255, 0, 190);
-    threeVal = map(atoi(strtok(NULL, ",")), 0, 255, 0, 190);
-    fourVal = map(atoi(strtok(NULL, ",")), 0, 255, 0, 190);
-    fiveVal = map(atoi(strtok(NULL, ",")), 0, 255, 0, 190);
-    sixVal = map(atoi(strtok(NULL, ",")), 0, 255, 0, 190);
-    
+    oneVal = map(atoi(strtok(data_read, ",")), 0, 255, MOTOR_MIN, MOTOR_MAX);
+    twoVal = map(atoi(strtok(NULL, ",")), 0, 255, MOTOR_MIN, MOTOR_MAX);
+    threeVal = map(atoi(strtok(NULL, ",")), 0, 255, MOTOR_MIN, MOTOR_MAX);
+    fourVal = map(atoi(strtok(NULL, ",")), 0, 255, MOTOR_MIN, MOTOR_MAX);
+    fiveVal = map(atoi(strtok(NULL, ",")), 0, 255, MOTOR_MIN, MOTOR_MAX);
+    sixVal = map(atoi(strtok(NULL, ",")), 0, 255, MOTOR_MIN, MOTOR_MAX);
+
     Serial.print(oneVal);
     Serial.print(" ");
     Serial.print(twoVal);
@@ -75,21 +96,32 @@ void loop() {
     Serial.print(fiveVal);
     Serial.print(" ");
     Serial.println(sixVal);
+
+
+    int lftMtr = MOTOR_IDLE;
+    int rghtMtr = MOTOR_IDLE;
+    if(twoVal > MOTOR_IDLE + L_STICK_DEADZONE || twoVal < MOTOR_IDLE - L_STICK_DEADZONE)
+    {
+      lftMtr = map(twoVal,0,190,190,0);
+      rghtMtr = twoVal;
+    }
+    if(threeVal > MOTOR_IDLE + R_STICK_DEADZONE || threeVal < MOTOR_IDLE - R_STICK_DEADZONE)
+    {
+      lftMtr += threeVal - MOTOR_IDLE;
+      rghtMtr += threeVal - MOTOR_IDLE;
+    }
+    
     
 
-    pin3.write(twoVal);
-    digitalWrite(4,HIGH);
-    digitalWrite(5,LOW);
-    digitalWrite(9,HIGH);
-    digitalWrite(8,LOW);
-    pin10.write(fourVal);
+    mtr1.write(lftMtr);
+    mtr2.write(rghtMtr);
     motorWatchdog = millis();
   }
 
-  if (motorWatchdog + MOTOR_WATCHDOG_DELAY <millis())
+  if (motorWatchdog + MOTOR_WATCHDOG_DELAY < millis())
   {
-    pin3.write(MOTOR_IDLE);
-    pin10.write(MOTOR_IDLE);
+    mtr1.write(MOTOR_IDLE);
+    mtr2.write(MOTOR_IDLE);
     motorWatchdog = millis();
     Serial.println("watchdog not feed");
   }
