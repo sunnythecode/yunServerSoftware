@@ -67,6 +67,6 @@ while 1:
                                     print data + " -Packet size mismatch: " + repr(datagramLeng)
                             else:
                                     ser.write(data)
-                                    print data + " - " + str(len(data)) + ord(data[3])      
+                                    #print data + " - " + str(len(data)) + ord(data[3])      
     s.close()
 	

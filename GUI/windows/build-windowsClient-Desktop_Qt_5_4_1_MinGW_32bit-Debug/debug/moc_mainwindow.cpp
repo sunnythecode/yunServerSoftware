@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.3.2)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.4.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'mainwindow.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.3.2. It"
+#error "This file was generated using the moc from 5.4.1. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -29,40 +29,41 @@ struct qt_meta_stringdata_MainWindow_t {
     )
 static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_MainWindow = {
     {
-QT_MOC_LITERAL(0, 0, 10),
-QT_MOC_LITERAL(1, 11, 11),
-QT_MOC_LITERAL(2, 23, 0),
-QT_MOC_LITERAL(3, 24, 25),
-QT_MOC_LITERAL(4, 50, 16),
-QT_MOC_LITERAL(5, 67, 4),
-QT_MOC_LITERAL(6, 72, 21),
-QT_MOC_LITERAL(7, 94, 24),
-QT_MOC_LITERAL(8, 119, 15),
-QT_MOC_LITERAL(9, 135, 3),
-QT_MOC_LITERAL(10, 139, 13),
-QT_MOC_LITERAL(11, 153, 12),
-QT_MOC_LITERAL(12, 166, 13),
-QT_MOC_LITERAL(13, 180, 21),
-QT_MOC_LITERAL(14, 202, 21),
-QT_MOC_LITERAL(15, 224, 21),
-QT_MOC_LITERAL(16, 246, 21),
-QT_MOC_LITERAL(17, 268, 20),
-QT_MOC_LITERAL(18, 289, 20),
-QT_MOC_LITERAL(19, 310, 20),
-QT_MOC_LITERAL(20, 331, 20),
-QT_MOC_LITERAL(21, 352, 23),
-QT_MOC_LITERAL(22, 376, 23),
-QT_MOC_LITERAL(23, 400, 23),
-QT_MOC_LITERAL(24, 424, 23),
-QT_MOC_LITERAL(25, 448, 23),
-QT_MOC_LITERAL(26, 472, 23),
-QT_MOC_LITERAL(27, 496, 23),
-QT_MOC_LITERAL(28, 520, 23),
-QT_MOC_LITERAL(29, 544, 21),
-QT_MOC_LITERAL(30, 566, 21),
-QT_MOC_LITERAL(31, 588, 15),
-QT_MOC_LITERAL(32, 604, 11),
-QT_MOC_LITERAL(33, 616, 11)
+QT_MOC_LITERAL(0, 0, 10), // "MainWindow"
+QT_MOC_LITERAL(1, 11, 11), // "fastScanNet"
+QT_MOC_LITERAL(2, 23, 0), // ""
+QT_MOC_LITERAL(3, 24, 25), // "on_clientList_itemClicked"
+QT_MOC_LITERAL(4, 50, 16), // "QListWidgetItem*"
+QT_MOC_LITERAL(5, 67, 4), // "item"
+QT_MOC_LITERAL(6, 72, 21), // "on_Scan4robot_clicked"
+QT_MOC_LITERAL(7, 94, 24), // "on_connect2robot_clicked"
+QT_MOC_LITERAL(8, 119, 15), // "handleFastResIP"
+QT_MOC_LITERAL(9, 135, 3), // "res"
+QT_MOC_LITERAL(10, 139, 13), // "updateJoyVals"
+QT_MOC_LITERAL(11, 153, 12), // "updateJoyGUI"
+QT_MOC_LITERAL(12, 166, 13), // "updateProgBar"
+QT_MOC_LITERAL(13, 180, 21), // "on_p1_conCont_clicked"
+QT_MOC_LITERAL(14, 202, 21), // "on_p2_conCont_clicked"
+QT_MOC_LITERAL(15, 224, 21), // "on_p3_conCont_clicked"
+QT_MOC_LITERAL(16, 246, 21), // "on_p4_conCont_clicked"
+QT_MOC_LITERAL(17, 268, 20), // "on_p1_disCon_clicked"
+QT_MOC_LITERAL(18, 289, 20), // "on_p2_disCon_clicked"
+QT_MOC_LITERAL(19, 310, 20), // "on_p3_disCon_clicked"
+QT_MOC_LITERAL(20, 331, 20), // "on_p4_disCon_clicked"
+QT_MOC_LITERAL(21, 352, 23), // "on_p1_chng_stat_clicked"
+QT_MOC_LITERAL(22, 376, 23), // "on_p2_chng_stat_clicked"
+QT_MOC_LITERAL(23, 400, 23), // "on_p3_chng_stat_clicked"
+QT_MOC_LITERAL(24, 424, 23), // "on_p4_chng_stat_clicked"
+QT_MOC_LITERAL(25, 448, 23), // "on_p4_chng_team_clicked"
+QT_MOC_LITERAL(26, 472, 23), // "on_p2_chng_team_clicked"
+QT_MOC_LITERAL(27, 496, 23), // "on_p3_chng_team_clicked"
+QT_MOC_LITERAL(28, 520, 23), // "on_p1_chng_team_clicked"
+QT_MOC_LITERAL(29, 544, 21), // "on_readyMatch_clicked"
+QT_MOC_LITERAL(30, 566, 21), // "on_startMatch_clicked"
+QT_MOC_LITERAL(31, 588, 15), // "updateGameTimer"
+QT_MOC_LITERAL(32, 604, 11), // "updateState"
+QT_MOC_LITERAL(33, 616, 11) // "matchIsOver"
+
     },
     "MainWindow\0fastScanNet\0\0"
     "on_clientList_itemClicked\0QListWidgetItem*\0"
@@ -215,7 +216,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
 
 const QMetaObject MainWindow::staticMetaObject = {
     { &QMainWindow::staticMetaObject, qt_meta_stringdata_MainWindow.data,
-      qt_meta_data_MainWindow,  qt_static_metacall, 0, 0}
+      qt_meta_data_MainWindow,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
 };
 
 
@@ -226,7 +227,7 @@ const QMetaObject *MainWindow::metaObject() const
 
 void *MainWindow::qt_metacast(const char *_clname)
 {
-    if (!_clname) return 0;
+    if (!_clname) return Q_NULLPTR;
     if (!strcmp(_clname, qt_meta_stringdata_MainWindow.stringdata))
         return static_cast<void*>(const_cast< MainWindow*>(this));
     return QMainWindow::qt_metacast(_clname);
@@ -252,7 +253,7 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 // SIGNAL 0
 void MainWindow::fastScanNet()
 {
-    QMetaObject::activate(this, &staticMetaObject, 0, 0);
+    QMetaObject::activate(this, &staticMetaObject, 0, Q_NULLPTR);
 }
 struct qt_meta_stringdata_highSpeedNetMap_t {
     QByteArrayData data[4];
@@ -265,10 +266,11 @@ struct qt_meta_stringdata_highSpeedNetMap_t {
     )
 static const qt_meta_stringdata_highSpeedNetMap_t qt_meta_stringdata_highSpeedNetMap = {
     {
-QT_MOC_LITERAL(0, 0, 15),
-QT_MOC_LITERAL(1, 16, 15),
-QT_MOC_LITERAL(2, 32, 0),
-QT_MOC_LITERAL(3, 33, 11)
+QT_MOC_LITERAL(0, 0, 15), // "highSpeedNetMap"
+QT_MOC_LITERAL(1, 16, 15), // "fastResultReady"
+QT_MOC_LITERAL(2, 32, 0), // ""
+QT_MOC_LITERAL(3, 33, 11) // "fastScanIps"
+
     },
     "highSpeedNetMap\0fastResultReady\0\0"
     "fastScanIps"
@@ -326,7 +328,7 @@ void highSpeedNetMap::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
 
 const QMetaObject highSpeedNetMap::staticMetaObject = {
     { &QObject::staticMetaObject, qt_meta_stringdata_highSpeedNetMap.data,
-      qt_meta_data_highSpeedNetMap,  qt_static_metacall, 0, 0}
+      qt_meta_data_highSpeedNetMap,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
 };
 
 
@@ -337,7 +339,7 @@ const QMetaObject *highSpeedNetMap::metaObject() const
 
 void *highSpeedNetMap::qt_metacast(const char *_clname)
 {
-    if (!_clname) return 0;
+    if (!_clname) return Q_NULLPTR;
     if (!strcmp(_clname, qt_meta_stringdata_highSpeedNetMap.stringdata))
         return static_cast<void*>(const_cast< highSpeedNetMap*>(this));
     return QObject::qt_metacast(_clname);
@@ -363,7 +365,7 @@ int highSpeedNetMap::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 // SIGNAL 0
 void highSpeedNetMap::fastResultReady(QString _t1)
 {
-    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_END_MOC_NAMESPACE
