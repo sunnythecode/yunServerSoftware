@@ -1,6 +1,9 @@
-
 #include <Servo.h>
 #include <string.h>
+
+//uncomment to enable hardware serial debug messages
+//#define DEBUG 1 
+
 #define LED_DELAY 100
 #define MOTOR_WATCHDOG_DELAY 200
 #define MOTOR_IDLE 93
@@ -24,9 +27,14 @@ bool updateOutputs = false;
 Servo mtr1, mtr2;
 long ledTimeout, motorWatchdog;
 
+byte oneVal;
+byte twoVal;
+byte threeVal;
+byte fourVal;
+byte fiveVal;
+byte sixVal;
 
 void setup() {
-  // put your setup code here, to run once:
   Serial1.begin(115200); // Set the baud.
   while (!Serial1)
   {
@@ -54,13 +62,7 @@ void setup() {
   ledTimeout = millis() + LED_DELAY;
   motorWatchdog = millis();
 }
-int loopCount = 0;
-byte oneVal;
-byte twoVal;
-byte threeVal;
-byte fourVal;
-byte fiveVal;
-byte sixVal;
+
 void loop() {
   if (Serial1.available() > MIN_STRING)
   {
@@ -69,9 +71,24 @@ void loop() {
     for (i = 0; i < MIN_STRING && Serial1.read() != '!'; i++);
 
     Serial1.readBytesUntil('?', data_read, 40);
+	
+	//check to weed out garbage data on start-up, if reasonable data size between delimiters then accept packet 
+	char *gCheckStart, *gCheckEnd;
+	if(gCheckStart=strchr(data_read, ','))
+	{
+		if(gCheckEnd = strchr(gCheckStart+1, ','))
+		{
+			if(gCheckEnd - gCheckStart < 7)
+			{
+				updateOutputs = true;
+			}
+		}
+				
+	}
+	
+	#ifdef DEBUG
     Serial.println(data_read);
-    updateOutputs = true;
-
+	#endif
   }
 
   if (updateOutputs)
@@ -85,6 +102,7 @@ void loop() {
     fiveVal = map(atoi(strtok(NULL, ",")), 0, 255, MOTOR_MIN, MOTOR_MAX);
     sixVal = map(atoi(strtok(NULL, ",")), 0, 255, MOTOR_MIN, MOTOR_MAX);
 
+	#ifdef DEBUG
     Serial.print(oneVal);
     Serial.print(" ");
     Serial.print(twoVal);
@@ -96,13 +114,14 @@ void loop() {
     Serial.print(fiveVal);
     Serial.print(" ");
     Serial.println(sixVal);
+	#endif
 
 
     int lftMtr = MOTOR_IDLE;
     int rghtMtr = MOTOR_IDLE;
     if(twoVal > MOTOR_IDLE + L_STICK_DEADZONE || twoVal < MOTOR_IDLE - L_STICK_DEADZONE)
     {
-      lftMtr = map(twoVal,0,190,190,0);
+      lftMtr = map(twoVal,0,190,190,0); //left motor is inverted
       rghtMtr = twoVal;
     }
     if(threeVal > MOTOR_IDLE + R_STICK_DEADZONE || threeVal < MOTOR_IDLE - R_STICK_DEADZONE)
@@ -111,8 +130,6 @@ void loop() {
       rghtMtr += threeVal - MOTOR_IDLE;
     }
     
-    
-
     mtr1.write(lftMtr);
     mtr2.write(rghtMtr);
     motorWatchdog = millis();
@@ -123,9 +140,11 @@ void loop() {
     mtr1.write(MOTOR_IDLE);
     mtr2.write(MOTOR_IDLE);
     motorWatchdog = millis();
+	
+	#ifdef DEBUG
     Serial.println("watchdog not feed");
+	#endif
   }
-
 
   if (ledTimeout < millis())
   {
