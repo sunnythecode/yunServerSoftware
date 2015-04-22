@@ -21,6 +21,12 @@
 #define MTR2_POS 3
 #define MTR2_GND 4
 
+//uncomment next line to invert left axis
+//#define INVERT_LEFT_AXIS 1
+
+//uncomment next line to inver right axis
+#define INVERT_RIGHT_AXIS 1
+
 char data_read[40];
 bool ledState;
 bool updateOutputs = false;
@@ -121,13 +127,23 @@ void loop() {
     int rghtMtr = MOTOR_IDLE;
     if(twoVal > MOTOR_IDLE + L_STICK_DEADZONE || twoVal < MOTOR_IDLE - L_STICK_DEADZONE)
     {
-      lftMtr = map(twoVal,0,190,190,0); //left motor is inverted
-      rghtMtr = twoVal;
+	#ifdef INVERT_LEFT_AXIS
+      rghtMtr = map(twoVal,0,190,190,0); //right motor is inverted
+      lftMtr = twoVal;		
+	#else
+      rghtMtr = map(twoVal,0,190,190,0); //left motor is inverted
+      lftMtr = twoVal;
+	#endif
     }
     if(threeVal > MOTOR_IDLE + R_STICK_DEADZONE || threeVal < MOTOR_IDLE - R_STICK_DEADZONE)
     {
+	#ifdef INVERT_RIGHT_AXIS
+	  rghtMtr -= threeVal - MOTOR_IDLE;
+      lftMtr -= threeVal - MOTOR_IDLE;
+	#else
       lftMtr += threeVal - MOTOR_IDLE;
       rghtMtr += threeVal - MOTOR_IDLE;
+	#endif
     }
     
     mtr1.write(lftMtr);
