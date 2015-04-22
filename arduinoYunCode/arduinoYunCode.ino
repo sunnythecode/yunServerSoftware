@@ -61,6 +61,8 @@ void setup() {
 
   mtr1.attach(MTR1_SIG);
   mtr2.attach(MTR2_SIG);
+  mtr1.write(MOTOR_IDLE_VAL);
+  mtr2.write(MOTOR_IDLE_VAL);
 
 
   digitalWrite(13, HIGH);
