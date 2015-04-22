@@ -25,7 +25,7 @@
 //#define INVERT_LEFT_AXIS 1
 
 //uncomment next line to inver right axis
-#define INVERT_RIGHT_AXIS 1
+//#define INVERT_RIGHT_AXIS 1
 
 char data_read[40];
 bool ledState;
