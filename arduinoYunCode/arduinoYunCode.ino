@@ -4,7 +4,8 @@
 //uncomment to enable hardware serial debug messages
 //#define DEBUG 1 
 
-#define LED_DELAY 100
+#define LED_FAST_DELAY 50
+#define LED_SLOW_DELAY 200
 #define MOTOR_WATCHDOG_DELAY 200
 #define MOTOR_IDLE 93
 #define MOTOR_MAX 190
@@ -28,7 +29,9 @@
 //#define INVERT_RIGHT_AXIS 1
 
 char data_read[40];
-bool ledState;
+int ledDelay = LED_FAST_DELAY;
+bool ledState =true;
+bool sockStat = false;
 bool updateOutputs = false;
 Servo mtr1, mtr2;
 long ledTimeout, motorWatchdog;
@@ -61,13 +64,12 @@ void setup() {
 
   mtr1.attach(MTR1_SIG);
   mtr2.attach(MTR2_SIG);
-  mtr1.write(MOTOR_IDLE_VAL);
-  mtr2.write(MOTOR_IDLE_VAL);
+  mtr1.write(MOTOR_IDLE);
+  mtr2.write(MOTOR_IDLE);
 
 
-  digitalWrite(13, HIGH);
-  ledState = true;
-  ledTimeout = millis() + LED_DELAY;
+  digitalWrite(13, LOW); //have LED start in off state
+  ledTimeout = millis() + ledDelay;
   motorWatchdog = millis();
 }
 
@@ -82,12 +84,18 @@ void loop() {
 	
 	//check to weed out garbage data on start-up, if reasonable data size between delimiters then accept packet 
 	char *gCheckStart, *gCheckEnd;
+	if(strstr(data_read,"started"))
+	{
+		sockStat = true;
+		ledDelay = LED_FAST_DELAY;
+	}
 	if(gCheckStart=strchr(data_read, ','))
 	{
 		if(gCheckEnd = strchr(gCheckStart+1, ','))
 		{
 			if(gCheckEnd - gCheckStart < 7)
 			{
+				ledDelay = LED_SLOW_DELAY;
 				updateOutputs = true;
 			}
 		}
@@ -164,9 +172,9 @@ void loop() {
 	#endif
   }
 
-  if (ledTimeout < millis())
+  if (ledTimeout < millis() && sockStat)
   {
-    ledTimeout = millis() + LED_DELAY;
+    ledTimeout = millis() + ledDelay;
     if (ledState)
     {
       digitalWrite(13, LOW);
