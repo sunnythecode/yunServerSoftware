@@ -26,7 +26,7 @@ while 1:
     #Start listening on socket
     s.listen(10)
     print 'Socket now listening'
-
+    ser.write("!Started,start,started,started,STARTED?")
     #wait to accept a connection - this call is blocking
     conn, addr= s.accept()                      
     print 'Connected with ' + addr[0] + ':' + str(addr[1])
