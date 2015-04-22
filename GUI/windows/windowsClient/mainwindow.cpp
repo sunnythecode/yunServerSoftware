@@ -365,7 +365,11 @@ void MainWindow::updateJoyVals()
                 int sendErr = send(this->playerStack[i].socket, outputBuff.toLocal8Bit(), outputBuff.length(), 0);
                 if(sendErr != outputBuff.length())
                 {
-                    //SHOULD HANDLE ERRORS HERE
+                    //SHOULD HANDLE ERRORS 
+                    if(!sendErr) //if no data was sent assume socket is broken and disconect robot from GUI
+                    {
+                        disConRobot(i);   
+                    }
                 }
             }
         }
