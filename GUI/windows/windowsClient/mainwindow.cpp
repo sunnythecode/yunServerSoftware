@@ -7,9 +7,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
      ui->setupUi(this);
 
-    this->timer1 = new QTimer(this);
-    this->timer2 = new QTimer(this);
-    this->timer3 = new QTimer(this);
+    this->joyUpdateTimer = new QTimer(this);
+    this->joyUiTimer = new QTimer(this);
+    this->progUpdateTimer = new QTimer(this);
     this->status = new MatchStatus();
     //initialize player stack
     for(int i =0; i<4;i++)
@@ -32,11 +32,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect (status->matchTimer, SIGNAL(timeout()), this, SLOT(updateGameTimer()));
     connect (status, SIGNAL(stateChanged()), this, SLOT(updateState()));
     connect (status, SIGNAL(matchOver()), this,SLOT(matchIsOver()));
-    connect(timer1, SIGNAL(timeout()), this, SLOT(updateJoyVals()));  //update joystick values for all players with a connected joystick
-    connect(timer2, SIGNAL(timeout()),this, SLOT(updateJoyGUI()));    //update gui if joystick is connected
-    connect(timer3, SIGNAL(timeout()), this, SLOT(updateProgBar()));   //reset the progress bar to 0 when robot search is done
-    timer1->start(20);
-    timer2->start(100);
+    connect(joyUpdateTimer, SIGNAL(timeout()), this, SLOT(updateJoyVals()));  //update joystick values for all players with a connected joystick
+    connect(joyUiTimer, SIGNAL(timeout()),this, SLOT(updateJoyGUI()));    //update gui if joystick is connected
+    connect(progUpdateTimer, SIGNAL(timeout()), this, SLOT(updateProgBar()));   //reset the progress bar to 0 when robot search is done
+    joyUpdateTimer->start(20);
+    joyUiTimer->start(100);
     ui->curr_match_val->setText("NOT READY");
     ui->t_left_val->setPalette(Qt::red);
 }
@@ -48,17 +48,20 @@ MainWindow::~MainWindow()
 void MainWindow::updateProgBar()
 {
     bool searching = false;
+    //check if any of the threads are still running
     for(int i=0; i<255 && !searching;i++)
     {
         searching = this->runAllTheThreads[i].isRunning();
     }
+
+    //reset UI if search is done
     if(!searching)
     {
+        ui->Scan4robot->setEnabled(true);
         ui->Scan4robot->setText("Scan for Robots");
         ui->scanProg->setValue(ui->scanProg->minimum());
-        this->timer3->stop();
+        this->progUpdateTimer->stop();
     }
-
 }
 
 void highSpeedNetMap::fastScanIps()
@@ -122,19 +125,19 @@ void highSpeedNetMap::fastScanIps()
             subNet.S_un.S_un_b.s_b1 = 0; //set leading bit to 0 so the result handler can tell this ip is invalid
             iResult = WSAGetLastError();
             if(iResult == WSAEADDRINUSE)
-                printf("addr already in use");
+                qDebug("addr already in use");
             else if(iResult ==WSAEINTR)
-                printf("The blocking Windows Socket 1.1 call was canceled through WSACancelBlockingCall.");
+                qDebug("The blocking Windows Socket 1.1 call was canceled through WSACancelBlockingCall.");
             else if(iResult ==WSAEINPROGRESS)
-                printf("A blocking Windows Sockets 1.1 call is in progress, or the service provider is still processing a callback function.");
+                qDebug("A blocking Windows Sockets 1.1 call is in progress, or the service provider is still processing a callback function.");
             else if(iResult == WSAEHOSTUNREACH)
-                printf("A socket operation was attempted to an unreachable host.");
+                qDebug("A socket operation was attempted to an unreachable host.");
             else if(iResult == WSAETIMEDOUT)
-                printf("An attempt to connect timed out without establishing a connection.");
+                qDebug("An attempt to connect timed out without establishing a connection.");
             else if(iResult == WSAECONNREFUSED)
-                printf("The attempt to connect was forcefully rejected.");
+                qDebug("The attempt to connect was forcefully rejected.");
             else
-                printf(QString::number(iResult).toLocal8Bit());
+                qDebug(QString::number(iResult).toLocal8Bit());
         }
         closesocket(ConnectSocket); //reset socket for next iteration
         ConnectSocket = INVALID_SOCKET;
@@ -175,7 +178,8 @@ void MainWindow::on_Scan4robot_clicked()
         }
 
         ui->Scan4robot->setText("Scanning");//change search button to let the user know the scan has started
-        this->timer3->start(250); //start periodic check to see if the scan is done
+        ui->Scan4robot->setEnabled(false); //prevent people from pressing the button again until the search is done. Re-enable in another function
+        this->progUpdateTimer->start(250); //start periodic check to see if the scan is done
     }
 }
 
@@ -281,7 +285,7 @@ void MainWindow::on_connect2robot_clicked()  //THIS MESS SHOULD BE MOVED TO IT'S
             int attempts = 0;
             char *stringLoc;
 
-            //attempt to enterrogate robot for the passphrase until the passphrase is returned or the max number of retries has been reched
+            //attempt to interrogate robot for the passphrase until the passphrase is returned or the max number of retries has been reched
             while( !(stringLoc = strstr(recvBuff, INTERROGATION_RESPONSE)) && attempts++ <MAX_INTERROGATION_RETRIES)
             {
                 send(currPlayer->socket, CLIENT_INTERROGATION_PHRASE, sizeof(CLIENT_INTERROGATION_PHRASE), 0);

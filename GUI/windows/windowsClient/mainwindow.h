@@ -39,9 +39,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     MatchStatus *status;
-    QTimer *timer1;
-    QTimer *timer2;
-    QTimer *timer3;
+    QTimer *joyUpdateTimer;
+    QTimer *joyUiTimer;
+    QTimer *progUpdateTimer;
     QThread workerThread;
     QThread runAllTheThreads[255];
     void debug(const char* input);
