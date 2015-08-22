@@ -36,11 +36,17 @@ void Client::receivedPacket()
 }
 void Client::connectToHost(QString addr)
 {
-    QHostAddress host(addr);
-    this->sock->connectToHost(host,2367);
+    address = new QHostAddress(addr);
+    this->sock->connectToHost(*address,2367);
 }
 void Client::successConnection()
 {
     qDebug() << "Connected to host";
+    qDebug() << "Client info";
+    qDebug() << "Peer " + this->sock->peerAddress().toString();
+    qDebug() << "Local port " + this->sock->localPort();
+    qDebug() << "Peer port " + this->sock->peerPort();
     this->connectedToHost = true;
+    QByteArray data = "name";
+    this->sock->writeDatagram(data,*address,2367);
 }

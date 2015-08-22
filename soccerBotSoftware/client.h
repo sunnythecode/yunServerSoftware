@@ -12,6 +12,7 @@ public:
 private:
     QUdpSocket *sock;
     bool connectedToHost;
+    QHostAddress *address;
 public slots:
     void receivedPacket();
     void connectToHost(QString addr);
