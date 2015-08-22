@@ -1,15 +1,15 @@
-#include "broadcast.h"
+#include "host.h"
 
-Broadcast::Broadcast()
+Host::Host()
 {
     sock = new QUdpSocket();
     sock->bind(2367);
 }
-Broadcast::~Broadcast()
+Host::~Host()
 {
 
 }
-void Broadcast::sendBroadcast()
+void Host::sendBroadcast()
 {
     QByteArray datagram;
     foreach (const QHostAddress &address, QNetworkInterface::allAddresses())

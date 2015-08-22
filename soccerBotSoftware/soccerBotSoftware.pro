@@ -14,12 +14,14 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-        broadcast.cpp \
-    client.cpp
+    client.cpp \
+    host.cpp \
+    udpsend.cpp
 
 HEADERS  += mainwindow.h \
-    broadcast.h \
-    client.h
+    client.h \
+    host.h \
+    udpsend.h
 
 FORMS    += mainwindow.ui
 

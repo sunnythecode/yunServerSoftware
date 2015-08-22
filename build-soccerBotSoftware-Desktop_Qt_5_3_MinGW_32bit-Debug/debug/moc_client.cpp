@@ -109,7 +109,7 @@ void Client::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
 }
 
 const QMetaObject Client::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_Client.data,
+    { &UdpSend::staticMetaObject, qt_meta_stringdata_Client.data,
       qt_meta_data_Client,  qt_static_metacall, 0, 0}
 };
 
@@ -124,12 +124,12 @@ void *Client::qt_metacast(const char *_clname)
     if (!_clname) return 0;
     if (!strcmp(_clname, qt_meta_stringdata_Client.stringdata))
         return static_cast<void*>(const_cast< Client*>(this));
-    return QObject::qt_metacast(_clname);
+    return UdpSend::qt_metacast(_clname);
 }
 
 int Client::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QObject::qt_metacall(_c, _id, _a);
+    _id = UdpSend::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {

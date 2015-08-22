@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QtNetwork>
-#include <broadcast.h>
+#include <host.h>
 #include <client.h>
 
 namespace Ui {
@@ -20,7 +20,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    Broadcast *udpBroadcast;
+    Host *udpBroadcast;
     Client *client;
     QTimer *timer;
 public slots:

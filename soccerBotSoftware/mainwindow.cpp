@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    udpBroadcast = new Broadcast();
+    udpBroadcast = new Host();
     timer = new QTimer();
     timer->setInterval(1000);
     connect(ui->actionStart_as_Host,SIGNAL(triggered()),timer,SLOT(start()));

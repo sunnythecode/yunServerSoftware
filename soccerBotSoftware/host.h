@@ -3,13 +3,14 @@
 
 #include <QObject>
 #include <QtNetwork>
+#include <udpsend.h>
 
-class Broadcast : public QObject
+class Host : public UdpSend
 {
     Q_OBJECT
 public:
-    Broadcast();
-    ~Broadcast();
+    Host();
+    ~Host();
 public slots:
     void sendBroadcast();
 private:

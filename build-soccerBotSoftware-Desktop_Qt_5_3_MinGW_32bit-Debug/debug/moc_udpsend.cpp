@@ -1,16 +1,16 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'broadcast.h'
+** Meta object code from reading C++ file 'udpsend.h'
 **
 ** Created by: The Qt Meta Object Compiler version 67 (Qt 5.3.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../soccerBotSoftware/broadcast.h"
+#include "../../soccerBotSoftware/udpsend.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'broadcast.h' doesn't include <QObject>."
+#error "The header file 'udpsend.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
 #error "This file was generated using the moc from 5.3.2. It"
 #error "cannot be used with the include files from this version of Qt."
@@ -18,26 +18,30 @@
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
-struct qt_meta_stringdata_Broadcast_t {
-    QByteArrayData data[3];
-    char stringdata[25];
+struct qt_meta_stringdata_UdpSend_t {
+    QByteArrayData data[6];
+    char stringdata[41];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Broadcast_t, stringdata) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_UdpSend_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
-static const qt_meta_stringdata_Broadcast_t qt_meta_stringdata_Broadcast = {
+static const qt_meta_stringdata_UdpSend_t qt_meta_stringdata_UdpSend = {
     {
-QT_MOC_LITERAL(0, 0, 9),
-QT_MOC_LITERAL(1, 10, 13),
-QT_MOC_LITERAL(2, 24, 0)
+QT_MOC_LITERAL(0, 0, 7),
+QT_MOC_LITERAL(1, 8, 8),
+QT_MOC_LITERAL(2, 17, 0),
+QT_MOC_LITERAL(3, 18, 4),
+QT_MOC_LITERAL(4, 23, 12),
+QT_MOC_LITERAL(5, 36, 4)
     },
-    "Broadcast\0sendBroadcast\0"
+    "UdpSend\0sendVals\0\0data\0QHostAddress\0"
+    "host"
 };
 #undef QT_MOC_LITERAL
 
-static const uint qt_meta_data_Broadcast[] = {
+static const uint qt_meta_data_UdpSend[] = {
 
  // content:
        7,       // revision
@@ -51,46 +55,45 @@ static const uint qt_meta_data_Broadcast[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   19,    2, 0x0a /* Public */,
+       1,    2,   19,    2, 0x0a /* Public */,
 
  // slots: parameters
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::QString, 0x80000000 | 4,    3,    5,
 
        0        // eod
 };
 
-void Host::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void UdpSend::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        Host *_t = static_cast<Host *>(_o);
+        UdpSend *_t = static_cast<UdpSend *>(_o);
         switch (_id) {
-        case 0: _t->sendBroadcast(); break;
+        case 0: _t->sendVals((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QHostAddress(*)>(_a[2]))); break;
         default: ;
         }
     }
-    Q_UNUSED(_a);
 }
 
-const QMetaObject Host::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_Broadcast.data,
-      qt_meta_data_Broadcast,  qt_static_metacall, 0, 0}
+const QMetaObject UdpSend::staticMetaObject = {
+    { &QObject::staticMetaObject, qt_meta_stringdata_UdpSend.data,
+      qt_meta_data_UdpSend,  qt_static_metacall, 0, 0}
 };
 
 
-const QMetaObject *Host::metaObject() const
+const QMetaObject *UdpSend::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *Host::qt_metacast(const char *_clname)
+void *UdpSend::qt_metacast(const char *_clname)
 {
     if (!_clname) return 0;
-    if (!strcmp(_clname, qt_meta_stringdata_Broadcast.stringdata))
-        return static_cast<void*>(const_cast< Host*>(this));
+    if (!strcmp(_clname, qt_meta_stringdata_UdpSend.stringdata))
+        return static_cast<void*>(const_cast< UdpSend*>(this));
     return QObject::qt_metacast(_clname);
 }
 
-int Host::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int UdpSend::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QObject::qt_metacall(_c, _id, _a);
     if (_id < 0)

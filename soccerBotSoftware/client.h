@@ -2,8 +2,9 @@
 #define CLIENT_H
 #include <QObject>
 #include <QtNetwork>
+#include <udpsend.h>
 
-class Client : public QObject
+class Client : public UdpSend
 {
     Q_OBJECT
 public:
