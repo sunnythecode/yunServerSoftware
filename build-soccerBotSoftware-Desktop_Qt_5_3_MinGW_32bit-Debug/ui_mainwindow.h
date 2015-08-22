@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
@@ -24,7 +25,9 @@
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
+#include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QToolBar>
+#include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -76,6 +79,14 @@ public:
     QLabel *txt_game_p6_robcom;
     QLabel *txt_game_p6_joystick;
     QWidget *tb_p1;
+    QWidget *layoutWidget4;
+    QVBoxLayout *verticalLayout;
+    QTextBrowser *textBrowser;
+    QHBoxLayout *horizontalLayout_3;
+    QComboBox *comboBox;
+    QPushButton *pushButton_2;
+    QPushButton *pushButton;
+    QToolButton *toolButton;
     QWidget *tb_p2;
     QWidget *tb_p3;
     QWidget *tb_p4;
@@ -363,6 +374,51 @@ public:
         mainTabs->addTab(tb_game, QString());
         tb_p1 = new QWidget();
         tb_p1->setObjectName(QStringLiteral("tb_p1"));
+        layoutWidget4 = new QWidget(tb_p1);
+        layoutWidget4->setObjectName(QStringLiteral("layoutWidget4"));
+        layoutWidget4->setGeometry(QRect(10, 10, 551, 361));
+        verticalLayout = new QVBoxLayout(layoutWidget4);
+        verticalLayout->setSpacing(10);
+        verticalLayout->setContentsMargins(11, 11, 11, 11);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        verticalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
+        verticalLayout->setContentsMargins(10, 10, 10, 10);
+        textBrowser = new QTextBrowser(layoutWidget4);
+        textBrowser->setObjectName(QStringLiteral("textBrowser"));
+
+        verticalLayout->addWidget(textBrowser);
+
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setSpacing(6);
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        comboBox = new QComboBox(layoutWidget4);
+        comboBox->setObjectName(QStringLiteral("comboBox"));
+        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(180);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(comboBox->sizePolicy().hasHeightForWidth());
+        comboBox->setSizePolicy(sizePolicy1);
+
+        horizontalLayout_3->addWidget(comboBox);
+
+        pushButton_2 = new QPushButton(layoutWidget4);
+        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
+
+        horizontalLayout_3->addWidget(pushButton_2);
+
+        pushButton = new QPushButton(layoutWidget4);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+
+        horizontalLayout_3->addWidget(pushButton);
+
+        toolButton = new QToolButton(layoutWidget4);
+        toolButton->setObjectName(QStringLiteral("toolButton"));
+
+        horizontalLayout_3->addWidget(toolButton);
+
+
+        verticalLayout->addLayout(horizontalLayout_3);
+
         mainTabs->addTab(tb_p1, QString());
         tb_p2 = new QWidget();
         tb_p2->setObjectName(QStringLiteral("tb_p2"));
@@ -434,6 +490,9 @@ public:
         txt_game_p6_robcom->setText(QApplication::translate("MainWindow", "Robot Communication", 0));
         txt_game_p6_joystick->setText(QApplication::translate("MainWindow", "Joystick", 0));
         mainTabs->setTabText(mainTabs->indexOf(tb_game), QApplication::translate("MainWindow", "Game", 0));
+        pushButton_2->setText(QApplication::translate("MainWindow", "Link Robot", 0));
+        pushButton->setText(QApplication::translate("MainWindow", "Link Controller", 0));
+        toolButton->setText(QApplication::translate("MainWindow", "...", 0));
         mainTabs->setTabText(mainTabs->indexOf(tb_p1), QApplication::translate("MainWindow", "Player1", 0));
         mainTabs->setTabText(mainTabs->indexOf(tb_p2), QApplication::translate("MainWindow", "Player2", 0));
         mainTabs->setTabText(mainTabs->indexOf(tb_p3), QApplication::translate("MainWindow", "Player 3", 0));

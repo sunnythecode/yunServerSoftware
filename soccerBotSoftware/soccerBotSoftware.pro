@@ -13,9 +13,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+        broadcast.cpp \
+    client.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    broadcast.h \
+    client.h
 
 FORMS    += mainwindow.ui
 

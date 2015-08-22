@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QtNetwork>
+#include <broadcast.h>
+#include <client.h>
 
 namespace Ui {
 class MainWindow;
@@ -18,6 +20,11 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    Broadcast *udpBroadcast;
+    Client *client;
+    QTimer *timer;
+public slots:
+    void startClient();
 };
 
 #endif // MAINWINDOW_H
