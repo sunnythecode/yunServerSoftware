@@ -2,11 +2,13 @@
 
 Host::Host()
 {
-    sock = new QUdpSocket();
-    sock->bind(2367);
+    this->sock = new QUdpSocket();
+    this->sock->bind(2367);
 }
 Host::~Host()
 {
+    this->sock->close();
+    delete this->sock;
 
 }
 void Host::sendBroadcast()
