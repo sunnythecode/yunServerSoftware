@@ -16,12 +16,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     client.cpp \
     host.cpp \
-    udpsend.cpp
+    udpsend.cpp \
+    joystickhandler.cpp
 
 HEADERS  += mainwindow.h \
     client.h \
     host.h \
-    udpsend.h
+    udpsend.h \
+    joystickhandler.h
 
 FORMS    += mainwindow.ui
 
