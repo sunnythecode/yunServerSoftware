@@ -9,7 +9,6 @@ Host::~Host()
 {
     this->sock->close();
     delete this->sock;
-
 }
 void Host::sendBroadcast()
 {
@@ -21,8 +20,6 @@ void Host::sendBroadcast()
              datagram.append(address.toString());
              //qDebug() << address.toString();
         }
-
     }
     sock->writeDatagram(datagram,QHostAddress::Broadcast,400);
-
 }
