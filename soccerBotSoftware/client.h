@@ -10,6 +10,8 @@ class Client : public UdpSend
 public:
     Client();
     ~Client();
+
+    bool isConnected();
 private:
     QUdpSocket *sock;
     bool connectedToHost;

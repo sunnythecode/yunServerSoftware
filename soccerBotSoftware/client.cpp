@@ -2,6 +2,7 @@
 
 Client::Client()
 {
+    this->connectedToHost = false;
     this->sock = new QUdpSocket();
     this->sock->bind(400);
     connect(this->sock,SIGNAL(readyRead()),this,SLOT(receivedPacket()));
@@ -54,4 +55,10 @@ void Client::successConnection()
     this->connectedToHost = true;
     QByteArray data = "name";
     this->sock->writeDatagram(data,*address,2367);
+}
+
+
+bool Client::isConnected()
+{
+    return this->connectedToHost;
 }

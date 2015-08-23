@@ -25,6 +25,8 @@ private:
     QTimer *timer;
 public slots:
     void startClient();
+    void check4Host();
+    void startHost();
 };
 
 #endif // MAINWINDOW_H
