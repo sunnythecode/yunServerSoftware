@@ -1,6 +1,6 @@
 #include "joystickhandler.h"
 
-joyStickHandler::joyStickHandler()
+JoyStickHandler::JoyStickHandler()
 {
     this->axisCount =6;
     this->axisVal = new int16_t[this->axisCount];
@@ -12,6 +12,6 @@ joyStickHandler::joyStickHandler()
     this->buttonVal[0].indvBttn.bttn4 =false;
 }
 
-joyStickHandler::~joyStickHandler()
+JoyStickHandler::~JoyStickHandler()
 {
 }

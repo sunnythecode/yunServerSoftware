@@ -28,7 +28,7 @@ typedef union
   unsigned char bttns;
 }buttonArry;
 
-class joyStickHandler
+class JoyStickHandler
 {
 private:
    int axisCount;
@@ -37,8 +37,8 @@ private:
    buttonArry *buttonVal;
 
 public:
-    joyStickHandler();
-    ~joyStickHandler();
+    JoyStickHandler();
+    ~JoyStickHandler();
 };
 
 #endif // JOYSTICKHANDLER_H
