@@ -18,7 +18,7 @@ void Host::sendBroadcast()
         if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost))
         {
              datagram.append(address.toString());
-             //qDebug() << address.toString();
+             D_MSG(address.toString());
         }
     }
     sock->writeDatagram(datagram,QHostAddress::Broadcast,400);
