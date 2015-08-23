@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     udpBroadcast = new Host();
     timer = new QTimer();
     timer->setInterval(1000);
+
     connect(ui->actionStart_as_Host,SIGNAL(triggered()),timer,SLOT(start()));
     connect(timer,SIGNAL(timeout()),udpBroadcast,SLOT(sendBroadcast()));
     connect(ui->actionStart_as_Player,SIGNAL(triggered()),this,SLOT(startClient()));

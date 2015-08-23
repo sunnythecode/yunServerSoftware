@@ -11,8 +11,13 @@ Client::Client()
 }
 Client::~Client()
 {
-
+    disconnect(this->sock, SIGNAL(readyRead()), this, SLOT(receivedPacket()));
+    disconnect(this,SIGNAL(connectRequest(QString)),this,SLOT(connectToHost(QString)));
+    connect(this->sock,SIGNAL(connected()),this,SLOT(successConnection()));
+    this->sock->close();
+    delete this->sock;
 }
+
 void Client::receivedPacket()
 {
     while(this->sock->hasPendingDatagrams())
