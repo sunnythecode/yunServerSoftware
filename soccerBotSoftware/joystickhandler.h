@@ -6,7 +6,10 @@
 #define JOYSTICK_NOT_CONNECTED -10
 
 #if defined(__WIN32) || defined(__WIN64) || defined(__WINNT)
-#include <xinput.h>
+    #define WIN32_LEAN_AND_MEAN
+    #include <windows.h>
+    #include<xinput.h>
+    #pragma message( "This version of the library is designed for xbox 360 controllers and requires XInput" )
 #elif __linux
 #elif __APPLE__
 #endif
@@ -64,6 +67,9 @@ public:
     void initJoystick(int index);
     void updateJoystick();
     void rumbleJoystick(unsigned int lMtr, unsigned int rMtr);
+
+signals:
+    void joystickMissing(int index);
 };
 
 #endif // JOYSTICKHANDLER_H
