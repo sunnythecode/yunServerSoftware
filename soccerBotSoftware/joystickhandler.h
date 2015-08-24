@@ -3,13 +3,12 @@
 
 #include<stdint.h>
 
+#define JOYSTICK_NOT_CONNECTED -10
+
 #if defined(__WIN32) || defined(__WIN64) || defined(__WINNT)
 #include <xinput.h>
-//#include <windowsJoystick.h>
 #elif __linux
-#include <linuxJoystick.h>
 #elif __APPLE__
-#include <osxJoystick.h>
 #endif
 
 typedef union
@@ -31,7 +30,13 @@ typedef union
     bool X              : 1;
     bool Y              : 1;
   }indvBttn;
+  struct
+  {
+      uint8_t uByte;
+      uint8_t lByte;
+  }byte;
   uint16_t bttns;
+
 }buttonArry;
 
 class JoyStickHandler
@@ -42,14 +47,14 @@ private:
    int buttonCount;
    buttonArry *buttonVal;
 
-#if defined(__WIN32) || defined(__WIN64) || defined(__WINNT)
-    int joy_dx_index;
-    XINPUT_STATE controller;
-#elif __linux
+    #if defined(__WIN32) || defined(__WIN64) || defined(__WINNT)
+        int joy_dx_index;
+        XINPUT_STATE controller;
+    #elif __linux
 
-#elif __APPLE__
+    #elif __APPLE__
 
-#endif
+    #endif
 
 public:
     JoyStickHandler();
@@ -58,6 +63,7 @@ public:
     int16_t readAxis(int index);
     void initJoystick(int index);
     void updateJoystick();
+    void rumbleJoystick(unsigned int lMtr, unsigned int rMtr);
 };
 
 #endif // JOYSTICKHANDLER_H
