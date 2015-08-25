@@ -3,13 +3,14 @@
 JoyStickHandler::JoyStickHandler()
 {
 #if defined(__WIN32) || defined(__WIN64) || defined(__WINNT)
-    XInputEnable(TRUE); //make sure xinput is enabled
+    XInputEnable(TRUE); /*make sure xinput is enabled*/
 #elif __linux
 
 #elif __APPLE__
 
 #endif
 
+    //set up joystick assuming xbox 360 controller
     this->joy_dx_index = JOYSTICK_NOT_CONNECTED;
     this->axisCount =6;
     this->axisVal = new int16_t[this->axisCount];
@@ -73,7 +74,7 @@ void JoyStickHandler::rumbleJoystick(unsigned int lMtr, unsigned int rMtr)
 
         if(XInputSetState(this->joy_dx_index, &val) == ERROR_DEVICE_NOT_CONNECTED)
         {
-            emit joystickMissing();
+            emit joystickMissing(this->joy_dx_index);
         }
     }
 }

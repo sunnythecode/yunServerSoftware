@@ -2,6 +2,7 @@
 #define JOYSTICKHANDLER_H
 
 #include<stdint.h>
+#include <QObject>
 
 #define JOYSTICK_NOT_CONNECTED -10
 
@@ -35,15 +36,16 @@ typedef union
   }indvBttn;
   struct
   {
-      uint8_t uByte;
       uint8_t lByte;
+      uint8_t hByte;
   }byte;
   uint16_t bttns;
 
 }buttonArry;
 
-class JoyStickHandler
+class JoyStickHandler :  public QObject
 {
+    Q_OBJECT
 private:
    int axisCount;
    int16_t *axisVal;
