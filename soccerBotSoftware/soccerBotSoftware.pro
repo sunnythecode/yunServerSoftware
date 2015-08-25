@@ -28,3 +28,4 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui
 
 QT += network
+win32: LIBS += -lXinput
