@@ -23,3 +23,7 @@ void Host::sendBroadcast()
     }
     sock->writeDatagram(datagram,QHostAddress::Broadcast,400);
 }
+void Host::sendGameSync()
+{
+
+}

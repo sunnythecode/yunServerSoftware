@@ -1,9 +1,10 @@
 #ifndef GAMESYNC_H
 #define GAMESYNC_H
 
-
-class GameSync
+#include<QTimer>
+class GameSync : public QObject
 {
+    Q_OBJECT
 public:
     GameSync();
     QTimer startUpdating;
