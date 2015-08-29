@@ -23,6 +23,7 @@ public:
     ~Host();
 public slots:
     void sendBroadcast();
+    void sendGameSync();
 private:
     QUdpSocket *sock;
 };

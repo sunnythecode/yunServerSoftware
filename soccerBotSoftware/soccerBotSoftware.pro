@@ -17,13 +17,23 @@ SOURCES += main.cpp\
     client.cpp \
     host.cpp \
     udpsend.cpp \
+<<<<<<< Updated upstream \
+    gamedata.cpp
     joystickhandler.cpp
+=======
+    gamesync.cpp
+>>>>>>> Stashed changes
 
 HEADERS  += mainwindow.h \
     client.h \
     host.h \
     udpsend.h \
+<<<<<<< Updated upstream \
+    gamedata.h
     joystickhandler.h
+=======
+    gamesync.h
+>>>>>>> Stashed changes
 
 FORMS    += mainwindow.ui
 
