@@ -10,7 +10,6 @@ MainWindow::MainWindow(QWidget *parent) :
     this->timer = new QTimer();
     this->timer->setInterval(1000);
 
-
     connect(ui->actionStart_as_Host,SIGNAL(triggered()),this,SLOT(check4Host()));
     connect(ui->actionStart_as_Player,SIGNAL(triggered()),this,SLOT(startClient()));
 }

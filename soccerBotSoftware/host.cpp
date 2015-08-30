@@ -21,5 +21,11 @@ void Host::sendBroadcast()
              D_MSG(address.toString());
         }
     }
-    sock->writeDatagram(datagram,QHostAddress::Broadcast,400);
+    sock->writeDatagram(datagram, QHostAddress::Broadcast,400);
+}
+
+void Host::sendGameSync()
+{
+
+    //sock->writeDatagram()
 }

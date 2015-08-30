@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QtNetwork>
 #include <udpsend.h>
+#include <gamedata.h>
+#include <gamesync.h>
 
 #define DEBUG /* comment out this line to lower the verbosity of the program */
 
@@ -26,6 +28,8 @@ public slots:
     void sendGameSync();
 private:
     QUdpSocket *sock;
+    GameData *gameData;
+    GameSync *gameSync;
 };
 
 #endif // BROADCAST_H

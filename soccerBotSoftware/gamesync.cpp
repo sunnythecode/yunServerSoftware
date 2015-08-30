@@ -5,8 +5,5 @@ GameSync::GameSync()
 
 }
 
-void GameSync::updateGameInfo() {
-
-}
 
 
