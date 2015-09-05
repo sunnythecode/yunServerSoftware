@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     this->timer = new QTimer();
     this->timer->setInterval(1000);
 
+    qDebug("NEEDS RESIZING: Start match, force start, and stop match buttons are too small on Mac");
+
     connect(ui->actionStart_as_Host,SIGNAL(triggered()),this,SLOT(check4Host()));
     connect(ui->actionStart_as_Player,SIGNAL(triggered()),this,SLOT(startClient()));
 }

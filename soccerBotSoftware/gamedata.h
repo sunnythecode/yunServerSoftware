@@ -3,6 +3,7 @@
 #include <QObject>
 #include <QTimer>
 #include <QtNetwork>
+#include <udpsend.h>
 
 class GameData : public QObject
 {
@@ -14,19 +15,26 @@ public:
 
     QTimer gameDataTimer;
 
-    int getGameTime();
+    float getGameTime();
     int  getGameSyncs();
-    void setGameTime(int time);
+    void setGameTime(float time);
     void setGameSyncs(int syncs);
 
-    void startUpdatingGame();
+    void startGameUpdates();
+    void endGameUpdates();
 public slots:
-    //void updateGameData();
+    void updateGameData();
 
 private:
-   int gameTime;
+   float gameTime;
    int gameSyncs;
+   QString robotNames[6];
+   bool joystickConnections[6];
+   char clientConnections[6];
+   int robotConnections[6];
 
+   QUdpSocket *socket;
+   UdpSend *udpSender;
 };
 
 #endif // GAMEDATA_H

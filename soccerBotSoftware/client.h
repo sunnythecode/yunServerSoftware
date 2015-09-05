@@ -20,6 +20,7 @@ public slots:
     void receivedPacket();
     void connectToHost(QString addr);
     void successConnection();
+
 signals:
     void connectRequest(QString);
     void formattedPacket(QString);

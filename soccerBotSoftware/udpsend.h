@@ -10,7 +10,8 @@ public:
     explicit UdpSend();
     ~UdpSend();
 public slots:
-    void sendVals(QString data, QHostAddress host);
+    //void sendVals(QString data, QHostAddress host);
+    void sendVals(QString data);
 };
 
 #endif // UDPSEND_H
