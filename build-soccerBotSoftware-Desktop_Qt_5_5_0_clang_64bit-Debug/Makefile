@@ -56,7 +56,8 @@ SOURCES       = ../soccerBotSoftware/main.cpp \
 		../soccerBotSoftware/gamedata.cpp moc_mainwindow.cpp \
 		moc_client.cpp \
 		moc_host.cpp \
-		moc_udpsend.cpp
+		moc_udpsend.cpp \
+		moc_gamedata.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		client.o \
@@ -66,7 +67,8 @@ OBJECTS       = main.o \
 		moc_mainwindow.o \
 		moc_client.o \
 		moc_host.o \
-		moc_udpsend.o
+		moc_udpsend.o \
+		moc_gamedata.o
 DIST          = ../../../../Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt/5.5/clang_64/mkspecs/qdevice.pri \
 		../../../../Qt/5.5/clang_64/mkspecs/features/device_config.prf \
@@ -600,9 +602,9 @@ compiler_objective_c_make_all:
 compiler_objective_c_clean:
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_client.cpp moc_host.cpp moc_udpsend.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_client.cpp moc_host.cpp moc_udpsend.cpp moc_gamedata.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_client.cpp moc_host.cpp moc_udpsend.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_client.cpp moc_host.cpp moc_udpsend.cpp moc_gamedata.cpp
 moc_mainwindow.cpp: ../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/QtNetwork \
@@ -645,9 +647,9 @@ moc_mainwindow.cpp: ../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../soccerBotSoftware/udpsend.h \
 		../soccerBotSoftware/gamedata.h \
-		../soccerBotSoftware/gamesync.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QTimer \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qtimer.h \
+		../soccerBotSoftware/gamesync.h \
 		../soccerBotSoftware/client.h \
 		../soccerBotSoftware/mainwindow.h
 	/Users/sameervijay/Qt/5.5/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/sameervijay/Qt/5.5/clang_64/mkspecs/macx-clang -I/Users/sameervijay/Documents/Git/yunServerSoftware/soccerBotSoftware -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtWidgets.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtGui.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtNetwork.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtCore.framework/Headers -I. -F/Users/sameervijay/Qt/5.5/clang_64/lib ../soccerBotSoftware/mainwindow.h -o moc_mainwindow.cpp
@@ -732,9 +734,9 @@ moc_host.cpp: ../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QObject \
 		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qtnetworkversion.h \
 		../soccerBotSoftware/udpsend.h \
 		../soccerBotSoftware/gamedata.h \
-		../soccerBotSoftware/gamesync.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QTimer \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qtimer.h \
+		../soccerBotSoftware/gamesync.h \
 		../soccerBotSoftware/host.h
 	/Users/sameervijay/Qt/5.5/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/sameervijay/Qt/5.5/clang_64/mkspecs/macx-clang -I/Users/sameervijay/Documents/Git/yunServerSoftware/soccerBotSoftware -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtWidgets.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtGui.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtNetwork.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtCore.framework/Headers -I. -F/Users/sameervijay/Qt/5.5/clang_64/lib ../soccerBotSoftware/host.h -o moc_host.cpp
 
@@ -777,6 +779,48 @@ moc_udpsend.cpp: ../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QObjec
 		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qtnetworkversion.h \
 		../soccerBotSoftware/udpsend.h
 	/Users/sameervijay/Qt/5.5/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/sameervijay/Qt/5.5/clang_64/mkspecs/macx-clang -I/Users/sameervijay/Documents/Git/yunServerSoftware/soccerBotSoftware -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtWidgets.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtGui.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtNetwork.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtCore.framework/Headers -I. -F/Users/sameervijay/Qt/5.5/clang_64/lib ../soccerBotSoftware/udpsend.h -o moc_udpsend.cpp
+
+moc_gamedata.cpp: ../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QObject \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QTimer \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qtimer.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/QtNetwork \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qabstractnetworkcache.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qhttpmultipart.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworkaccessmanager.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworkcookie.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworkcookiejar.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworkdiskcache.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworkreply.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworkrequest.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworkconfigmanager.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworkconfiguration.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworksession.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qauthenticator.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qdnslookup.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qhostaddress.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qhostinfo.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworkinterface.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworkproxy.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qabstractsocket.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qlocalserver.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qlocalsocket.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qtcpserver.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qtcpsocket.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qudpsocket.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qssl.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslcertificate.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslcertificateextension.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslcipher.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslconfiguration.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslellipticcurve.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslerror.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslkey.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslpresharedkeyauthenticator.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslsocket.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qtnetworkversion.h \
+		../soccerBotSoftware/gamedata.h
+	/Users/sameervijay/Qt/5.5/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/sameervijay/Qt/5.5/clang_64/mkspecs/macx-clang -I/Users/sameervijay/Documents/Git/yunServerSoftware/soccerBotSoftware -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtWidgets.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtGui.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtNetwork.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtCore.framework/Headers -I. -F/Users/sameervijay/Qt/5.5/clang_64/lib ../soccerBotSoftware/gamedata.h -o moc_gamedata.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -841,9 +885,9 @@ main.o: ../soccerBotSoftware/main.cpp ../soccerBotSoftware/mainwindow.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../soccerBotSoftware/udpsend.h \
 		../soccerBotSoftware/gamedata.h \
-		../soccerBotSoftware/gamesync.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QTimer \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qtimer.h \
+		../soccerBotSoftware/gamesync.h \
 		../soccerBotSoftware/client.h \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/QApplication \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/qapplication.h
@@ -892,9 +936,9 @@ mainwindow.o: ../soccerBotSoftware/mainwindow.cpp ../soccerBotSoftware/mainwindo
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../soccerBotSoftware/udpsend.h \
 		../soccerBotSoftware/gamedata.h \
-		../soccerBotSoftware/gamesync.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QTimer \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qtimer.h \
+		../soccerBotSoftware/gamesync.h \
 		../soccerBotSoftware/client.h \
 		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../soccerBotSoftware/mainwindow.cpp
@@ -980,9 +1024,9 @@ host.o: ../soccerBotSoftware/host.cpp ../soccerBotSoftware/host.h \
 		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qtnetworkversion.h \
 		../soccerBotSoftware/udpsend.h \
 		../soccerBotSoftware/gamedata.h \
-		../soccerBotSoftware/gamesync.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QTimer \
-		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qtimer.h
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qtimer.h \
+		../soccerBotSoftware/gamesync.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o host.o ../soccerBotSoftware/host.cpp
 
 udpsend.o: ../soccerBotSoftware/udpsend.cpp ../soccerBotSoftware/udpsend.h \
@@ -1025,7 +1069,46 @@ udpsend.o: ../soccerBotSoftware/udpsend.cpp ../soccerBotSoftware/udpsend.h \
 		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qtnetworkversion.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o udpsend.o ../soccerBotSoftware/udpsend.cpp
 
-gamedata.o: ../soccerBotSoftware/gamedata.cpp ../soccerBotSoftware/gamedata.h
+gamedata.o: ../soccerBotSoftware/gamedata.cpp ../soccerBotSoftware/gamedata.h \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QObject \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QTimer \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qtimer.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/QtNetwork \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qabstractnetworkcache.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qhttpmultipart.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworkaccessmanager.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworkcookie.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworkcookiejar.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworkdiskcache.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworkreply.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworkrequest.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworkconfigmanager.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworkconfiguration.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworksession.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qauthenticator.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qdnslookup.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qhostaddress.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qhostinfo.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworkinterface.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qnetworkproxy.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qabstractsocket.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qlocalserver.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qlocalsocket.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qtcpserver.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qtcpsocket.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qudpsocket.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qssl.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslcertificate.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslcertificateextension.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslcipher.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslconfiguration.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslellipticcurve.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslerror.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslkey.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslpresharedkeyauthenticator.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslsocket.h \
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qtnetworkversion.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gamedata.o ../soccerBotSoftware/gamedata.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
@@ -1039,6 +1122,9 @@ moc_host.o: moc_host.cpp
 
 moc_udpsend.o: moc_udpsend.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_udpsend.o moc_udpsend.cpp
+
+moc_gamedata.o: moc_gamedata.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_gamedata.o moc_gamedata.cpp
 
 ####### Install
 

@@ -1,6 +1,6 @@
 #ifndef GAMEDATA_H
 #define GAMEDATA_H
-#include<QObject>
+#include <QObject>
 #include <QTimer>
 #include <QtNetwork>
 
@@ -21,7 +21,7 @@ public:
 
     void startUpdatingGame();
 public slots:
-    void updateGameData();
+    //void updateGameData();
 
 private:
    int gameTime;
