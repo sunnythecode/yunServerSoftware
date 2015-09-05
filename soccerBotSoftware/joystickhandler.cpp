@@ -4,6 +4,7 @@ JoyStickHandler::JoyStickHandler()
 {
 #if defined(__WIN32) || defined(__WIN64) || defined(__WINNT)
     XInputEnable(TRUE); /*make sure xinput is enabled*/
+     this->joy_dx_index = JOYSTICK_NOT_CONNECTED;
 #elif __linux
 
 #elif __APPLE__
@@ -11,7 +12,6 @@ JoyStickHandler::JoyStickHandler()
 #endif
 
     //set up joystick assuming xbox 360 controller
-    this->joy_dx_index = JOYSTICK_NOT_CONNECTED;
     this->axisCount =6;
     this->axisVal = new int16_t[this->axisCount];
     this->buttonCount = 14;
@@ -82,11 +82,38 @@ void JoyStickHandler::rumbleJoystick(unsigned int lMtr, unsigned int rMtr)
 #elif __linux
 void JoyStickHandler::initJoystick(int index)
 {
+    QString location = "/dev/input/js" + index;
+    if( ( this->joy_fd = open( location.toUtf8().data(), O_RDONLY)) == -1 )
+    {
+        D_MSG( "Couldn't open joystick\n" );
+        emit joystickMissing(index);
+    }
+    ioctl( this->joy_fd, JSIOCGAXES, &this->num_of_axis );
+    ioctl( this->joy_fd, JSIOCGBUTTONS, &this->num_of_buttons );
+    ioctl( this->joy_fd, JSIOCGNAME(80), &this->name_of_joystick );
 
+    this->axis = (int *) calloc( this->num_of_axis, sizeof( int ) );
+    this->button = (char *) calloc( this->num_of_buttons, sizeof( char ) );
+
+    D_MSG("Joystick detected");
+
+    fcntl( this->joy_fd, F_SETFL, O_NONBLOCK );   /* use non-blocking mode */
 }
 
 void JoyStickHandler::updateJoystick()
 {
+    read(this->joy_fd, &this->js, sizeof(struct js_event));
+
+                        /* see what to do with the event */
+    switch (this->js.type & ~JS_EVENT_INIT)
+    {
+    case JS_EVENT_AXIS:
+        this->axis   [ this->js.number ] = this->js.value;
+        break;
+    case JS_EVENT_BUTTON:
+        this->button [ this->js.number ] = this->js.value;
+        break;
+    }
 
 }
 
