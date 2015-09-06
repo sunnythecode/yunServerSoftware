@@ -17,8 +17,9 @@ public:
 
     float getGameTime();
     int  getGameSyncs();
-    void setGameTime(float time);
-    void setGameSyncs(int syncs);
+
+    int* getJSConnections();
+    int* getClientConnections();
 
     void startGameUpdates();
     void endGameUpdates();
