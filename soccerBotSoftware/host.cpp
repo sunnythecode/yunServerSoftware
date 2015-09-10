@@ -3,7 +3,8 @@
 Host::Host()
 {
     this->sock = new QUdpSocket();
-    this->sock->bind(2367);
+    this->sock->bind(HOST_LISTENING_PORT);
+    connect(this->sock, SIGNAL(readyRead()), this, SLOT(readData()));
 }
 Host::~Host()
 {
@@ -21,9 +22,20 @@ void Host::sendBroadcast()
              D_MSG(address.toString());
         }
     }
-    sock->writeDatagram(datagram,QHostAddress::Broadcast,400);
+    sock->writeDatagram(datagram,QHostAddress::Broadcast,BROADCAST_PORT);
 }
 void Host::sendGameSync()
 {
 
+}
+
+void Host::readData()
+{
+    QByteArray datagram;
+    datagram.resize(this->sock->pendingDatagramSize());
+    QHostAddress sender;
+    quint16 senderPort;
+
+    this->sock->readDatagram(datagram.data(), datagram.size(),&sender, &senderPort);
+    D_MSG(datagram.data());
 }

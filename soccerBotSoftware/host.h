@@ -5,6 +5,9 @@
 #include <QtNetwork>
 #include <udpsend.h>
 
+#define BROADCAST_PORT 470
+#define HOST_LISTENING_PORT 2379
+
 #define DEBUG /* comment out this line to lower the verbosity of the program */
 
 
@@ -24,6 +27,7 @@ public:
 public slots:
     void sendBroadcast();
     void sendGameSync();
+    void readData();
 private:
     QUdpSocket *sock;
 };
