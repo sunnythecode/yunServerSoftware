@@ -5,7 +5,7 @@ from Queue import Queue
 from threading import Thread
  
 PORT = 2367 # Game host port
-BROADCAST_PORT = 8900 # Broadcast port
+BROADCAST_PORT = 470 # Broadcast port
 BROADCAST_IP = '' # Symbolic name, meaning all available interfaces
 
 FLAG_ARDUINO_CONNECT = True
@@ -32,10 +32,10 @@ def broadcastListener():
     try:
         bCastSock.bind((BROADCAST_IP, BROADCAST_PORT))
     except socket.error as msg:
-        print 'Broadcast bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
+        bCastSock.close()
+        print 'Broadcast bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]  
         sys.exit()
      
-
     while True:    
         data =  bCastSock.recv(1500) # buffer size is 1500 bytes
         if check4keepAlive(data) == True:
@@ -45,6 +45,11 @@ def broadcastListener():
             broadcastQueue.put(LOST_BROADCAST_CONNECTION)
         time.sleep(.1)
 
+def arduinoCommRead():
+    return "data" #add serial code later
+def arduinoCommWrite(data):
+    pass #add serial code later
+
 #start program
 mainQueue = Queue()
 broadcastQueue = Queue()
@@ -52,17 +57,48 @@ broadcastQueue = Queue()
 t1 = Thread(target=broadcastListener, args=())
 t1.start()
 
+#set up socket for connection to host
+
 while  True:
-    #set up socket for connection to host
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     print 'waiting for host broadcast.'
-    host = broadcastQueue.get(True)
-    print host
+    host = broadcastQueue.get(True) #block until there is data from the broadcast thread
+    validIp = True
+
     try:
-        s.bind((host, PORT))
-    except socket.error as msg:
-        print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
+        socket.inet_aton(host)
+    except socket.error:
+        validIp = False
+        
+    if validIp:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        try:
+            s.bind((host, PORT))
+        except socket.error as msg:
+            s.close()
+            print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
+        else:
+            fKeepAlive = True
+            keepAliveHolder = time.time()
+            while fKeepAlive:
+                print "alive"
+                if not broadcastQueue.empty():
+                    qPop = broadcastQueue.get()
+                    keepAliveHolder = time.time()
+
+                if time.time() - keepAliveHolder > KEEP_ALIVE_TIMEOUT:
+                    fKeepAlive = False
+                    print "connection died"
+
+                ardData = arduinoCommRead()
+                s.send(ardData)
+                bridgeData = s.recv(1024)
+                arduinoCommWrite(bridgeData)
+                
+                
+                
+                
+            
     
         
     
