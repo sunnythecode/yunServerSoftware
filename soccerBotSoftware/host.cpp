@@ -2,14 +2,19 @@
 
 Host::Host()
 {
-    this->sock = new QUdpSocket();
-    this->sock->bind(HOST_LISTENING_PORT);
-    connect(this->sock, SIGNAL(readyRead()), this, SLOT(readData()));
+    this->broadCastSock = new QUdpSocket();;
+    this->commSock = new  QUdpSocket();
+
+    this->commSock->bind(HOST_LISTENING_PORT);
+    this->broadCastSock->bind(BROADCAST_PORT);
+    connect(this->commSock, SIGNAL(readyRead()), this, SLOT(readData()));
 }
 Host::~Host()
 {
-    this->sock->close();
-    delete this->sock;
+    this->broadCastSock->close();
+    this->commSock->close();
+    delete this->commSock;
+    delete this->broadCastSock;
 }
 void Host::sendBroadcast()
 {
@@ -22,7 +27,7 @@ void Host::sendBroadcast()
              D_MSG(address.toString());
         }
     }
-    sock->writeDatagram(datagram,QHostAddress::Broadcast,BROADCAST_PORT);
+    this->broadCastSock->writeDatagram(datagram,QHostAddress::Broadcast,BROADCAST_PORT);
 }
 void Host::sendGameSync()
 {
@@ -32,10 +37,10 @@ void Host::sendGameSync()
 void Host::readData()
 {
     QByteArray datagram;
-    datagram.resize(this->sock->pendingDatagramSize());
+    datagram.resize(this->commSock->pendingDatagramSize());
     QHostAddress sender;
     quint16 senderPort;
 
-    this->sock->readDatagram(datagram.data(), datagram.size(),&sender, &senderPort);
+    this->commSock->readDatagram(datagram.data(), datagram.size(),&sender, &senderPort);
     D_MSG(datagram.data());
 }

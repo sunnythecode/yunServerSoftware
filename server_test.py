@@ -4,8 +4,8 @@ import time
 from Queue import Queue
 from threading import Thread
  
-PORT = 2379 # Game host port
-BROADCAST_PORT = 470 # Broadcast port
+PORT = 2380 # Game host port
+BROADCAST_PORT = 472 # Broadcast port
 BROADCAST_IP = '' # Symbolic name, meaning all available interfaces
 
 FLAG_ARDUINO_CONNECT = True
@@ -91,7 +91,8 @@ while  True:
                     print "connection died"
 
                 ardData = arduinoCommRead()
-                s.sendto(ardData,(host,PORT))
+                print host
+                s.sendto("gotta go fast",(host,PORT))
                 bridgeData = s.recv(1024)
                 arduinoCommWrite(bridgeData)
                 
