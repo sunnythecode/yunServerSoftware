@@ -102,17 +102,18 @@ void JoyStickHandler::initJoystick(int index)
 
 void JoyStickHandler::updateJoystick()
 {
-    read(this->joy_fd, &this->js, sizeof(struct js_event));
+    while(read(this->joy_fd, &this->js, sizeof(struct js_event))!=-1);
 
-                        /* see what to do with the event */
-    switch (this->js.type & ~JS_EVENT_INIT)
-    {
-    case JS_EVENT_AXIS:
-        this->axis   [ this->js.number ] = this->js.value;
-        break;
-    case JS_EVENT_BUTTON:
-        this->button [ this->js.number ] = this->js.value;
-        break;
+    {                    /* see what to do with the event */
+        switch (this->js.type & ~JS_EVENT_INIT)
+        {
+        case JS_EVENT_AXIS:
+            this->axis   [ this->js.number ] = this->js.value;
+            break;
+        case JS_EVENT_BUTTON:
+            this->button [ this->js.number ] = this->js.value;
+            break;
+        }
     }
 
 }

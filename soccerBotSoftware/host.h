@@ -7,6 +7,7 @@
 
 #define BROADCAST_PORT 472
 #define HOST_LISTENING_PORT 2380
+#define MULTI_CAST_PORT 2367
 
 #define DEBUG /* comment out this line to lower the verbosity of the program */
 
@@ -26,9 +27,11 @@ public:
     ~Host();
 public slots:
     void sendBroadcast();
-    void sendGameSync();
+    void sendGameSync(QByteArray dgram);
     void readData();
     bool checkValidDgram(QByteArray dgram);
+signals:
+    void receivedValidDgram(QByteArray dgram);
 private:
     QUdpSocket *broadCastSock;
     QUdpSocket *commSock;
