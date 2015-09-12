@@ -3,10 +3,17 @@
 #include<QTimer>
 #include<QObject>
 
+<<<<<<< HEAD
 class GameSync : public QObject
 {
     Q_OBJECT
 
+=======
+#include<QTimer>
+class GameSync : public QObject
+{
+    Q_OBJECT
+>>>>>>> master
 public:
     GameSync();
     QTimer startUpdating;

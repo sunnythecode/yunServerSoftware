@@ -3,8 +3,18 @@
 
 #include<stdint.h>
 #include <QObject>
+#include <QDebug>
 
 #define JOYSTICK_NOT_CONNECTED -10
+
+#define DEBUG /* comment out this line to lower the verbosity of the program */
+
+
+#if  defined(DEBUG) || defined(GLOBAL_DEBUG)
+#define D_MSG(a) qDebug()<<a
+#else
+#define D_MSG(a)
+#endif
 
 #if defined(__WIN32) || defined(__WIN64) || defined(__WINNT)
     #define WIN32_LEAN_AND_MEAN
@@ -12,6 +22,14 @@
     #include<xinput.h>
     #pragma message( "This version of the library is designed for xbox 360 controllers and requires XInput" )
 #elif __linux
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <fcntl.h>
+    #include <unistd.h>
+    #include <sys/ioctl.h>
+    #include <linux/joystick.h>
+    #include <string.h>
+    #pragma message( "This version of the library is designed for controllers and requires linux stuff" )
 #elif __APPLE__
 #endif
 
@@ -56,7 +74,11 @@ private:
         int joy_dx_index;
         XINPUT_STATE controller;
     #elif __linux
-
+   char joyLoc[15];
+   int joy_fd, *axis, num_of_axis, num_of_buttons, x;
+   char *button, name_of_joystick[80];
+   struct js_event js;
+   int varBut;
     #elif __APPLE__
 
     #endif
@@ -69,7 +91,7 @@ public:
     void initJoystick(int index);
     void updateJoystick();
     void rumbleJoystick(unsigned int lMtr, unsigned int rMtr);
-
+    void rumbleJoystick(int lMtr,int rMtr);
 signals:
     void joystickMissing(int index);
 };

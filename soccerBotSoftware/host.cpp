@@ -2,13 +2,29 @@
 
 Host::Host()
 {
-    this->sock = new QUdpSocket();
-    this->sock->bind(2367);
+    this->broadCastSock = new QUdpSocket();;
+    this->commSock = new  QUdpSocket();
+
+    this->commSock->bind(HOST_LISTENING_PORT); 
+    this->broadCastSock->bind(BROADCAST_PORT);
+    multiAddr = this->broadCastSock->localAddress();
+    QString temp = multiAddr.toString();
+    QString firstByte = temp.section(".",0,0);
+    QString secondByte = temp.section(".",1,1);
+    QString thirdByte = temp.section(".",2,2);
+    int byte = thirdByte.toInt();
+    byte++;
+    thirdByte = QString::number(byte);
+    QString fourthByte = temp.section(".",3,3);
+    multiAddr.setAddress(firstByte+"."+secondByte+"."+thirdByte+"."+fourthByte);
+    connect(this->commSock, SIGNAL(readyRead()), this, SLOT(readData()));
 }
 Host::~Host()
 {
-    this->sock->close();
-    delete this->sock;
+    this->broadCastSock->close();
+    this->commSock->close();
+    delete this->commSock;
+    delete this->broadCastSock;
 }
 void Host::sendBroadcast()
 {
@@ -21,6 +37,7 @@ void Host::sendBroadcast()
              D_MSG(address.toString());
         }
     }
+<<<<<<< HEAD
     sock->writeDatagram(datagram, QHostAddress::Broadcast,400);
 }
 
@@ -28,4 +45,33 @@ void Host::sendGameSync()
 {
 
     //sock->writeDatagram()
+=======
+    this->broadCastSock->writeDatagram(datagram,QHostAddress::Broadcast,BROADCAST_PORT);
+}
+void Host::sendGameSync(QByteArray dgram)
+{
+    this->commSock->writeDatagram(dgram,this->multiAddr,MULTI_CAST_PORT);
+}
+
+void Host::readData()
+{
+    QByteArray datagram;
+    datagram.resize(this->commSock->pendingDatagramSize());
+    QHostAddress sender;
+    quint16 senderPort;
+
+    this->commSock->readDatagram(datagram.data(), datagram.size(),&sender, &senderPort);
+    D_MSG(datagram.data());
+    this->checkValidDgram(datagram);
+}
+bool Host::checkValidDgram(QByteArray dgram)
+{
+    if(dgram.startsWith("gmd"))
+    {
+        emit receivedValidDgram(dgram);
+        return true;
+    }
+    else
+        return false;
+>>>>>>> master
 }

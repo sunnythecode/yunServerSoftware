@@ -13,7 +13,8 @@ public:
 
     bool isConnected();
 private:
-    QUdpSocket *sock;
+    QUdpSocket *inSock;
+    QUdpSocket *outSock;
     bool connectedToHost;
     QHostAddress *address;
 
