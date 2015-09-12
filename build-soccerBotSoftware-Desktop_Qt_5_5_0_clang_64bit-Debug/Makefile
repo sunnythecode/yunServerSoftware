@@ -53,22 +53,26 @@ SOURCES       = ../soccerBotSoftware/main.cpp \
 		../soccerBotSoftware/client.cpp \
 		../soccerBotSoftware/host.cpp \
 		../soccerBotSoftware/udpsend.cpp \
-		../soccerBotSoftware/gamedata.cpp moc_mainwindow.cpp \
+		../soccerBotSoftware/gamedata.cpp \
+		../soccerBotSoftware/joystickhandler.cpp moc_mainwindow.cpp \
 		moc_client.cpp \
 		moc_host.cpp \
 		moc_udpsend.cpp \
-		moc_gamedata.cpp
+		moc_gamedata.cpp \
+		moc_joystickhandler.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		client.o \
 		host.o \
 		udpsend.o \
 		gamedata.o \
+		joystickhandler.o \
 		moc_mainwindow.o \
 		moc_client.o \
 		moc_host.o \
 		moc_udpsend.o \
-		moc_gamedata.o
+		moc_gamedata.o \
+		moc_joystickhandler.o
 DIST          = ../../../../Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt/5.5/clang_64/mkspecs/qdevice.pri \
 		../../../../Qt/5.5/clang_64/mkspecs/features/device_config.prf \
@@ -211,12 +215,14 @@ DIST          = ../../../../Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
 		../soccerBotSoftware/client.h \
 		../soccerBotSoftware/host.h \
 		../soccerBotSoftware/udpsend.h \
-		../soccerBotSoftware/gamedata.h ../soccerBotSoftware/main.cpp \
+		../soccerBotSoftware/gamedata.h \
+		../soccerBotSoftware/joystickhandler.h ../soccerBotSoftware/main.cpp \
 		../soccerBotSoftware/mainwindow.cpp \
 		../soccerBotSoftware/client.cpp \
 		../soccerBotSoftware/host.cpp \
 		../soccerBotSoftware/udpsend.cpp \
-		../soccerBotSoftware/gamedata.cpp
+		../soccerBotSoftware/gamedata.cpp \
+		../soccerBotSoftware/joystickhandler.cpp
 QMAKE_TARGET  = soccerBotSoftware
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = soccerBotSoftware.app/Contents/MacOS/soccerBotSoftware
@@ -574,8 +580,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../soccerBotSoftware/mainwindow.h ../soccerBotSoftware/client.h ../soccerBotSoftware/host.h ../soccerBotSoftware/udpsend.h ../soccerBotSoftware/gamedata.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../soccerBotSoftware/main.cpp ../soccerBotSoftware/mainwindow.cpp ../soccerBotSoftware/client.cpp ../soccerBotSoftware/host.cpp ../soccerBotSoftware/udpsend.cpp ../soccerBotSoftware/gamedata.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../soccerBotSoftware/mainwindow.h ../soccerBotSoftware/client.h ../soccerBotSoftware/host.h ../soccerBotSoftware/udpsend.h ../soccerBotSoftware/gamedata.h ../soccerBotSoftware/joystickhandler.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../soccerBotSoftware/main.cpp ../soccerBotSoftware/mainwindow.cpp ../soccerBotSoftware/client.cpp ../soccerBotSoftware/host.cpp ../soccerBotSoftware/udpsend.cpp ../soccerBotSoftware/gamedata.cpp ../soccerBotSoftware/joystickhandler.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../soccerBotSoftware/mainwindow.ui $(DISTDIR)/
 
 
@@ -602,9 +608,9 @@ compiler_objective_c_make_all:
 compiler_objective_c_clean:
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_client.cpp moc_host.cpp moc_udpsend.cpp moc_gamedata.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_client.cpp moc_host.cpp moc_udpsend.cpp moc_gamedata.cpp moc_joystickhandler.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_client.cpp moc_host.cpp moc_udpsend.cpp moc_gamedata.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_client.cpp moc_host.cpp moc_udpsend.cpp moc_gamedata.cpp moc_joystickhandler.cpp
 moc_mainwindow.cpp: ../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/QtNetwork \
@@ -649,7 +655,6 @@ moc_mainwindow.cpp: ../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/
 		../soccerBotSoftware/gamedata.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QTimer \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qtimer.h \
-		../soccerBotSoftware/gamesync.h \
 		../soccerBotSoftware/client.h \
 		../soccerBotSoftware/mainwindow.h
 	/Users/sameervijay/Qt/5.5/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/sameervijay/Qt/5.5/clang_64/mkspecs/macx-clang -I/Users/sameervijay/Documents/Git/yunServerSoftware/soccerBotSoftware -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtWidgets.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtGui.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtNetwork.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtCore.framework/Headers -I. -F/Users/sameervijay/Qt/5.5/clang_64/lib ../soccerBotSoftware/mainwindow.h -o moc_mainwindow.cpp
@@ -736,7 +741,6 @@ moc_host.cpp: ../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QObject \
 		../soccerBotSoftware/gamedata.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QTimer \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qtimer.h \
-		../soccerBotSoftware/gamesync.h \
 		../soccerBotSoftware/host.h
 	/Users/sameervijay/Qt/5.5/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/sameervijay/Qt/5.5/clang_64/mkspecs/macx-clang -I/Users/sameervijay/Documents/Git/yunServerSoftware/soccerBotSoftware -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtWidgets.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtGui.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtNetwork.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtCore.framework/Headers -I. -F/Users/sameervijay/Qt/5.5/clang_64/lib ../soccerBotSoftware/host.h -o moc_host.cpp
 
@@ -819,8 +823,16 @@ moc_gamedata.cpp: ../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QObje
 		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslpresharedkeyauthenticator.h \
 		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslsocket.h \
 		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qtnetworkversion.h \
+		../soccerBotSoftware/udpsend.h \
 		../soccerBotSoftware/gamedata.h
 	/Users/sameervijay/Qt/5.5/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/sameervijay/Qt/5.5/clang_64/mkspecs/macx-clang -I/Users/sameervijay/Documents/Git/yunServerSoftware/soccerBotSoftware -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtWidgets.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtGui.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtNetwork.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtCore.framework/Headers -I. -F/Users/sameervijay/Qt/5.5/clang_64/lib ../soccerBotSoftware/gamedata.h -o moc_gamedata.cpp
+
+moc_joystickhandler.cpp: ../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QObject \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QDebug \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qdebug.h \
+		../soccerBotSoftware/joystickhandler.h
+	/Users/sameervijay/Qt/5.5/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/sameervijay/Qt/5.5/clang_64/mkspecs/macx-clang -I/Users/sameervijay/Documents/Git/yunServerSoftware/soccerBotSoftware -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtWidgets.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtGui.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtNetwork.framework/Headers -I/Users/sameervijay/Qt/5.5/clang_64/lib/QtCore.framework/Headers -I. -F/Users/sameervijay/Qt/5.5/clang_64/lib ../soccerBotSoftware/joystickhandler.h -o moc_joystickhandler.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -887,7 +899,6 @@ main.o: ../soccerBotSoftware/main.cpp ../soccerBotSoftware/mainwindow.h \
 		../soccerBotSoftware/gamedata.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QTimer \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qtimer.h \
-		../soccerBotSoftware/gamesync.h \
 		../soccerBotSoftware/client.h \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/QApplication \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/qapplication.h
@@ -938,7 +949,6 @@ mainwindow.o: ../soccerBotSoftware/mainwindow.cpp ../soccerBotSoftware/mainwindo
 		../soccerBotSoftware/gamedata.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QTimer \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qtimer.h \
-		../soccerBotSoftware/gamesync.h \
 		../soccerBotSoftware/client.h \
 		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../soccerBotSoftware/mainwindow.cpp
@@ -1025,8 +1035,7 @@ host.o: ../soccerBotSoftware/host.cpp ../soccerBotSoftware/host.h \
 		../soccerBotSoftware/udpsend.h \
 		../soccerBotSoftware/gamedata.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QTimer \
-		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qtimer.h \
-		../soccerBotSoftware/gamesync.h
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qtimer.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o host.o ../soccerBotSoftware/host.cpp
 
 udpsend.o: ../soccerBotSoftware/udpsend.cpp ../soccerBotSoftware/udpsend.h \
@@ -1108,8 +1117,16 @@ gamedata.o: ../soccerBotSoftware/gamedata.cpp ../soccerBotSoftware/gamedata.h \
 		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslkey.h \
 		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslpresharedkeyauthenticator.h \
 		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslsocket.h \
-		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qtnetworkversion.h
+		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qtnetworkversion.h \
+		../soccerBotSoftware/udpsend.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gamedata.o ../soccerBotSoftware/gamedata.cpp
+
+joystickhandler.o: ../soccerBotSoftware/joystickhandler.cpp ../soccerBotSoftware/joystickhandler.h \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QObject \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QDebug \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qdebug.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o joystickhandler.o ../soccerBotSoftware/joystickhandler.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
@@ -1125,6 +1142,9 @@ moc_udpsend.o: moc_udpsend.cpp
 
 moc_gamedata.o: moc_gamedata.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_gamedata.o moc_gamedata.cpp
+
+moc_joystickhandler.o: moc_joystickhandler.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_joystickhandler.o moc_joystickhandler.cpp
 
 ####### Install
 

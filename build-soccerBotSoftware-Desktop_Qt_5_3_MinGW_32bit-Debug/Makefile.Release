@@ -17,7 +17,7 @@ CXXFLAGS      = -pipe -fno-keep-inline-dllexport -O2 -frtti -Wall -Wextra -fexce
 INCPATH       = -I..\soccerBotSoftware -I"C:\Qt\Qt5.3.2\5.3\mingw482_32\include" -I"C:\Qt\Qt5.3.2\5.3\mingw482_32\include\QtWidgets" -I"C:\Qt\Qt5.3.2\5.3\mingw482_32\include\QtNetwork" -I"C:\Qt\Qt5.3.2\5.3\mingw482_32\include\QtGui" -I"C:\Qt\Qt5.3.2\5.3\mingw482_32\include\QtCore" -I"release" -I"." -I"." -I"C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\win32-g++"
 LINKER      =        g++
 LFLAGS        =        -Wl,-s -Wl,-subsystem,windows -mthreads
-LIBS        =        -lglu32 -lopengl32 -lgdi32 -luser32 -lmingw32 -LC:/Qt/Qt5.3.2/5.3/mingw482_32/lib -lqtmain -LC:\mingw482\mingw32\lib -LC:\Utils\icu32_52_1_mingw482\lib -LC:\utils\postgresql\pgsql\lib -LC:\utils\mysql\mysql\lib -LC:\opensll\lib -LC:\Qt\Qt5.3.2\5.3\mingw482_32/lib -lQt5Widgets -lQt5Network -lQt5Gui -lQt5Core 
+LIBS        =        -lglu32 -lopengl32 -lgdi32 -luser32 -lmingw32 -LC:/Qt/Qt5.3.2/5.3/mingw482_32/lib -lqtmain -LC:\mingw482\mingw32\lib -LC:\Utils\icu32_52_1_mingw482\lib -LC:\utils\postgresql\pgsql\lib -LC:\utils\mysql\mysql\lib -LC:\opensll\lib -LC:\Qt\Qt5.3.2\5.3\mingw482_32/lib -lXinput -lQt5Widgets -lQt5Network -lQt5Gui -lQt5Core 
 QMAKE         = C:\Qt\Qt5.3.2\5.3\mingw482_32\bin\qmake.exe
 IDC           = idc
 IDL           = midl
@@ -47,19 +47,29 @@ SOURCES       = ..\soccerBotSoftware\main.cpp \
 		..\soccerBotSoftware\mainwindow.cpp \
 		..\soccerBotSoftware\client.cpp \
 		..\soccerBotSoftware\host.cpp \
-		..\soccerBotSoftware\udpsend.cpp release\moc_mainwindow.cpp \
+		..\soccerBotSoftware\udpsend.cpp \
+		..\soccerBotSoftware\gamedata.cpp \
+		..\soccerBotSoftware\joystickhandler.cpp \
+		..\soccerBotSoftware\gamesync.cpp release\moc_mainwindow.cpp \
 		release\moc_client.cpp \
 		release\moc_host.cpp \
-		release\moc_udpsend.cpp
+		release\moc_udpsend.cpp \
+		release\moc_joystickhandler.cpp \
+		release\moc_gamesync.cpp
 OBJECTS       = release/main.o \
 		release/mainwindow.o \
 		release/client.o \
 		release/host.o \
 		release/udpsend.o \
+		release/gamedata.o \
+		release/joystickhandler.o \
+		release/gamesync.o \
 		release/moc_mainwindow.o \
 		release/moc_client.o \
 		release/moc_host.o \
-		release/moc_udpsend.o
+		release/moc_udpsend.o \
+		release/moc_joystickhandler.o \
+		release/moc_gamesync.o
 
 DIST          = 
 QMAKE_TARGET  = soccerBotSoftware
@@ -89,7 +99,7 @@ first: all
 all: Makefile.Release  $(DESTDIR_TARGET)
 
 $(DESTDIR_TARGET): ui_mainwindow.h $(OBJECTS) 
-	$(LINKER) $(LFLAGS) -o $(DESTDIR_TARGET) $(OBJECTS)  $(LIBS)
+	$(LINKER) $(LFLAGS) -o $(DESTDIR_TARGET) object_script.soccerBotSoftware.Release  $(LIBS)
 
 qmake: FORCE
 	@$(QMAKE) -spec win32-g++ CONFIG+=debug -o Makefile.Release ..\soccerBotSoftware\soccerBotSoftware.pro
@@ -100,7 +110,7 @@ dist:
 	$(ZIP) soccerBotSoftware.zip $(SOURCES) $(DIST) ..\soccerBotSoftware\soccerBotSoftware.pro C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\spec_pre.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\qdevice.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\device_config.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\common\shell-win32.conf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\qconfig.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_axbase.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_axbase_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_axcontainer.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_axcontainer_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_axserver.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_axserver_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_bluetooth.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_bluetooth_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_bootstrap_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_clucene_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_concurrent.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_concurrent_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_core.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_core_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_declarative.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_declarative_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_designer.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_designer_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_designercomponents_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_enginio.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_enginio_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_gui.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_gui_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_help.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_help_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_multimedia.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_multimedia_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_multimediawidgets.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_multimediawidgets_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_network.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_network_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_nfc.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_nfc_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_opengl.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_opengl_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_openglextensions.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_openglextensions_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_platformsupport_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_positioning.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_positioning_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_printsupport.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_printsupport_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_qml.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_qml_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_qmldevtools_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_qmltest.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_qmltest_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_quick.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_quick_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_quickparticles_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_quickwidgets.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_script.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_script_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_scripttools.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_scripttools_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_sensors.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_sensors_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_serialport.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_serialport_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_sql.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_sql_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_svg.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_svg_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_testlib.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_testlib_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_uitools.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_uitools_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_webkit.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_webkit_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_webkitwidgets.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_webkitwidgets_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_websockets.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_websockets_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_widgets.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_widgets_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_winextras.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_winextras_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_xml.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_xml_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_xmlpatterns.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\modules\qt_lib_xmlpatterns_private.pri C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\qt_functions.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\qt_config.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\win32\qt_config.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\win32-g++\qmake.conf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\spec_post.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\exclusive_builds.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\default_pre.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\win32\default_pre.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\resolve_config.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\exclusive_builds_post.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\default_post.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\build_pass.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\win32\rtti.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\precompile_header.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\warn_on.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\qt.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\resources.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\moc.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\win32\opengl.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\uic.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\win32\windows.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\testcase_targets.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\exceptions.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\yacc.prf C:\Qt\Qt5.3.2\5.3\mingw482_32\mkspecs\features\lex.prf ..\soccerBotSoftware\soccerBotSoftware.pro C:/Qt/Qt5.3.2/5.3/mingw482_32/lib/qtmain.prl C:/Qt/Qt5.3.2/5.3/mingw482_32/lib/Qt5Core.prl C:/Qt/Qt5.3.2/5.3/mingw482_32/lib/Qt5Widgets.prl C:/Qt/Qt5.3.2/5.3/mingw482_32/lib/Qt5Network.prl C:/Qt/Qt5.3.2/5.3/mingw482_32/lib/Qt5Gui.prl  NO_PCH_SOURCES RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES FORMS YACCSOURCES YACCSOURCES LEXSOURCES 
 
 clean: compiler_clean 
-	-$(DEL_FILE) release\main.o release\mainwindow.o release\client.o release\host.o release\udpsend.o release\moc_mainwindow.o release\moc_client.o release\moc_host.o release\moc_udpsend.o
+	-$(DEL_FILE) release\main.o release\mainwindow.o release\client.o release\host.o release\udpsend.o release\gamedata.o release\joystickhandler.o release\gamesync.o release\moc_mainwindow.o release\moc_client.o release\moc_host.o release\moc_udpsend.o release\moc_joystickhandler.o release\moc_gamesync.o
 
 distclean: clean 
 	-$(DEL_FILE) $(DESTDIR_TARGET)
@@ -116,9 +126,9 @@ compiler_no_pch_compiler_make_all:
 compiler_no_pch_compiler_clean:
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: release/moc_mainwindow.cpp release/moc_client.cpp release/moc_host.cpp release/moc_udpsend.cpp
+compiler_moc_header_make_all: release/moc_mainwindow.cpp release/moc_client.cpp release/moc_host.cpp release/moc_udpsend.cpp release/moc_joystickhandler.cpp release/moc_gamesync.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) release\moc_mainwindow.cpp release\moc_client.cpp release\moc_host.cpp release\moc_udpsend.cpp
+	-$(DEL_FILE) release\moc_mainwindow.cpp release\moc_client.cpp release\moc_host.cpp release\moc_udpsend.cpp release\moc_joystickhandler.cpp release\moc_gamesync.cpp
 release/moc_mainwindow.cpp: C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtWidgets/QMainWindow \
 		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtWidgets/qmainwindow.h \
 		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtWidgets/qwidget.h \
@@ -1079,6 +1089,112 @@ release/moc_udpsend.cpp: C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/QObject \
 		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtNetwork/qtnetworkversion.h \
 		../soccerBotSoftware/udpsend.h
 	C:\Qt\Qt5.3.2\5.3\mingw482_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.3.2/5.3/mingw482_32/mkspecs/win32-g++ -IC:/Users/Admin/Documents/GitHub/yunServerSoftware/soccerBotSoftware -IC:/Qt/Qt5.3.2/5.3/mingw482_32/include -IC:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtWidgets -IC:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtNetwork -IC:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtGui -IC:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore -I. ..\soccerBotSoftware\udpsend.h -o release\moc_udpsend.cpp
+
+release/moc_joystickhandler.cpp: C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/QObject \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qobject.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qobjectdefs.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qnamespace.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qglobal.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qconfig.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qfeatures.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qsystemdetection.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qprocessordetection.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qcompilerdetection.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qtypeinfo.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qtypetraits.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qsysinfo.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qlogging.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qflags.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qbasicatomic.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_bootstrap.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qgenericatomic.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_msvc.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_armv7.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_armv6.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_armv5.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_ia64.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_mips.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_x86.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_cxx11.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_gcc.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_unix.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qglobalstatic.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qmutex.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qnumeric.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qobjectdefs_impl.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qstring.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qchar.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qbytearray.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qrefcount.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qarraydata.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qlist.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qalgorithms.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qiterator.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qcoreevent.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qscopedpointer.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qmetatype.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qvarlengtharray.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qcontainerfwd.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qisenum.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qobject_impl.h \
+		../soccerBotSoftware/joystickhandler.h
+	C:\Qt\Qt5.3.2\5.3\mingw482_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.3.2/5.3/mingw482_32/mkspecs/win32-g++ -IC:/Users/Admin/Documents/GitHub/yunServerSoftware/soccerBotSoftware -IC:/Qt/Qt5.3.2/5.3/mingw482_32/include -IC:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtWidgets -IC:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtNetwork -IC:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtGui -IC:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore -I. ..\soccerBotSoftware\joystickhandler.h -o release\moc_joystickhandler.cpp
+
+release/moc_gamesync.cpp: C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/QTimer \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qtimer.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qglobal.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qconfig.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qfeatures.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qsystemdetection.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qprocessordetection.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qcompilerdetection.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qtypeinfo.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qtypetraits.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qsysinfo.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qlogging.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qflags.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qbasicatomic.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_bootstrap.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qgenericatomic.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_msvc.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_armv7.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_armv6.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_armv5.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_ia64.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_mips.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_x86.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_cxx11.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_gcc.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_unix.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qglobalstatic.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qmutex.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qnumeric.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qbasictimer.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qnamespace.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qobject.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qobjectdefs.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qobjectdefs_impl.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qstring.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qchar.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qbytearray.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qrefcount.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qarraydata.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qlist.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qalgorithms.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qiterator.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qcoreevent.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qscopedpointer.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qmetatype.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qvarlengtharray.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qcontainerfwd.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qisenum.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qobject_impl.h \
+		../soccerBotSoftware/gamesync.h
+	C:\Qt\Qt5.3.2\5.3\mingw482_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.3.2/5.3/mingw482_32/mkspecs/win32-g++ -IC:/Users/Admin/Documents/GitHub/yunServerSoftware/soccerBotSoftware -IC:/Qt/Qt5.3.2/5.3/mingw482_32/include -IC:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtWidgets -IC:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtNetwork -IC:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtGui -IC:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore -I. ..\soccerBotSoftware\gamesync.h -o release\moc_gamesync.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -2391,6 +2507,115 @@ release/udpsend.o: ../soccerBotSoftware/udpsend.cpp ../soccerBotSoftware/udpsend
 		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtNetwork/qtnetworkversion.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\udpsend.o ..\soccerBotSoftware\udpsend.cpp
 
+release/gamedata.o: ../soccerBotSoftware/gamedata.cpp ../soccerBotSoftware/gamedata.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\gamedata.o ..\soccerBotSoftware\gamedata.cpp
+
+release/joystickhandler.o: ../soccerBotSoftware/joystickhandler.cpp ../soccerBotSoftware/joystickhandler.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/QObject \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qobject.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qobjectdefs.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qnamespace.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qglobal.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qconfig.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qfeatures.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qsystemdetection.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qprocessordetection.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qcompilerdetection.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qtypeinfo.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qtypetraits.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qsysinfo.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qlogging.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qflags.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qbasicatomic.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_bootstrap.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qgenericatomic.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_msvc.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_armv7.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_armv6.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_armv5.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_ia64.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_mips.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_x86.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_cxx11.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_gcc.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_unix.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qglobalstatic.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qmutex.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qnumeric.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qobjectdefs_impl.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qstring.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qchar.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qbytearray.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qrefcount.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qarraydata.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qlist.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qalgorithms.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qiterator.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qcoreevent.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qscopedpointer.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qmetatype.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qvarlengtharray.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qcontainerfwd.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qisenum.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qobject_impl.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\joystickhandler.o ..\soccerBotSoftware\joystickhandler.cpp
+
+release/gamesync.o: ../soccerBotSoftware/gamesync.cpp ../soccerBotSoftware/gamesync.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/QTimer \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qtimer.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qglobal.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qconfig.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qfeatures.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qsystemdetection.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qprocessordetection.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qcompilerdetection.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qtypeinfo.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qtypetraits.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qsysinfo.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qlogging.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qflags.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qbasicatomic.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_bootstrap.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qgenericatomic.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_msvc.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_armv7.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_armv6.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_armv5.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_ia64.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_mips.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_x86.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_cxx11.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_gcc.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qatomic_unix.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qglobalstatic.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qmutex.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qnumeric.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qbasictimer.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qnamespace.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qobject.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qobjectdefs.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qobjectdefs_impl.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qstring.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qchar.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qbytearray.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qrefcount.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qarraydata.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qlist.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qalgorithms.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qiterator.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qcoreevent.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qscopedpointer.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qmetatype.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qvarlengtharray.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qcontainerfwd.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qisenum.h \
+		C:/Qt/Qt5.3.2/5.3/mingw482_32/include/QtCore/qobject_impl.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\gamesync.o ..\soccerBotSoftware\gamesync.cpp
+
 release/moc_mainwindow.o: release/moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\moc_mainwindow.o release\moc_mainwindow.cpp
 
@@ -2402,6 +2627,12 @@ release/moc_host.o: release/moc_host.cpp
 
 release/moc_udpsend.o: release/moc_udpsend.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\moc_udpsend.o release\moc_udpsend.cpp
+
+release/moc_joystickhandler.o: release/moc_joystickhandler.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\moc_joystickhandler.o release\moc_joystickhandler.cpp
+
+release/moc_gamesync.o: release/moc_gamesync.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\moc_gamesync.o release\moc_gamesync.cpp
 
 ####### Install
 

@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Host_t {
-    QByteArrayData data[4];
-    char stringdata0[33];
+    QByteArrayData data[8];
+    char stringdata0[83];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -30,12 +30,18 @@ struct qt_meta_stringdata_Host_t {
 static const qt_meta_stringdata_Host_t qt_meta_stringdata_Host = {
     {
 QT_MOC_LITERAL(0, 0, 4), // "Host"
-QT_MOC_LITERAL(1, 5, 13), // "sendBroadcast"
-QT_MOC_LITERAL(2, 19, 0), // ""
-QT_MOC_LITERAL(3, 20, 12) // "sendGameSync"
+QT_MOC_LITERAL(1, 5, 18), // "receivedValidDgram"
+QT_MOC_LITERAL(2, 24, 0), // ""
+QT_MOC_LITERAL(3, 25, 5), // "dgram"
+QT_MOC_LITERAL(4, 31, 13), // "sendBroadcast"
+QT_MOC_LITERAL(5, 45, 12), // "sendGameSync"
+QT_MOC_LITERAL(6, 58, 8), // "readData"
+QT_MOC_LITERAL(7, 67, 15) // "checkValidDgram"
 
     },
-    "Host\0sendBroadcast\0\0sendGameSync"
+    "Host\0receivedValidDgram\0\0dgram\0"
+    "sendBroadcast\0sendGameSync\0readData\0"
+    "checkValidDgram"
 };
 #undef QT_MOC_LITERAL
 
@@ -45,20 +51,30 @@ static const uint qt_meta_data_Host[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       0,       // signalCount
+       1,       // signalCount
+
+ // signals: name, argc, parameters, tag, flags
+       1,    1,   39,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   24,    2, 0x0a /* Public */,
-       3,    0,   25,    2, 0x0a /* Public */,
+       4,    0,   42,    2, 0x0a /* Public */,
+       5,    1,   43,    2, 0x0a /* Public */,
+       6,    0,   46,    2, 0x0a /* Public */,
+       7,    1,   47,    2, 0x0a /* Public */,
+
+ // signals: parameters
+    QMetaType::Void, QMetaType::QByteArray,    3,
 
  // slots: parameters
     QMetaType::Void,
+    QMetaType::Void, QMetaType::QByteArray,    3,
     QMetaType::Void,
+    QMetaType::Bool, QMetaType::QByteArray,    3,
 
        0        // eod
 };
@@ -69,12 +85,24 @@ void Host::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
         Host *_t = static_cast<Host *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->sendBroadcast(); break;
-        case 1: _t->sendGameSync(); break;
+        case 0: _t->receivedValidDgram((*reinterpret_cast< QByteArray(*)>(_a[1]))); break;
+        case 1: _t->sendBroadcast(); break;
+        case 2: _t->sendGameSync((*reinterpret_cast< QByteArray(*)>(_a[1]))); break;
+        case 3: _t->readData(); break;
+        case 4: { bool _r = _t->checkValidDgram((*reinterpret_cast< QByteArray(*)>(_a[1])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
         default: ;
         }
+    } else if (_c == QMetaObject::IndexOfMethod) {
+        int *result = reinterpret_cast<int *>(_a[0]);
+        void **func = reinterpret_cast<void **>(_a[1]);
+        {
+            typedef void (Host::*_t)(QByteArray );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Host::receivedValidDgram)) {
+                *result = 0;
+            }
+        }
     }
-    Q_UNUSED(_a);
 }
 
 const QMetaObject Host::staticMetaObject = {
@@ -102,14 +130,21 @@ int Host::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 5;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 2)
+        if (_id < 5)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 2;
+        _id -= 5;
     }
     return _id;
+}
+
+// SIGNAL 0
+void Host::receivedValidDgram(QByteArray _t1)
+{
+    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_END_MOC_NAMESPACE

@@ -1,15 +1,17 @@
 #include "client.h"
+#include <QTimer>
 
 Client::Client()
 {
     this->connectedToHost = false;
     this->inSock = new QUdpSocket();
-    this->inSock->bind(400);
+    if (!this->inSock->bind(450))
+        qDebug() << "Didn't bind successfully";
     this->outSock = new QUdpSocket();
     connect(this->inSock,SIGNAL(readyRead()),this,SLOT(receivedPacket()));
     connect(this,SIGNAL(connectRequest(QString)),this,SLOT(connectToHost(QString)));
     connect(this, SIGNAL(updateGameData(QString)), this, SLOT(receivedGameData(QString)));
-
+    QTimer::singleShot(8000, this, SLOT(receivedPacket()));
 }
 Client::~Client()
 {
@@ -23,6 +25,7 @@ Client::~Client()
 
 void Client::receivedPacket()
 {
+    qDebug() << "Received something";
     while(this->inSock->hasPendingDatagrams())
     {
         QByteArray datagram;
@@ -59,7 +62,7 @@ void Client::receivedGameData(QString data) {
     QStringList playerData = gameSplits.at(1).split(";");
 
     QString playerText;
-    playerText << QString("P") << this->currentPlayer;
+    //playerText << "P" << this->currentPlayer;
     foreach (QString text, playerData) {
         if (text.contains(playerText)) {
 

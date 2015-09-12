@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Client_t {
-    QByteArrayData data[8];
-    char stringdata0[91];
+    QByteArrayData data[11];
+    char stringdata0[128];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,15 +33,19 @@ QT_MOC_LITERAL(0, 0, 6), // "Client"
 QT_MOC_LITERAL(1, 7, 14), // "connectRequest"
 QT_MOC_LITERAL(2, 22, 0), // ""
 QT_MOC_LITERAL(3, 23, 15), // "formattedPacket"
-QT_MOC_LITERAL(4, 39, 14), // "receivedPacket"
-QT_MOC_LITERAL(5, 54, 13), // "connectToHost"
-QT_MOC_LITERAL(6, 68, 4), // "addr"
-QT_MOC_LITERAL(7, 73, 17) // "successConnection"
+QT_MOC_LITERAL(4, 39, 14), // "updateGameData"
+QT_MOC_LITERAL(5, 54, 14), // "receivedPacket"
+QT_MOC_LITERAL(6, 69, 13), // "connectToHost"
+QT_MOC_LITERAL(7, 83, 4), // "addr"
+QT_MOC_LITERAL(8, 88, 17), // "successConnection"
+QT_MOC_LITERAL(9, 106, 16), // "receivedGameData"
+QT_MOC_LITERAL(10, 123, 4) // "data"
 
     },
     "Client\0connectRequest\0\0formattedPacket\0"
-    "receivedPacket\0connectToHost\0addr\0"
-    "successConnection"
+    "updateGameData\0receivedPacket\0"
+    "connectToHost\0addr\0successConnection\0"
+    "receivedGameData\0data"
 };
 #undef QT_MOC_LITERAL
 
@@ -51,30 +55,34 @@ static const uint qt_meta_data_Client[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       2,       // signalCount
+       3,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   39,    2, 0x06 /* Public */,
-       3,    1,   42,    2, 0x06 /* Public */,
+       1,    1,   49,    2, 0x06 /* Public */,
+       3,    1,   52,    2, 0x06 /* Public */,
+       4,    1,   55,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       4,    0,   45,    2, 0x0a /* Public */,
-       5,    1,   46,    2, 0x0a /* Public */,
-       7,    0,   49,    2, 0x0a /* Public */,
+       5,    0,   58,    2, 0x0a /* Public */,
+       6,    1,   59,    2, 0x0a /* Public */,
+       8,    0,   62,    2, 0x0a /* Public */,
+       9,    1,   63,    2, 0x0a /* Public */,
 
  // signals: parameters
+    QMetaType::Void, QMetaType::QString,    2,
     QMetaType::Void, QMetaType::QString,    2,
     QMetaType::Void, QMetaType::QString,    2,
 
  // slots: parameters
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QString,    6,
+    QMetaType::Void, QMetaType::QString,    7,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::QString,   10,
 
        0        // eod
 };
@@ -87,9 +95,11 @@ void Client::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         switch (_id) {
         case 0: _t->connectRequest((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 1: _t->formattedPacket((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 2: _t->receivedPacket(); break;
-        case 3: _t->connectToHost((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 4: _t->successConnection(); break;
+        case 2: _t->updateGameData((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 3: _t->receivedPacket(); break;
+        case 4: _t->connectToHost((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 5: _t->successConnection(); break;
+        case 6: _t->receivedGameData((*reinterpret_cast< QString(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -105,6 +115,12 @@ void Client::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
             typedef void (Client::*_t)(QString );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Client::formattedPacket)) {
                 *result = 1;
+            }
+        }
+        {
+            typedef void (Client::*_t)(QString );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Client::updateGameData)) {
+                *result = 2;
             }
         }
     }
@@ -135,13 +151,13 @@ int Client::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 7;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 5)
+        if (_id < 7)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 5;
+        _id -= 7;
     }
     return _id;
 }
@@ -158,5 +174,12 @@ void Client::formattedPacket(QString _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 1, _a);
+}
+
+// SIGNAL 2
+void Client::updateGameData(QString _t1)
+{
+    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 2, _a);
 }
 QT_END_MOC_NAMESPACE
