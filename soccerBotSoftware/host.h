@@ -28,9 +28,11 @@ public slots:
     void sendBroadcast();
     void sendGameSync();
     void readData();
+    bool checkValidDgram(QByteArray dgram);
 private:
     QUdpSocket *broadCastSock;
     QUdpSocket *commSock;
+    QHostAddress multiAddr;
 };
 
 #endif // BROADCAST_H
