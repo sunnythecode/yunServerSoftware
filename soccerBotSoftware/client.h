@@ -4,6 +4,15 @@
 #include <QtNetwork>
 #include <udpsend.h>
 
+#define DEBUG /* comment out this line to lower the verbosity of the program */
+
+
+#if  defined(DEBUG) || defined(GLOBAL_DEBUG)
+#define D_MSG(a) printf(a);
+#else
+#define D_MSG(a)
+#endif
+
 class Client : public UdpSend
 {
     Q_OBJECT

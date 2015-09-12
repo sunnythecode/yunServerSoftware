@@ -3,8 +3,9 @@
 Client::Client()
 {
     this->connectedToHost = false;
-    this->inSock = new QUdpSocket();
-    this->inSock->bind(400);
+    this->inSock = new QUdpSocket(this);
+    if(!this->inSock->bind(450))
+       D_MSG("Failed to bind");
     this->outSock = new QUdpSocket();
     connect(this->inSock,SIGNAL(readyRead()),this,SLOT(receivedPacket()));
     connect(this,SIGNAL(connectRequest(QString)),this,SLOT(connectToHost(QString)));
