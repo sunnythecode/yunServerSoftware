@@ -991,7 +991,9 @@ client.o: ../soccerBotSoftware/client.cpp ../soccerBotSoftware/client.h \
 		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslpresharedkeyauthenticator.h \
 		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qsslsocket.h \
 		../../../../Qt/5.5/clang_64/lib/QtNetwork.framework/Headers/qtnetworkversion.h \
-		../soccerBotSoftware/udpsend.h
+		../soccerBotSoftware/udpsend.h \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QTimer \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qtimer.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o client.o ../soccerBotSoftware/client.cpp
 
 host.o: ../soccerBotSoftware/host.cpp ../soccerBotSoftware/host.h \

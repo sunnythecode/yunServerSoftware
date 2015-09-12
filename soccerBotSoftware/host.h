@@ -5,7 +5,7 @@
 #include <QtNetwork>
 #include <udpsend.h>
 #include <gamedata.h>
-#include <gamesync.h>
+//#include <gamesync.h>
 
 #define BROADCAST_PORT 472
 #define HOST_LISTENING_PORT 2380

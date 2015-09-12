@@ -5,8 +5,14 @@ Client::Client()
 {
     this->connectedToHost = false;
     this->inSock = new QUdpSocket();
-    if (!this->inSock->bind(450))
+    //this->inSock->setSocketOption(QAbstractSocket::UdpSocket);
+    if (this->inSock->socketType() == QAbstractSocket::UdpSocket)
+        qDebug() << "Udp Socket";
+    else if (this->inSock->socketType() == QAbstractSocket::TcpSocket)
+        qDebug() << "Tcp Socket";
+    if (!this->inSock->bind())
         qDebug() << "Didn't bind successfully";
+    qDebug() << this->inSock->localPort();
     this->outSock = new QUdpSocket();
     connect(this->inSock,SIGNAL(readyRead()),this,SLOT(receivedPacket()));
     connect(this,SIGNAL(connectRequest(QString)),this,SLOT(connectToHost(QString)));
@@ -17,7 +23,7 @@ Client::~Client()
 {
     disconnect(this->inSock, SIGNAL(readyRead()), this, SLOT(receivedPacket()));
     disconnect(this,SIGNAL(connectRequest(QString)),this,SLOT(connectToHost(QString)));
-    disconnect(this, SIGNAL(updateGameData(QString)), this, SLOT(receivedGameData()));
+    disconnect(this, SIGNAL(updateGameData(QString)), this, SLOT(receivedGameData(QString)));
     disconnect(this->inSock,SIGNAL(connected()),this,SLOT(successConnection()));
     this->inSock->close();
     delete this->inSock;
@@ -51,6 +57,7 @@ void Client::receivedPacket()
 
 void Client::receivedGameData(QString data) {
 
+    qDebug() << "Following needs to be changed to data parameter";
     QString allGameData = "gmd:500#P1:NameORobot:1:2;P2:SecondName:0:1";
 
     // collects the game time

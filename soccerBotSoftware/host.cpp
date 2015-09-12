@@ -37,6 +37,7 @@ void Host::sendBroadcast()
              D_MSG(address.toString());
         }
     }
+    this->broadCastSock->writeDatagram(datagram, QHostAddress::Broadcast, BROADCAST_PORT);
 }
 
 void Host::sendGameSync(QByteArray dgram)
