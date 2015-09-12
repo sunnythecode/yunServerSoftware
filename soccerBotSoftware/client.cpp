@@ -8,28 +8,17 @@ Client::Client()
     this->outSock = new QUdpSocket();
     connect(this->inSock,SIGNAL(readyRead()),this,SLOT(receivedPacket()));
     connect(this,SIGNAL(connectRequest(QString)),this,SLOT(connectToHost(QString)));
-<<<<<<< HEAD
-    connect(this->sock,SIGNAL(connected()),this,SLOT(successConnection()));
     connect(this, SIGNAL(updateGameData(QString)), this, SLOT(receivedGameData(QString)));
-=======
-    connect(this->inSock,SIGNAL(connected()),this,SLOT(successConnection()));
 
->>>>>>> master
 }
 Client::~Client()
 {
     disconnect(this->inSock, SIGNAL(readyRead()), this, SLOT(receivedPacket()));
     disconnect(this,SIGNAL(connectRequest(QString)),this,SLOT(connectToHost(QString)));
-<<<<<<< HEAD
     disconnect(this, SIGNAL(updateGameData(QString)), this, SLOT(receivedGameData()));
-    connect(this->sock,SIGNAL(connected()),this,SLOT(successConnection()));
-    this->sock->close();
-    delete this->sock;
-=======
     disconnect(this->inSock,SIGNAL(connected()),this,SLOT(successConnection()));
     this->inSock->close();
     delete this->inSock;
->>>>>>> master
 }
 
 void Client::receivedPacket()

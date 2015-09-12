@@ -37,17 +37,8 @@ void Host::sendBroadcast()
              D_MSG(address.toString());
         }
     }
-<<<<<<< HEAD
-    sock->writeDatagram(datagram, QHostAddress::Broadcast,400);
 }
 
-void Host::sendGameSync()
-{
-
-    //sock->writeDatagram()
-=======
-    this->broadCastSock->writeDatagram(datagram,QHostAddress::Broadcast,BROADCAST_PORT);
-}
 void Host::sendGameSync(QByteArray dgram)
 {
     this->commSock->writeDatagram(dgram,this->multiAddr,MULTI_CAST_PORT);
@@ -73,5 +64,4 @@ bool Host::checkValidDgram(QByteArray dgram)
     }
     else
         return false;
->>>>>>> master
 }

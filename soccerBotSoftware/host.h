@@ -35,15 +35,10 @@ public slots:
 signals:
     void receivedValidDgram(QByteArray dgram);
 private:
-<<<<<<< HEAD
-    QUdpSocket *sock;
     GameData *gameData;
-    GameSync *gameSync;
-=======
     QUdpSocket *broadCastSock;
     QUdpSocket *commSock;
     QHostAddress multiAddr;
->>>>>>> master
 };
 
 #endif // BROADCAST_H

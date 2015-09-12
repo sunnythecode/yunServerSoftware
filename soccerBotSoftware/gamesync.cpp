@@ -5,5 +5,9 @@ GameSync::GameSync()
 
 }
 
+void GameSync::updateGameData()
+{
+
+}
 
 
