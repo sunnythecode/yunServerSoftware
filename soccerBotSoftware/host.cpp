@@ -57,7 +57,7 @@ void Host::readData()
 }
 bool Host::checkValidDgram(QByteArray dgram)
 {
-    if(dgram.startsWith("gmd"))
+    if(dgram.startsWith("GMD"))
     {
         emit receivedValidDgram(dgram);
         return true;

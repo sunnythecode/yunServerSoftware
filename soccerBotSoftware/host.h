@@ -5,7 +5,7 @@
 #include <QtNetwork>
 #include <udpsend.h>
 
-#define BROADCAST_PORT 400
+#define BROADCAST_PORT 23005
 #define HOST_LISTENING_PORT 2380
 #define MULTI_CAST_PORT 2367
 

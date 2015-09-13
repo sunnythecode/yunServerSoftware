@@ -4,12 +4,11 @@ Client::Client()
 {
     this->connectedToHost = false;
     this->inSock = new QUdpSocket(this);
-    if(!this->inSock->bind(450))
+    if(!this->inSock->bind(QHostAddress::AnyIPv4, MULTICAST_PORT))
        D_MSG("Failed to bind");
     this->outSock = new QUdpSocket();
     connect(this->inSock,SIGNAL(readyRead()),this,SLOT(receivedPacket()));
     connect(this,SIGNAL(connectRequest(QString)),this,SLOT(connectToHost(QString)));
-    connect(this->inSock,SIGNAL(connected()),this,SLOT(successConnection()));
 
 }
 Client::~Client()
@@ -32,6 +31,8 @@ void Client::receivedPacket()
         this->inSock->readDatagram(datagram.data(),datagram.size(),&sender,&port);
         QString messStr = QString::fromUtf8(datagram.data());
         QString sendStr = sender.toString();
+        D_MSG(messStr);
+        D_MSG(sendStr);
         if(messStr.indexOf(sendStr)!=-1 && !this->connectedToHost)
         {
             emit connectRequest(sendStr);
@@ -44,8 +45,26 @@ void Client::receivedPacket()
 }
 void Client::connectToHost(QString addr)
 {
-    address = new QHostAddress(addr);
-    this->outSock->connectToHost(*address,2367);
+    QString firstByte = addr.section(".",0,0);
+    QString secondByte = addr.section(".",1,1);
+    QString thirdByte = addr.section(".",2,2);
+    int byte = thirdByte.toInt();
+    byte++;
+    thirdByte = QString::number(byte);
+    QString fourthByte = addr.section(".",3,3);
+    multiAddr = new QHostAddress(firstByte+"."+secondByte+"."+thirdByte+"."+fourthByte);
+    hostAddr = new QHostAddress(addr);
+    if(!this->inSock->joinMulticastGroup(*multiAddr))
+    {
+        D_MSG("Failed to join multicast group");
+    }
+    if(!this->outSock->bind(HOST_LISTEN_PORT))
+    {
+        D_MSG("Failed to bind to host port");
+    }
+    QByteArray data = "name";
+    this->outSock->writeDatagram(data,*this->hostAddr,HOST_LISTEN_PORT);
+
 }
 void Client::successConnection()
 {
@@ -54,9 +73,6 @@ void Client::successConnection()
     qDebug() << "Peer " + this->inSock->peerAddress().toString();
     qDebug() << "Local port " + this->inSock->localPort();
     qDebug() << "Peer port " + this->inSock->peerPort();
-    this->connectedToHost = true;
-    QByteArray data = "name";
-    this->inSock->writeDatagram(data,*address,2367);
 }
 
 
