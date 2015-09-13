@@ -18,14 +18,16 @@ SOURCES += main.cpp\
     host.cpp \
     udpsend.cpp \
     gamedata.cpp \
-    joystickhandler.cpp
+    joystickhandler.cpp \
+    jsgamesend.cpp
 
 HEADERS  += mainwindow.h \
     client.h \
     host.h \
     udpsend.h \
     gamedata.h \
-    joystickhandler.h
+    joystickhandler.h \
+    jsgamesend.h
 
 FORMS    += mainwindow.ui
 

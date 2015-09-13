@@ -5,6 +5,16 @@
 #include <QtNetwork>
 #include <udpsend.h>
 
+typedef union {
+    unsigned char data[200];
+    struct {
+        char signature[3];
+        char delimiter;
+        unsigned char gameTime;
+        char delimiter
+    } comps
+} allGameData
+
 class GameData : public QObject
 {
     Q_OBJECT
@@ -17,9 +27,6 @@ public:
 
     float getGameTime();
     int  getGameSyncs();
-
-    int* getJSConnections();
-    int* getClientConnections();
 
     void startGameUpdates();
     void endGameUpdates();

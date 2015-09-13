@@ -5,12 +5,7 @@ Client::Client()
 {
     this->connectedToHost = false;
     this->inSock = new QUdpSocket();
-    //this->inSock->setSocketOption(QAbstractSocket::UdpSocket);
-    if (this->inSock->socketType() == QAbstractSocket::UdpSocket)
-        qDebug() << "Udp Socket";
-    else if (this->inSock->socketType() == QAbstractSocket::TcpSocket)
-        qDebug() << "Tcp Socket";
-    if (!this->inSock->bind())
+    if (!this->inSock->bind(23005))
         qDebug() << "Didn't bind successfully";
     qDebug() << this->inSock->localPort();
     this->outSock = new QUdpSocket();
@@ -34,6 +29,7 @@ void Client::receivedPacket()
     qDebug() << "Received something";
     while(this->inSock->hasPendingDatagrams())
     {
+        qDebug() << "Pending datagrams";
         QByteArray datagram;
         datagram.resize(this->inSock->pendingDatagramSize());
         QHostAddress sender;
@@ -43,10 +39,12 @@ void Client::receivedPacket()
         QString sendStr = sender.toString();
         if(messStr.indexOf(sendStr)!=-1 && !this->connectedToHost)
         {
+            qDebug() << "Connecting to host";
             emit connectRequest(sendStr);
         }
         else
         {
+            qDebug() << "Other packet";
             if (messStr.contains("gmd"))
                 emit updateGameData(messStr);
             else
