@@ -5,7 +5,7 @@
 #include <QtNetwork>
 #include <udpsend.h>
 
-#define BROADCAST_PORT 23005
+#define BROADCAST_PORT 23010
 #define HOST_LISTENING_PORT 2380
 #define MULTI_CAST_PORT 2367
 
@@ -18,6 +18,11 @@
 #define D_MSG(a)
 #endif
 
+typedef struct{
+    QHostAddress addr;
+    qint16 port;
+    QString name;
+}ConnectedClient;
 
 class Host : public UdpSend
 {
@@ -29,13 +34,16 @@ public slots:
     void sendBroadcast();
     void sendGameSync(QByteArray dgram);
     void readData();
-    bool checkValidDgram(QByteArray dgram);
+    bool checkValidDgram(QByteArray dgram,QHostAddress sender, quint16 senderPort);
 signals:
     void receivedValidDgram(QByteArray dgram);
+    void newClient(QByteArray dgram);
 private:
     QUdpSocket *broadCastSock;
     QUdpSocket *commSock;
     QHostAddress multiAddr;
+    QList<ConnectedClient> *clients;
 };
+
 
 #endif // BROADCAST_H

@@ -4,10 +4,13 @@ Client::Client()
 {
     this->connectedToHost = false;
     this->inSock = new QUdpSocket(this);
+    this->broadSock = new QUdpSocket(this);
     if(!this->inSock->bind(QHostAddress::AnyIPv4, MULTICAST_PORT))
-       D_MSG("Failed to bind");
+       D_MSG("Failed to bind multicast port");
+    if(!this->broadSock->bind(BROADCAST_LISTEN))
+       D_MSG("Failed to bind broadcast port");
     this->outSock = new QUdpSocket();
-    connect(this->inSock,SIGNAL(readyRead()),this,SLOT(receivedPacket()));
+    connect(this->broadSock,SIGNAL(readyRead()),this,SLOT(receivedPacket()));
     connect(this,SIGNAL(connectRequest(QString)),this,SLOT(connectToHost(QString)));
 
 }
@@ -22,13 +25,14 @@ Client::~Client()
 
 void Client::receivedPacket()
 {
-    while(this->inSock->hasPendingDatagrams())
+    D_MSG("Received packet");
+    while(this->broadSock->hasPendingDatagrams())
     {
         QByteArray datagram;
-        datagram.resize(this->inSock->pendingDatagramSize());
+        datagram.resize(this->broadSock->pendingDatagramSize());
         QHostAddress sender;
         quint16 port;
-        this->inSock->readDatagram(datagram.data(),datagram.size(),&sender,&port);
+        this->broadSock->readDatagram(datagram.data(),datagram.size(),&sender,&port);
         QString messStr = QString::fromUtf8(datagram.data());
         QString sendStr = sender.toString();
         D_MSG(messStr);
@@ -56,14 +60,20 @@ void Client::connectToHost(QString addr)
     hostAddr = new QHostAddress(addr);
     if(!this->inSock->joinMulticastGroup(*multiAddr))
     {
-        D_MSG("Failed to join multicast group");
+        D_MSG("Failed to join multicast group at");
+        D_MSG(this->inSock->errorString());
+        D_MSG(multiAddr->toString());
     }
     if(!this->outSock->bind(HOST_LISTEN_PORT))
     {
         D_MSG("Failed to bind to host port");
     }
-    QByteArray data = "name";
-    this->outSock->writeDatagram(data,*this->hostAddr,HOST_LISTEN_PORT);
+
+    QByteArray data = "CLI:name";
+    if(this->outSock->writeDatagram(data,*this->hostAddr,HOST_LISTEN_PORT)==-1)
+    {
+        D_MSG("Failed to send datagram");
+    }
 
 }
 void Client::successConnection()

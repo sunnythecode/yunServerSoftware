@@ -4,9 +4,9 @@ Host::Host()
 {
     this->broadCastSock = new QUdpSocket();;
     this->commSock = new  QUdpSocket();
-
+    this->clients = new QList<ConnectedClient>;
     this->commSock->bind(HOST_LISTENING_PORT); 
-    this->broadCastSock->bind(BROADCAST_PORT);
+    //this->broadCastSock->bind(BROADCAST_PORT);
     multiAddr = this->broadCastSock->localAddress();
     QString temp = multiAddr.toString();
     QString firstByte = temp.section(".",0,0);
@@ -53,13 +53,23 @@ void Host::readData()
 
     this->commSock->readDatagram(datagram.data(), datagram.size(),&sender, &senderPort);
     D_MSG(datagram.data());
-    this->checkValidDgram(datagram);
+    this->checkValidDgram(datagram,sender,senderPort);
 }
-bool Host::checkValidDgram(QByteArray dgram)
+bool Host::checkValidDgram(QByteArray dgram, QHostAddress sender, quint16 senderPort)
 {
     if(dgram.startsWith("GMD"))
     {
         emit receivedValidDgram(dgram);
+        return true;
+    }
+    if(dgram.startsWith("CLI"))
+    {
+        ConnectedClient cli;
+        cli.addr = sender;
+        cli.port = senderPort;
+        QString name = QString::fromUtf8(dgram.data());
+        cli.name = name.section(':',1);
+        clients->append(cli);
         return true;
     }
     else
