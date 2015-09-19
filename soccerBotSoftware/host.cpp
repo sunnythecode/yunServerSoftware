@@ -6,17 +6,6 @@ Host::Host()
     this->commSock = new  QUdpSocket();
     this->clients = new QList<ConnectedClient>;
     this->commSock->bind(HOST_LISTENING_PORT); 
-    //this->broadCastSock->bind(BROADCAST_PORT);
-    multiAddr = this->broadCastSock->localAddress();
-    QString temp = multiAddr.toString();
-    QString firstByte = temp.section(".",0,0);
-    QString secondByte = temp.section(".",1,1);
-    QString thirdByte = temp.section(".",2,2);
-    int byte = thirdByte.toInt();
-    byte++;
-    thirdByte = QString::number(byte);
-    QString fourthByte = temp.section(".",3,3);
-    multiAddr.setAddress(firstByte+"."+secondByte+"."+thirdByte+"."+fourthByte);
     connect(this->commSock, SIGNAL(readyRead()), this, SLOT(readData()));
 }
 Host::~Host()
@@ -41,7 +30,8 @@ void Host::sendBroadcast()
 }
 void Host::sendGameSync(QByteArray dgram)
 {
-    this->commSock->writeDatagram(dgram,this->multiAddr,MULTI_CAST_PORT);
+    //need to sending to each client
+    //this->commSock->writeDatagram(dgram,this->multiAddr,MULTI_CAST_PORT);
 }
 
 void Host::readData()
@@ -70,6 +60,8 @@ bool Host::checkValidDgram(QByteArray dgram, QHostAddress sender, quint16 sender
         QString name = QString::fromUtf8(dgram.data());
         cli.name = name.section(':',1);
         clients->append(cli);
+        QByteArray dgram = "CLI:connected";
+        this->broadCastSock->writeDatagram(dgram,sender,BROADCAST_PORT);
         return true;
     }
     else

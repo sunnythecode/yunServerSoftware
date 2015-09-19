@@ -5,9 +5,9 @@
 #include <udpsend.h>
 
 #define DEBUG /* comment out this line to lower the verbosity of the program */
-#define MULTICAST_PORT 2367
+#define IN_PORT 2367
 #define HOST_LISTEN_PORT 2380
-#define BROADCAST_LISTEN 23005
+#define BROADCAST_PORT 23005
 
 #if  defined(DEBUG) || defined(GLOBAL_DEBUG)
 #define D_MSG(a) qDebug()<<a;
@@ -23,16 +23,14 @@ public:
     ~Client();
     bool isConnected();
 private:
-    QUdpSocket *inSock;
-    QUdpSocket *outSock;
+    QUdpSocket *commSock;
     QUdpSocket *broadSock;
     bool connectedToHost;
     QHostAddress *hostAddr;
-    QHostAddress *multiAddr;
 public slots:
-    void receivedPacket();
     void connectToHost(QString addr);
-    void successConnection();
+    void receivedCommPacket();
+    void receivedBroadPacket();
 signals:
     void connectRequest(QString);
     void formattedPacket(QString);
