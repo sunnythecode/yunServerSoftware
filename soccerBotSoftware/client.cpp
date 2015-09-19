@@ -16,10 +16,12 @@ Client::Client()
 }
 Client::~Client()
 {
-    disconnect(this->commSock, SIGNAL(readyRead()), this, SLOT(receivedBCastPacket()));
+    disconnect(this->broadSock,SIGNAL(readyRead()),this,SLOT(receivedBroadPacket()));
+    disconnect(this->commSock,SIGNAL(readyRead()),this,SLOT(receivedCommPacket()));
     disconnect(this,SIGNAL(connectRequest(QString)),this,SLOT(connectToHost(QString)));
-    disconnect(this->commSock,SIGNAL(connected()),this,SLOT(successConnection()));
     this->commSock->close();
+    this->broadSock->close();
+    delete this->broadSock;
     delete this->commSock;
 }
 void Client::receivedBroadPacket()
@@ -55,7 +57,10 @@ void Client::receivedCommPacket()
         this->commSock->readDatagram(datagram.data(),datagram.size(),&sender,&port);
         QString messStr = QString::fromUtf8(datagram.data());
         D_MSG(messStr);
-        emit formattedPacket(messStr);
+        if(messStr.startsWith("gmd"))
+        {
+            emit formattedPacket(messStr);
+        }
     }
 }
 
@@ -72,4 +77,8 @@ void Client::connectToHost(QString addr)
 bool Client::isConnected()
 {
     return this->connectedToHost;
+}
+void Client::sendGameSyncToHost(QByteArray dgram)
+{
+    this->commSock->writeDatagram(dgram,*this->hostAddr,HOST_LISTEN_PORT);
 }

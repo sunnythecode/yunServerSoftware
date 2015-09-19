@@ -22,6 +22,7 @@ public:
     Client();
     ~Client();
     bool isConnected();
+    void sendGameSyncToHost(QByteArray dgram);
 private:
     QUdpSocket *commSock;
     QUdpSocket *broadSock;

@@ -30,8 +30,10 @@ void Host::sendBroadcast()
 }
 void Host::sendGameSync(QByteArray dgram)
 {
-    //need to sending to each client
-    //this->commSock->writeDatagram(dgram,this->multiAddr,MULTI_CAST_PORT);
+    for(int i = 0;i<this->clients->size();i++)
+    {
+        this->commSock->writeDatagram(dgram,this->clients->at(i).addr,this->clients->at(i).port);
+    }
 }
 
 void Host::readData()
@@ -47,7 +49,7 @@ void Host::readData()
 }
 bool Host::checkValidDgram(QByteArray dgram, QHostAddress sender, quint16 senderPort)
 {
-    if(dgram.startsWith("GMD"))
+    if(dgram.startsWith("gmd"))
     {
         emit receivedValidDgram(dgram);
         return true;
@@ -59,7 +61,16 @@ bool Host::checkValidDgram(QByteArray dgram, QHostAddress sender, quint16 sender
         cli.port = senderPort;
         QString name = QString::fromUtf8(dgram.data());
         cli.name = name.section(':',1);
-        clients->append(cli);
+        bool dupCli = false;
+        for(int i = 0;i<clients->size();i++)
+        {
+            if(clients->at(i).name==cli.name)
+            {
+                D_MSG("DUPLICATE CLIENT");
+            }
+        }
+        if(!dupCli)
+            clients->append(cli);
         QByteArray dgram = "CLI:connected";
         this->broadCastSock->writeDatagram(dgram,sender,BROADCAST_PORT);
         return true;
