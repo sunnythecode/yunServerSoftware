@@ -23,7 +23,7 @@ void Host::sendBroadcast()
         if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost))
         {
              datagram.append(address.toString());
-             D_MSG(address.toString());
+             //D_MSG(address.toString());
         }
     }
     this->broadCastSock->writeDatagram(datagram,QHostAddress::Broadcast,BROADCAST_PORT);
@@ -70,11 +70,25 @@ bool Host::checkValidDgram(QByteArray dgram, QHostAddress sender, quint16 sender
             }
         }
         if(!dupCli)
+        {
             clients->append(cli);
-        QByteArray dgram = "CLI:connected";
-        this->broadCastSock->writeDatagram(dgram,sender,BROADCAST_PORT);
-        return true;
+            QByteArray dgram = "CLI:connected";
+            this->broadCastSock->writeDatagram(dgram,sender,BROADCAST_PORT);
+            emit clientAdded();
+            return true;
+        }
     }
     else
         return false;
+}
+QList<QString> Host::getClientNames()
+{
+    QList<QString> names;
+    for(int i =0;i<this->clients->size();i++)
+    {
+        D_MSG(clients->at(i).name);
+        names.append(clients->at(i).name);
+
+    }
+    return names;
 }

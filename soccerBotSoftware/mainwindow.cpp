@@ -6,13 +6,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    udpBroadcast = new Host();
+    host = new Host();
     this->timer = new QTimer();
     this->timer->setInterval(1000);
 
-
     connect(ui->actionStart_as_Host,SIGNAL(triggered()),this,SLOT(check4Host()));
     connect(ui->actionStart_as_Player,SIGNAL(triggered()),this,SLOT(startClient()));
+    connect(this->host,SIGNAL(clientAdded()),this,SLOT(updateClientList()));
 }
 
 MainWindow::~MainWindow()
@@ -54,8 +54,13 @@ void MainWindow::startHost()
     else
     {
         //no other host is available so we will start up as the host
-        connect(this->timer,SIGNAL(timeout()),udpBroadcast,SLOT(sendBroadcast()));
+        connect(this->timer,SIGNAL(timeout()),host,SLOT(sendBroadcast()));
         this->timer->start();
         delete this->client;
     }
+}
+void MainWindow::updateClientList()
+{
+    this->ui->comboBox->clear();
+    this->ui->comboBox->addItems(this->host->getClientNames());
 }

@@ -33,8 +33,8 @@ void Client::receivedBroadPacket()
     this->broadSock->readDatagram(datagram.data(),datagram.size(),&sender,&port);
     QString messStr = QString::fromUtf8(datagram.data());
     QString sendStr = sender.toString();
-    D_MSG(messStr);
-    D_MSG(sendStr);
+    //D_MSG(messStr);
+    //D_MSG(sendStr);
     if(messStr.indexOf(sendStr)!=-1 && !this->connectedToHost)
     {
         emit connectRequest(sendStr);

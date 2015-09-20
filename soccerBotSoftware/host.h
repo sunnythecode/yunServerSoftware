@@ -29,6 +29,7 @@ class Host : public UdpSend
 public:
     Host();
     ~Host();
+    QList<QString>getClientNames();
 public slots:
     void sendBroadcast();
     void sendGameSync(QByteArray dgram);
@@ -37,6 +38,7 @@ public slots:
 signals:
     void receivedValidDgram(QByteArray dgram);
     void newClient(QByteArray dgram);
+    void clientAdded();
 private:
     QUdpSocket *broadCastSock;
     QUdpSocket *commSock;

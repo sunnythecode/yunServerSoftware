@@ -20,13 +20,14 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    Host *udpBroadcast;
+    Host *host;
     Client *client;
     QTimer *timer;
 public slots:
     void startClient();
     void check4Host();
     void startHost();
+    void updateClientList();
 };
 
 #endif // MAINWINDOW_H
