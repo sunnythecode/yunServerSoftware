@@ -1,105 +1,84 @@
 #include "client.h"
-#include <QTimer>
 
 Client::Client()
 {
     this->connectedToHost = false;
-    this->inSock = new QUdpSocket();
-    if (!this->inSock->bind(23005))
-        qDebug() << "Didn't bind successfully";
-    qDebug() << this->inSock->localPort();
-    this->outSock = new QUdpSocket();
-    connect(this->inSock,SIGNAL(readyRead()),this,SLOT(receivedPacket()));
+    this->commSock = new QUdpSocket(this);
+    this->broadSock = new QUdpSocket(this);
+    if(!this->commSock->bind(IN_PORT))
+       D_MSG("Failed to bind in port");
+    if(!this->broadSock->bind(BROADCAST_PORT))
+       D_MSG("Failed to bind to broadcast");
+    connect(this->broadSock,SIGNAL(readyRead()),this,SLOT(receivedBroadPacket()));
+    connect(this->commSock,SIGNAL(readyRead()),this,SLOT(receivedCommPacket()));
     connect(this,SIGNAL(connectRequest(QString)),this,SLOT(connectToHost(QString)));
-    connect(this, SIGNAL(updateGameData(QString)), this, SLOT(receivedGameData(QString)));
-    QTimer::singleShot(8000, this, SLOT(receivedPacket()));
+
 }
 Client::~Client()
 {
-    disconnect(this->inSock, SIGNAL(readyRead()), this, SLOT(receivedPacket()));
+    disconnect(this->broadSock,SIGNAL(readyRead()),this,SLOT(receivedBroadPacket()));
+    disconnect(this->commSock,SIGNAL(readyRead()),this,SLOT(receivedCommPacket()));
     disconnect(this,SIGNAL(connectRequest(QString)),this,SLOT(connectToHost(QString)));
-    disconnect(this, SIGNAL(updateGameData(QString)), this, SLOT(receivedGameData(QString)));
-    disconnect(this->inSock,SIGNAL(connected()),this,SLOT(successConnection()));
-    this->inSock->close();
-    delete this->inSock;
+    this->commSock->close();
+    this->broadSock->close();
+    delete this->broadSock;
+    delete this->commSock;
+}
+void Client::receivedBroadPacket()
+{
+    QByteArray datagram;
+    datagram.resize(this->broadSock->pendingDatagramSize());
+    QHostAddress sender;
+    quint16 port;
+    this->broadSock->readDatagram(datagram.data(),datagram.size(),&sender,&port);
+    QString messStr = QString::fromUtf8(datagram.data());
+    QString sendStr = sender.toString();
+    //D_MSG(messStr);
+    //D_MSG(sendStr);
+    if(messStr.indexOf(sendStr)!=-1 && !this->connectedToHost)
+    {
+        emit connectRequest(sendStr);
+    }
+    else if(messStr.indexOf("connected")!=-1)
+    {
+        connectedToHost = true;
+    }
 }
 
-void Client::receivedPacket()
+void Client::receivedCommPacket()
 {
-    qDebug() << "Received something";
-    while(this->inSock->hasPendingDatagrams())
+    D_MSG("Received data packet");
+    while(this->commSock->hasPendingDatagrams())
     {
-        qDebug() << "Pending datagrams";
         QByteArray datagram;
-        datagram.resize(this->inSock->pendingDatagramSize());
+        datagram.resize(this->commSock->pendingDatagramSize());
         QHostAddress sender;
         quint16 port;
-        this->inSock->readDatagram(datagram.data(),datagram.size(),&sender,&port);
+        this->commSock->readDatagram(datagram.data(),datagram.size(),&sender,&port);
         QString messStr = QString::fromUtf8(datagram.data());
-        QString sendStr = sender.toString();
-        if(messStr.indexOf(sendStr)!=-1 && !this->connectedToHost)
+        D_MSG(messStr);
+        if(messStr.startsWith("gmd"))
         {
-            qDebug() << "Connecting to host";
-            emit connectRequest(sendStr);
-        }
-        else
-        {
-            qDebug() << "Other packet";
-            if (messStr.contains("gmd"))
-                emit updateGameData(messStr);
-            else
-                emit formattedPacket(messStr);
+            emit formattedPacket(messStr);
         }
     }
 }
 
-void Client::receivedGameData(QString data) {
-
-    qDebug() << "Following needs to be changed to data parameter";
-    QString allGameData = "gmd:500#P1:NameORobot:1:2;P2:SecondName:0:1";
-
-    // collects the game time
-    QStringList gameSplits = allGameData.split("#");
-    QString gameTime = gameSplits.at(0).split(":").at(1);
-    qDebug() << gameTime;
-
-    // collects the data for each player
-    QStringList playerData = gameSplits.at(1).split(";");
-
-    QString playerText;
-    //playerText << "P" << this->currentPlayer;
-    foreach (QString text, playerData) {
-        if (text.contains(playerText)) {
-
-        }
-    }
-
-    /*
-    for (int i = 0; i < 6; i++) {
-        if (i == 0)
-            allGameData << "P" << i + 1 << ":" << this->robotNames[i] << ":" << this->joystickConnections[i] << ":" << this->clientConnections[i];
-        else
-            allGameData << ";P" << i + 1 << ":" << this->robotNames[i] << ":" << this->joystickConnections[i] << ":" << this->clientConnections[i];
-            */
-    data = ' '; //this is just here to remove warnings during debug, REMOVE for release
-}
 void Client::connectToHost(QString addr)
 {
-    address = new QHostAddress(addr);
-    this->outSock->connectToHost(*address,2367);
+    hostAddr = new QHostAddress(addr);
+    QByteArray data = "CLI:name";
+    if(this->commSock->writeDatagram(data,*this->hostAddr,HOST_LISTEN_PORT)==-1)
+    {
+        D_MSG("Failed to send datagram");
+    }
 }
-void Client::successConnection()
-{
-    qDebug() << "Connected to host";
-    qDebug() << "Client info";
-    qDebug() << "Peer " + this->inSock->peerAddress().toString();
-    qDebug() << "Local port " + this->inSock->localPort();
-    qDebug() << "Peer port " + this->inSock->peerPort();
-    this->connectedToHost = true;
-    QByteArray data = "name";
-    this->inSock->writeDatagram(data,*address,2367);
-}
+
 bool Client::isConnected()
 {
     return this->connectedToHost;
+}
+void Client::sendGameSyncToHost(QByteArray dgram)
+{
+    this->commSock->writeDatagram(dgram,*this->hostAddr,HOST_LISTEN_PORT);
 }

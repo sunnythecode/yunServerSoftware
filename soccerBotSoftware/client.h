@@ -4,31 +4,38 @@
 #include <QtNetwork>
 #include <udpsend.h>
 
+#define DEBUG /* comment out this line to lower the verbosity of the program */
+#define IN_PORT 2367
+#define HOST_LISTEN_PORT 2380
+#define BROADCAST_PORT 23005
+
+#if  defined(DEBUG) || defined(GLOBAL_DEBUG)
+#define D_MSG(a) qDebug()<<a;
+#else
+#define D_MSG(a)
+#endif
+
 class Client : public UdpSend
 {
     Q_OBJECT
 public:
     Client();
     ~Client();
-
     bool isConnected();
+    void sendGameSyncToHost(QByteArray dgram);
 private:
-    QUdpSocket *inSock;
-    QUdpSocket *outSock;
+    QUdpSocket *commSock;
+    QUdpSocket *broadSock;
     bool connectedToHost;
-    QHostAddress *address;
-
-    bool joystickConnected;
-    int currentPlayer;
+    QHostAddress *hostAddr;
 public slots:
-    void receivedPacket();
     void connectToHost(QString addr);
-    void successConnection();
-    void receivedGameData(QString data);
+    void receivedCommPacket();
+    void receivedBroadPacket();
 signals:
     void connectRequest(QString);
     void formattedPacket(QString);
-    void updateGameData(QString);
+
 };
 
 #endif // CLIENT_H

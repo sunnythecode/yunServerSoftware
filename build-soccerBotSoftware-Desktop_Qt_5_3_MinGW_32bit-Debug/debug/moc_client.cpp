@@ -20,7 +20,7 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Client_t {
     QByteArrayData data[8];
-    char stringdata[91];
+    char stringdata[97];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,14 +33,14 @@ QT_MOC_LITERAL(0, 0, 6),
 QT_MOC_LITERAL(1, 7, 14),
 QT_MOC_LITERAL(2, 22, 0),
 QT_MOC_LITERAL(3, 23, 15),
-QT_MOC_LITERAL(4, 39, 14),
-QT_MOC_LITERAL(5, 54, 13),
-QT_MOC_LITERAL(6, 68, 4),
-QT_MOC_LITERAL(7, 73, 17)
+QT_MOC_LITERAL(4, 39, 13),
+QT_MOC_LITERAL(5, 53, 4),
+QT_MOC_LITERAL(6, 58, 18),
+QT_MOC_LITERAL(7, 77, 19)
     },
     "Client\0connectRequest\0\0formattedPacket\0"
-    "receivedPacket\0connectToHost\0addr\0"
-    "successConnection"
+    "connectToHost\0addr\0receivedCommPacket\0"
+    "receivedBroadPacket"
 };
 #undef QT_MOC_LITERAL
 
@@ -62,8 +62,8 @@ static const uint qt_meta_data_Client[] = {
        3,    1,   42,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       4,    0,   45,    2, 0x0a /* Public */,
-       5,    1,   46,    2, 0x0a /* Public */,
+       4,    1,   45,    2, 0x0a /* Public */,
+       6,    0,   48,    2, 0x0a /* Public */,
        7,    0,   49,    2, 0x0a /* Public */,
 
  // signals: parameters
@@ -71,8 +71,8 @@ static const uint qt_meta_data_Client[] = {
     QMetaType::Void, QMetaType::QString,    2,
 
  // slots: parameters
+    QMetaType::Void, QMetaType::QString,    5,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QString,    6,
     QMetaType::Void,
 
        0        // eod
@@ -85,9 +85,9 @@ void Client::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         switch (_id) {
         case 0: _t->connectRequest((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 1: _t->formattedPacket((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 2: _t->receivedPacket(); break;
-        case 3: _t->connectToHost((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 4: _t->successConnection(); break;
+        case 2: _t->connectToHost((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 3: _t->receivedCommPacket(); break;
+        case 4: _t->receivedBroadPacket(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {

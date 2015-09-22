@@ -4,19 +4,8 @@ Host::Host()
 {
     this->broadCastSock = new QUdpSocket();;
     this->commSock = new  QUdpSocket();
-
+    this->clients = new QList<ConnectedClient>;
     this->commSock->bind(HOST_LISTENING_PORT); 
-    this->broadCastSock->bind(BROADCAST_PORT);
-    multiAddr = this->broadCastSock->localAddress();
-    QString temp = multiAddr.toString();
-    QString firstByte = temp.section(".",0,0);
-    QString secondByte = temp.section(".",1,1);
-    QString thirdByte = temp.section(".",2,2);
-    int byte = thirdByte.toInt();
-    byte++;
-    thirdByte = QString::number(byte);
-    QString fourthByte = temp.section(".",3,3);
-    multiAddr.setAddress(firstByte+"."+secondByte+"."+thirdByte+"."+fourthByte);
     connect(this->commSock, SIGNAL(readyRead()), this, SLOT(readData()));
 }
 Host::~Host()
@@ -34,7 +23,7 @@ void Host::sendBroadcast()
         if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost))
         {
              datagram.append(address.toString());
-             D_MSG(address.toString());
+             //D_MSG(address.toString());
         }
     }
     this->broadCastSock->writeDatagram(datagram, QHostAddress::Broadcast, BROADCAST_PORT);
@@ -42,7 +31,10 @@ void Host::sendBroadcast()
 
 void Host::sendGameSync(QByteArray dgram)
 {
-    this->commSock->writeDatagram(dgram,this->multiAddr,MULTI_CAST_PORT);
+    for(int i = 0;i<this->clients->size();i++)
+    {
+        this->commSock->writeDatagram(dgram,this->clients->at(i).addr,this->clients->at(i).port);
+    }
 }
 
 void Host::readData()
@@ -54,15 +46,50 @@ void Host::readData()
 
     this->commSock->readDatagram(datagram.data(), datagram.size(),&sender, &senderPort);
     D_MSG(datagram.data());
-    this->checkValidDgram(datagram);
+    this->checkValidDgram(datagram,sender,senderPort);
 }
-bool Host::checkValidDgram(QByteArray dgram)
+bool Host::checkValidDgram(QByteArray dgram, QHostAddress sender, quint16 senderPort)
 {
     if(dgram.startsWith("gmd"))
     {
         emit receivedValidDgram(dgram);
         return true;
     }
+    if(dgram.startsWith("CLI"))
+    {
+        ConnectedClient cli;
+        cli.addr = sender;
+        cli.port = senderPort;
+        QString name = QString::fromUtf8(dgram.data());
+        cli.name = name.section(':',1);
+        bool dupCli = false;
+        for(int i = 0;i<clients->size();i++)
+        {
+            if(clients->at(i).name==cli.name)
+            {
+                D_MSG("DUPLICATE CLIENT");
+            }
+        }
+        if(!dupCli)
+        {
+            clients->append(cli);
+            QByteArray dgram = "CLI:connected";
+            this->broadCastSock->writeDatagram(dgram,sender,BROADCAST_PORT);
+            emit clientAdded();
+            return true;
+        }
+    }
     else
         return false;
+}
+QList<QString> Host::getClientNames()
+{
+    QList<QString> names;
+    for(int i =0;i<this->clients->size();i++)
+    {
+        D_MSG(clients->at(i).name);
+        names.append(clients->at(i).name);
+
+    }
+    return names;
 }

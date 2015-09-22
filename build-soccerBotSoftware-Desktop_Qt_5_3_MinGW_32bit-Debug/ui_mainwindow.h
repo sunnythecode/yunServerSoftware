@@ -88,10 +88,50 @@ public:
     QPushButton *pushButton;
     QToolButton *toolButton;
     QWidget *tb_p2;
+    QWidget *layoutWidget_12;
+    QVBoxLayout *verticalLayout_5;
+    QTextBrowser *textBrowser_5;
+    QHBoxLayout *horizontalLayout_11;
+    QComboBox *comboBox_5;
+    QPushButton *pushButton_9;
+    QPushButton *pushButton_10;
+    QToolButton *toolButton_5;
     QWidget *tb_p3;
+    QWidget *layoutWidget_13;
+    QVBoxLayout *verticalLayout_6;
+    QTextBrowser *textBrowser_6;
+    QHBoxLayout *horizontalLayout_12;
+    QComboBox *comboBox_6;
+    QPushButton *pushButton_11;
+    QPushButton *pushButton_12;
+    QToolButton *toolButton_6;
     QWidget *tb_p4;
+    QWidget *layoutWidget_14;
+    QVBoxLayout *verticalLayout_7;
+    QTextBrowser *textBrowser_7;
+    QHBoxLayout *horizontalLayout_13;
+    QComboBox *comboBox_7;
+    QPushButton *pushButton_13;
+    QPushButton *pushButton_14;
+    QToolButton *toolButton_7;
     QWidget *tb_p5;
+    QWidget *layoutWidget_15;
+    QVBoxLayout *verticalLayout_8;
+    QTextBrowser *textBrowser_8;
+    QHBoxLayout *horizontalLayout_14;
+    QComboBox *comboBox_8;
+    QPushButton *pushButton_15;
+    QPushButton *pushButton_16;
+    QToolButton *toolButton_8;
     QWidget *tb_p6;
+    QWidget *layoutWidget_16;
+    QVBoxLayout *verticalLayout_9;
+    QTextBrowser *textBrowser_9;
+    QHBoxLayout *horizontalLayout_15;
+    QComboBox *comboBox_9;
+    QPushButton *pushButton_17;
+    QPushButton *pushButton_18;
+    QToolButton *toolButton_9;
     QMenuBar *menuBar;
     QMenu *menuMenu;
     QToolBar *mainToolBar;
@@ -372,6 +412,8 @@ public:
         horizontalLayout_2->addWidget(gb_game_blueTeam);
 
         mainTabs->addTab(tb_game, QString());
+        layoutWidget->raise();
+        layoutWidget->raise();
         tb_p1 = new QWidget();
         tb_p1->setObjectName(QStringLiteral("tb_p1"));
         layoutWidget4 = new QWidget(tb_p1);
@@ -422,18 +464,230 @@ public:
         mainTabs->addTab(tb_p1, QString());
         tb_p2 = new QWidget();
         tb_p2->setObjectName(QStringLiteral("tb_p2"));
+        layoutWidget_12 = new QWidget(tb_p2);
+        layoutWidget_12->setObjectName(QStringLiteral("layoutWidget_12"));
+        layoutWidget_12->setGeometry(QRect(10, 10, 551, 361));
+        verticalLayout_5 = new QVBoxLayout(layoutWidget_12);
+        verticalLayout_5->setSpacing(10);
+        verticalLayout_5->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
+        verticalLayout_5->setSizeConstraint(QLayout::SetDefaultConstraint);
+        verticalLayout_5->setContentsMargins(10, 10, 10, 10);
+        textBrowser_5 = new QTextBrowser(layoutWidget_12);
+        textBrowser_5->setObjectName(QStringLiteral("textBrowser_5"));
+
+        verticalLayout_5->addWidget(textBrowser_5);
+
+        horizontalLayout_11 = new QHBoxLayout();
+        horizontalLayout_11->setSpacing(6);
+        horizontalLayout_11->setObjectName(QStringLiteral("horizontalLayout_11"));
+        comboBox_5 = new QComboBox(layoutWidget_12);
+        comboBox_5->setObjectName(QStringLiteral("comboBox_5"));
+        sizePolicy1.setHeightForWidth(comboBox_5->sizePolicy().hasHeightForWidth());
+        comboBox_5->setSizePolicy(sizePolicy1);
+
+        horizontalLayout_11->addWidget(comboBox_5);
+
+        pushButton_9 = new QPushButton(layoutWidget_12);
+        pushButton_9->setObjectName(QStringLiteral("pushButton_9"));
+
+        horizontalLayout_11->addWidget(pushButton_9);
+
+        pushButton_10 = new QPushButton(layoutWidget_12);
+        pushButton_10->setObjectName(QStringLiteral("pushButton_10"));
+
+        horizontalLayout_11->addWidget(pushButton_10);
+
+        toolButton_5 = new QToolButton(layoutWidget_12);
+        toolButton_5->setObjectName(QStringLiteral("toolButton_5"));
+
+        horizontalLayout_11->addWidget(toolButton_5);
+
+
+        verticalLayout_5->addLayout(horizontalLayout_11);
+
         mainTabs->addTab(tb_p2, QString());
+        layoutWidget_12->raise();
+        layoutWidget_12->raise();
         tb_p3 = new QWidget();
         tb_p3->setObjectName(QStringLiteral("tb_p3"));
+        layoutWidget_13 = new QWidget(tb_p3);
+        layoutWidget_13->setObjectName(QStringLiteral("layoutWidget_13"));
+        layoutWidget_13->setGeometry(QRect(10, 0, 551, 361));
+        verticalLayout_6 = new QVBoxLayout(layoutWidget_13);
+        verticalLayout_6->setSpacing(10);
+        verticalLayout_6->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
+        verticalLayout_6->setSizeConstraint(QLayout::SetDefaultConstraint);
+        verticalLayout_6->setContentsMargins(10, 10, 10, 10);
+        textBrowser_6 = new QTextBrowser(layoutWidget_13);
+        textBrowser_6->setObjectName(QStringLiteral("textBrowser_6"));
+
+        verticalLayout_6->addWidget(textBrowser_6);
+
+        horizontalLayout_12 = new QHBoxLayout();
+        horizontalLayout_12->setSpacing(6);
+        horizontalLayout_12->setObjectName(QStringLiteral("horizontalLayout_12"));
+        comboBox_6 = new QComboBox(layoutWidget_13);
+        comboBox_6->setObjectName(QStringLiteral("comboBox_6"));
+        sizePolicy1.setHeightForWidth(comboBox_6->sizePolicy().hasHeightForWidth());
+        comboBox_6->setSizePolicy(sizePolicy1);
+
+        horizontalLayout_12->addWidget(comboBox_6);
+
+        pushButton_11 = new QPushButton(layoutWidget_13);
+        pushButton_11->setObjectName(QStringLiteral("pushButton_11"));
+
+        horizontalLayout_12->addWidget(pushButton_11);
+
+        pushButton_12 = new QPushButton(layoutWidget_13);
+        pushButton_12->setObjectName(QStringLiteral("pushButton_12"));
+
+        horizontalLayout_12->addWidget(pushButton_12);
+
+        toolButton_6 = new QToolButton(layoutWidget_13);
+        toolButton_6->setObjectName(QStringLiteral("toolButton_6"));
+
+        horizontalLayout_12->addWidget(toolButton_6);
+
+
+        verticalLayout_6->addLayout(horizontalLayout_12);
+
         mainTabs->addTab(tb_p3, QString());
         tb_p4 = new QWidget();
         tb_p4->setObjectName(QStringLiteral("tb_p4"));
+        layoutWidget_14 = new QWidget(tb_p4);
+        layoutWidget_14->setObjectName(QStringLiteral("layoutWidget_14"));
+        layoutWidget_14->setGeometry(QRect(10, 0, 551, 361));
+        verticalLayout_7 = new QVBoxLayout(layoutWidget_14);
+        verticalLayout_7->setSpacing(10);
+        verticalLayout_7->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_7->setObjectName(QStringLiteral("verticalLayout_7"));
+        verticalLayout_7->setSizeConstraint(QLayout::SetDefaultConstraint);
+        verticalLayout_7->setContentsMargins(10, 10, 10, 10);
+        textBrowser_7 = new QTextBrowser(layoutWidget_14);
+        textBrowser_7->setObjectName(QStringLiteral("textBrowser_7"));
+
+        verticalLayout_7->addWidget(textBrowser_7);
+
+        horizontalLayout_13 = new QHBoxLayout();
+        horizontalLayout_13->setSpacing(6);
+        horizontalLayout_13->setObjectName(QStringLiteral("horizontalLayout_13"));
+        comboBox_7 = new QComboBox(layoutWidget_14);
+        comboBox_7->setObjectName(QStringLiteral("comboBox_7"));
+        sizePolicy1.setHeightForWidth(comboBox_7->sizePolicy().hasHeightForWidth());
+        comboBox_7->setSizePolicy(sizePolicy1);
+
+        horizontalLayout_13->addWidget(comboBox_7);
+
+        pushButton_13 = new QPushButton(layoutWidget_14);
+        pushButton_13->setObjectName(QStringLiteral("pushButton_13"));
+
+        horizontalLayout_13->addWidget(pushButton_13);
+
+        pushButton_14 = new QPushButton(layoutWidget_14);
+        pushButton_14->setObjectName(QStringLiteral("pushButton_14"));
+
+        horizontalLayout_13->addWidget(pushButton_14);
+
+        toolButton_7 = new QToolButton(layoutWidget_14);
+        toolButton_7->setObjectName(QStringLiteral("toolButton_7"));
+
+        horizontalLayout_13->addWidget(toolButton_7);
+
+
+        verticalLayout_7->addLayout(horizontalLayout_13);
+
         mainTabs->addTab(tb_p4, QString());
         tb_p5 = new QWidget();
         tb_p5->setObjectName(QStringLiteral("tb_p5"));
+        layoutWidget_15 = new QWidget(tb_p5);
+        layoutWidget_15->setObjectName(QStringLiteral("layoutWidget_15"));
+        layoutWidget_15->setGeometry(QRect(10, 10, 551, 361));
+        verticalLayout_8 = new QVBoxLayout(layoutWidget_15);
+        verticalLayout_8->setSpacing(10);
+        verticalLayout_8->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_8->setObjectName(QStringLiteral("verticalLayout_8"));
+        verticalLayout_8->setSizeConstraint(QLayout::SetDefaultConstraint);
+        verticalLayout_8->setContentsMargins(10, 10, 10, 10);
+        textBrowser_8 = new QTextBrowser(layoutWidget_15);
+        textBrowser_8->setObjectName(QStringLiteral("textBrowser_8"));
+
+        verticalLayout_8->addWidget(textBrowser_8);
+
+        horizontalLayout_14 = new QHBoxLayout();
+        horizontalLayout_14->setSpacing(6);
+        horizontalLayout_14->setObjectName(QStringLiteral("horizontalLayout_14"));
+        comboBox_8 = new QComboBox(layoutWidget_15);
+        comboBox_8->setObjectName(QStringLiteral("comboBox_8"));
+        sizePolicy1.setHeightForWidth(comboBox_8->sizePolicy().hasHeightForWidth());
+        comboBox_8->setSizePolicy(sizePolicy1);
+
+        horizontalLayout_14->addWidget(comboBox_8);
+
+        pushButton_15 = new QPushButton(layoutWidget_15);
+        pushButton_15->setObjectName(QStringLiteral("pushButton_15"));
+
+        horizontalLayout_14->addWidget(pushButton_15);
+
+        pushButton_16 = new QPushButton(layoutWidget_15);
+        pushButton_16->setObjectName(QStringLiteral("pushButton_16"));
+
+        horizontalLayout_14->addWidget(pushButton_16);
+
+        toolButton_8 = new QToolButton(layoutWidget_15);
+        toolButton_8->setObjectName(QStringLiteral("toolButton_8"));
+
+        horizontalLayout_14->addWidget(toolButton_8);
+
+
+        verticalLayout_8->addLayout(horizontalLayout_14);
+
         mainTabs->addTab(tb_p5, QString());
         tb_p6 = new QWidget();
         tb_p6->setObjectName(QStringLiteral("tb_p6"));
+        layoutWidget_16 = new QWidget(tb_p6);
+        layoutWidget_16->setObjectName(QStringLiteral("layoutWidget_16"));
+        layoutWidget_16->setGeometry(QRect(10, 10, 551, 361));
+        verticalLayout_9 = new QVBoxLayout(layoutWidget_16);
+        verticalLayout_9->setSpacing(10);
+        verticalLayout_9->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_9->setObjectName(QStringLiteral("verticalLayout_9"));
+        verticalLayout_9->setSizeConstraint(QLayout::SetDefaultConstraint);
+        verticalLayout_9->setContentsMargins(10, 10, 10, 10);
+        textBrowser_9 = new QTextBrowser(layoutWidget_16);
+        textBrowser_9->setObjectName(QStringLiteral("textBrowser_9"));
+
+        verticalLayout_9->addWidget(textBrowser_9);
+
+        horizontalLayout_15 = new QHBoxLayout();
+        horizontalLayout_15->setSpacing(6);
+        horizontalLayout_15->setObjectName(QStringLiteral("horizontalLayout_15"));
+        comboBox_9 = new QComboBox(layoutWidget_16);
+        comboBox_9->setObjectName(QStringLiteral("comboBox_9"));
+        sizePolicy1.setHeightForWidth(comboBox_9->sizePolicy().hasHeightForWidth());
+        comboBox_9->setSizePolicy(sizePolicy1);
+
+        horizontalLayout_15->addWidget(comboBox_9);
+
+        pushButton_17 = new QPushButton(layoutWidget_16);
+        pushButton_17->setObjectName(QStringLiteral("pushButton_17"));
+
+        horizontalLayout_15->addWidget(pushButton_17);
+
+        pushButton_18 = new QPushButton(layoutWidget_16);
+        pushButton_18->setObjectName(QStringLiteral("pushButton_18"));
+
+        horizontalLayout_15->addWidget(pushButton_18);
+
+        toolButton_9 = new QToolButton(layoutWidget_16);
+        toolButton_9->setObjectName(QStringLiteral("toolButton_9"));
+
+        horizontalLayout_15->addWidget(toolButton_9);
+
+
+        verticalLayout_9->addLayout(horizontalLayout_15);
+
         mainTabs->addTab(tb_p6, QString());
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
@@ -455,7 +709,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        mainTabs->setCurrentIndex(0);
+        mainTabs->setCurrentIndex(6);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -494,10 +748,25 @@ public:
         pushButton->setText(QApplication::translate("MainWindow", "Link Controller", 0));
         toolButton->setText(QApplication::translate("MainWindow", "...", 0));
         mainTabs->setTabText(mainTabs->indexOf(tb_p1), QApplication::translate("MainWindow", "Player1", 0));
+        pushButton_9->setText(QApplication::translate("MainWindow", "Link Robot", 0));
+        pushButton_10->setText(QApplication::translate("MainWindow", "Link Controller", 0));
+        toolButton_5->setText(QApplication::translate("MainWindow", "...", 0));
         mainTabs->setTabText(mainTabs->indexOf(tb_p2), QApplication::translate("MainWindow", "Player2", 0));
+        pushButton_11->setText(QApplication::translate("MainWindow", "Link Robot", 0));
+        pushButton_12->setText(QApplication::translate("MainWindow", "Link Controller", 0));
+        toolButton_6->setText(QApplication::translate("MainWindow", "...", 0));
         mainTabs->setTabText(mainTabs->indexOf(tb_p3), QApplication::translate("MainWindow", "Player 3", 0));
+        pushButton_13->setText(QApplication::translate("MainWindow", "Link Robot", 0));
+        pushButton_14->setText(QApplication::translate("MainWindow", "Link Controller", 0));
+        toolButton_7->setText(QApplication::translate("MainWindow", "...", 0));
         mainTabs->setTabText(mainTabs->indexOf(tb_p4), QApplication::translate("MainWindow", "Player 4", 0));
+        pushButton_15->setText(QApplication::translate("MainWindow", "Link Robot", 0));
+        pushButton_16->setText(QApplication::translate("MainWindow", "Link Controller", 0));
+        toolButton_8->setText(QApplication::translate("MainWindow", "...", 0));
         mainTabs->setTabText(mainTabs->indexOf(tb_p5), QApplication::translate("MainWindow", "Player 5", 0));
+        pushButton_17->setText(QApplication::translate("MainWindow", "Link Robot", 0));
+        pushButton_18->setText(QApplication::translate("MainWindow", "Link Controller", 0));
+        toolButton_9->setText(QApplication::translate("MainWindow", "...", 0));
         mainTabs->setTabText(mainTabs->indexOf(tb_p6), QApplication::translate("MainWindow", "Player 6", 0));
         menuMenu->setTitle(QApplication::translate("MainWindow", "File", 0));
     } // retranslateUi
