@@ -51,12 +51,12 @@ void Host::readData()
 }
 bool Host::checkValidDgram(QByteArray dgram, QHostAddress sender, quint16 senderPort)
 {
-    if(dgram.startsWith("gmd"))
+    if(dgram.startsWith("gmd")) //checks for game synce flag
     {
         emit receivedValidDgram(dgram);
         return true;
     }
-    if(dgram.startsWith("CLI"))
+    else if(dgram.startsWith("CLI")) //checks for client flag
     {
         ConnectedClient cli;
         cli.addr = sender;
@@ -64,7 +64,7 @@ bool Host::checkValidDgram(QByteArray dgram, QHostAddress sender, quint16 sender
         QString name = QString::fromUtf8(dgram.data());
         cli.name = name.section(':',1);
         bool dupCli = false;
-        for(int i = 0;i<clients->size();i++)
+        for(int i = 0;i<clients->size();i++) //checks that the client is not already registered
         {
             if(clients->at(i).name==cli.name)
             {
