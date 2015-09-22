@@ -11,9 +11,8 @@ typedef union {
         char signature[3];
         char delimiter;
         unsigned char gameTime;
-        char delimiter
-    } comps
-} allGameData
+    }comps;
+} allGameData;
 
 class GameData : public QObject
 {
