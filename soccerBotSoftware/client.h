@@ -9,10 +9,12 @@
 #define HOST_LISTEN_PORT 2380
 #define BROADCAST_PORT 23005
 
-#if  defined(DEBUG) || defined(GLOBAL_DEBUG)
-#define D_MSG(a) qDebug()<<a;
-#else
-#define D_MSG(a)
+#ifndef D_MSG
+    #if  (defined(DEBUG) || defined(GLOBAL_DEBUG))
+        #define D_MSG(a) qDebug()<<a;
+    #else
+        #define D_MSG(a)
+    #endif
 #endif
 
 class Client : public UdpSend
