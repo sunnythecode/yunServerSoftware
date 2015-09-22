@@ -81,6 +81,7 @@ void Client::receivedGameData(QString data) {
         else
             allGameData << ";P" << i + 1 << ":" << this->robotNames[i] << ":" << this->joystickConnections[i] << ":" << this->clientConnections[i];
             */
+    data = ' '; //this is just here to remove warnings during debug, REMOVE for release
 }
 void Client::connectToHost(QString addr)
 {
