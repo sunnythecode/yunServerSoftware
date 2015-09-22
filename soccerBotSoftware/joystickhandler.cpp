@@ -8,7 +8,11 @@ JoyStickHandler::JoyStickHandler()
 #elif __linux
 
 #elif __APPLE__
-
+    Gamepad_deviceAttachFunc(jsAttached, NULL);
+    Gamepad_deviceRemoveFunc(jsRemoved, NULL);
+    Gamepad_buttonDownFunc(jsButtonDown, NULL);
+    Gamepad_axisMoveFunc(jsTriggerMoved, NULL);
+    Gamepad_init();
 #endif
 
     //set up joystick assuming xbox 360 controller
@@ -127,6 +131,20 @@ void JoyStickHandler::rumbleJoystick(unsigned int lMtr, unsigned int rMtr)
 
 }
 #elif __APPLE__
+
+void JoyStickHandler::jsAttached(struct Gamepad_device * device, void * context) {
+
+}
+void JoyStickHandler::jsRemoved(struct Gamepad_device * device, void * context) {
+
+}
+void JoyStickHandler::jsTriggerMoved(struct Gamepad_device * device, unsigned int axisID, float value, float lastValue, double timestamp, void * context) {
+
+}
+void JoyStickHandler::jsButtonDown(struct Gamepad_device * device, unsigned int buttonID, double timestamp, void * context) {
+
+}
+
 void JoyStickHandler::initJoystick(int index)
 {
 
