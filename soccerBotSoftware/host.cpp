@@ -18,15 +18,16 @@ Host::~Host()
 void Host::sendBroadcast()
 {
     QByteArray datagram;
-    foreach (const QHostAddress &address, QNetworkInterface::allAddresses())
+    foreach (const QHostAddress &address, QNetworkInterface::allAddresses()) //send a broadcast on all network connections
     {
+        //check that connection is not a loopback and supports our protcol
         if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost))
         {
-             datagram.append(address.toString());
-             //D_MSG(address.toString());
+             datagram.append(address.toString()); //write connection ip to datagram
+             this->broadCastSock->writeDatagram(datagram, QHostAddress::Broadcast, BROADCAST_PORT); //broadcast datagram
+             datagram.clear(); //clear the datagram for the next iteration
         }
     }
-    this->broadCastSock->writeDatagram(datagram, QHostAddress::Broadcast, BROADCAST_PORT);
 }
 
 void Host::sendGameSync(QByteArray dgram)
