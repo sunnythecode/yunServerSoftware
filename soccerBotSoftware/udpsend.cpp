@@ -9,6 +9,7 @@ UdpSend::~UdpSend()
 }
 void UdpSend::sendVals(QString data)
 {
+    data = '0';
 
 }
 /*

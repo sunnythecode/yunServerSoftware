@@ -80,8 +80,7 @@ bool Host::checkValidDgram(QByteArray dgram, QHostAddress sender, quint16 sender
             return true;
         }
     }
-    else
-        return false;
+    return false;
 }
 QList<QString> Host::getClientNames()
 {

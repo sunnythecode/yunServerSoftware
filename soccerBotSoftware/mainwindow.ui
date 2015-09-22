@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>6</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tb_game">
      <attribute name="title">
@@ -65,7 +65,7 @@
         <height>25</height>
        </rect>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QHBoxLayout" name="gameBtnLayout">
        <item>
         <widget class="QPushButton" name="btn_startMatch">
          <property name="enabled">
@@ -104,7 +104,7 @@
         <height>322</height>
        </rect>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <layout class="QHBoxLayout" name="mainDispLayout">
        <item>
         <widget class="QGroupBox" name="gb_game_redTeam">
          <property name="sizePolicy">
@@ -672,9 +672,6 @@
        </item>
       </layout>
      </widget>
-     <zorder>layoutWidget</zorder>
-     <zorder>layoutWidget</zorder>
-     <zorder>layoutWidget_12</zorder>
     </widget>
     <widget class="QWidget" name="tb_p1">
      <attribute name="title">
@@ -821,8 +818,6 @@
        </item>
       </layout>
      </widget>
-     <zorder>layoutWidget_12</zorder>
-     <zorder>layoutWidget_12</zorder>
     </widget>
     <widget class="QWidget" name="tb_p3">
      <attribute name="title">
