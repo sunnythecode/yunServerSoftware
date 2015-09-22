@@ -31,6 +31,9 @@
     #include <string.h>
     #pragma message( "This version of the library is designed for controllers and requires linux stuff" )
 #elif __APPLE__
+extern "C" {
+#include <LibstemJoystick/gamepad/Gamepad.h>
+}
 #endif
 
 typedef union
@@ -79,9 +82,9 @@ private:
    char *button, name_of_joystick[80];
    struct js_event js;
    int varBut;
-    #elif __APPLE__
 
-    #endif
+#elif __APPLE__
+#endif
 
 public:
     JoyStickHandler();
@@ -92,10 +95,14 @@ public:
     void updateJoystick();
     void rumbleJoystick(unsigned int lMtr, unsigned int rMtr);
     void rumbleJoystick(int lMtr,int rMtr);
+
+    static void jsAttached(struct Gamepad_device * device, void * context);
+    static void jsRemoved(struct Gamepad_device * device, void * context);
+    static void jsTriggerMoved(struct Gamepad_device * device, unsigned int axisID, float value, float lastValue, double timestamp, void * context);
+    static void jsButtonDown(struct Gamepad_device * device, unsigned int buttonID, double timestamp, void * context);
+
 signals:
     void joystickMissing(int index);
 };
 
 #endif // JOYSTICKHANDLER_H
-
-
