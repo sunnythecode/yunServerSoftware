@@ -9,6 +9,8 @@ RobotInfo::RobotInfo()
         this->joys[i].lY=1;
         this->joys[i].rX=2;
         this->joys[i].rY=3;
+        this->joys[i].lT=4;
+        this->joys[i].rT=5;
     }
 }
 void RobotInfo::updateVal(int index, QString name, JoystickData data)

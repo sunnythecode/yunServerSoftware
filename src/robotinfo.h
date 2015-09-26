@@ -37,6 +37,8 @@ typedef struct
  qint16 lY;
  qint16 rX;
  qint16 rY;
+ qint16 lT;
+ qint16 rT;
  buttonArry buttons;
 }JoystickData;
 class RobotInfo

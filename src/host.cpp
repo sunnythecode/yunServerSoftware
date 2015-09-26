@@ -134,7 +134,9 @@ void Host::parseDgram(QByteArray dgram)
         data.lY = qint16(playerInfo.at(5).toInt());
         data.rX = qint16(playerInfo.at(6).toInt());
         data.rY = qint16(playerInfo.at(7).toInt());
-        data.buttons.bttns = quint16(playerInfo.at(8).toInt());
+        data.lT = qint16(playerInfo.at(8).toInt());
+        data.rT = qint16(playerInfo.at(9).toInt());
+        data.buttons.bttns = quint16(playerInfo.at(10).toInt());
         this->masterList->updateVal(index,name,data);
     }
 
