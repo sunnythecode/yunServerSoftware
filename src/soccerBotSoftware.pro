@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     udpsend.cpp \
     gamedata.cpp \
     joystickhandler.cpp \
-    jsgamesend.cpp
+    jsgamesend.cpp \
+    robotinfo.cpp
 
 HEADERS  += mainwindow.h \
     client.h \
@@ -27,7 +28,8 @@ HEADERS  += mainwindow.h \
     udpsend.h \
     gamedata.h \
     joystickhandler.h \
-    jsgamesend.h
+    jsgamesend.h \
+    robotinfo.h
 
 FORMS    += mainwindow.ui
 

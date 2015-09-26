@@ -28,6 +28,8 @@ public slots:
     void check4Host();
     void startHost();
     void updateClientList();
+private slots:
+    void on_btn_ForceMatchStart_clicked();
 };
 
 #endif // MAINWINDOW_H

@@ -5,7 +5,7 @@
 #include <QtNetwork>
 #include <udpsend.h>
 #include <gamedata.h>
-//#include <gamesync.h>
+#include <robotinfo.h>
 
 #define BROADCAST_PORT 23005
 #define HOST_LISTENING_PORT 2380
@@ -24,7 +24,11 @@ typedef struct{
     qint16 port;
     QString name;
 }ConnectedClient;
-
+typedef struct{
+    QHostAddress addr;
+    qint16 port;
+    QString name;
+}ConnectedRobot;
 class Host : public UdpSend
 {
     Q_OBJECT
@@ -37,16 +41,21 @@ public slots:
     void sendGameSync(QByteArray dgram);
     void readData();
     bool checkValidDgram(QByteArray dgram,QHostAddress sender, quint16 senderPort);
+    void parseDgram(QByteArray dgram);
+    void sendRobotSync();
 signals:
     void receivedValidDgram(QByteArray dgram);
     void newClient(QByteArray dgram);
     void clientAdded();
+    void robotAdded();
 private:
     GameData *gameData;
     QUdpSocket *broadCastSock;
     QUdpSocket *commSock;
     QHostAddress multiAddr;
     QList<ConnectedClient> *clients;
+    QList<ConnectedRobot> *robots;
+    RobotInfo *masterList;
 };
 
 

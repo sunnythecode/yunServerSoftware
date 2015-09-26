@@ -5,8 +5,11 @@ Host::Host()
     this->broadCastSock = new QUdpSocket();;
     this->commSock = new  QUdpSocket();
     this->clients = new QList<ConnectedClient>;
+    this->robots = new QList<ConnectedRobot>;
     this->commSock->bind(HOST_LISTENING_PORT); 
+    this->masterList = new RobotInfo();
     connect(this->commSock, SIGNAL(readyRead()), this, SLOT(readData()));
+    connect(this,SIGNAL(receivedValidDgram(QByteArray)),this,SLOT(parseDgram(QByteArray)));
 }
 Host::~Host()
 {
@@ -80,6 +83,30 @@ bool Host::checkValidDgram(QByteArray dgram, QHostAddress sender, quint16 sender
             return true;
         }
     }
+    else if(dgram.startsWith("ROB"))
+    {
+        ConnectedRobot rob;
+        rob.addr = sender;
+        rob.port = senderPort;
+        QString name = QString::fromUtf8(dgram.data());
+        rob.name = name.section(':',1);
+        bool dupRob = false;
+        for(int i = 0;i<robots->size();i++) //checks that the client is not already registered
+        {
+            if(robots->at(i).name==rob.name)
+            {
+                D_MSG("DUPLICATE CLIENT");
+            }
+        }
+        if(!dupRob)
+        {
+            robots->append(rob);
+            QByteArray dgram = "ROB:connected";
+            this->broadCastSock->writeDatagram(dgram,sender,BROADCAST_PORT);
+            emit robotAdded();
+            return true;
+        }
+    }
     return false;
 }
 QList<QString> Host::getClientNames()
@@ -92,4 +119,46 @@ QList<QString> Host::getClientNames()
 
     }
     return names;
+}
+void Host::parseDgram(QByteArray dgram)
+{
+    QString header = QString::fromUtf8(dgram.data()).section("#",0,0);
+    QStringList allData = QString::fromUtf8(dgram.data()).section("#",1,1).split(";");
+    for(int i =0;i<allData.size();i++)
+    {
+        QStringList playerInfo = allData.at(i).split(":");
+        int index = playerInfo.at(0).at(1).digitValue()-1;
+        QString name = playerInfo.at(1);
+        JoystickData data;
+        data.lX = qint16(playerInfo.at(4).toInt());
+        data.lY = qint16(playerInfo.at(5).toInt());
+        data.rX = qint16(playerInfo.at(6).toInt());
+        data.rY = qint16(playerInfo.at(7).toInt());
+        data.buttons.bttns = quint16(playerInfo.at(8).toInt());
+        this->masterList->updateVal(index,name,data);
+    }
+
+}
+void Host::sendRobotSync()
+{
+    for(int playerNum =0;playerNum<6;playerNum++)
+    {
+        for(int x = 0;x<this->robots->size();x++)
+        {
+            if(robots->at(x).name==this->masterList->getNames()[playerNum])
+            {
+                QTime currTime = QTime::currentTime();
+                if(currTime.msecsTo(masterList->getUpdates()[playerNum])<300)
+                {
+                    QByteArray dgram;
+                    QTextStream stream(dgram);
+                    stream << "ROB#" << this->masterList->getJoys()[playerNum].lX << ":" << this->masterList->getJoys()[playerNum].lY << ":"
+                          << this->masterList->getJoys()[playerNum].rX << ":" << this->masterList->getJoys()[playerNum].rY << ":"
+                          << this->masterList->getJoys()[playerNum].buttons.bttns << ";";
+                    stream.flush();
+                    this->commSock->writeDatagram(dgram,robots->at(x).addr,robots->at(x).port);
+                }
+            }
+        }
+    }
 }

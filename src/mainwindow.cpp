@@ -64,3 +64,8 @@ void MainWindow::updateClientList()
     this->ui->comboBox->clear();
     this->ui->comboBox->addItems(this->host->getClientNames());
 }
+
+void MainWindow::on_btn_ForceMatchStart_clicked()
+{
+    //do stuff
+}
