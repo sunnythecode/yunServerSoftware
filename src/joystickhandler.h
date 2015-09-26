@@ -2,7 +2,7 @@
 #define JOYSTICKHANDLER_H
 
 #include<stdint.h>
-#include <QObject>
+//#include <QObject>
 #include <QDebug>
 
 #define JOYSTICK_NOT_CONNECTED -10
@@ -32,7 +32,7 @@
     #pragma message( "This version of the library is designed for controllers and requires linux stuff" )
 #elif __APPLE__
 extern "C" {
-#include <LibstemJoystick/gamepad/Gamepad.h>
+#include <LibstemJoystick/Gamepad.h>
 }
 #endif
 

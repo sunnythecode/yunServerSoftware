@@ -11,7 +11,7 @@ typedef union {
         char signature[3];
         char delimiter;
         unsigned char gameTime;
-    }comps;
+    } comps;
 } allGameData;
 
 class GameData : public QObject
@@ -37,8 +37,7 @@ private:
    int gameSyncs;
    QString robotNames[6];
    bool joystickConnections[6];
-   char clientConnections[6];
-   int robotConnections[6];
+   bool robotConnections[6];
 
    QUdpSocket *socket;
    UdpSend *udpSender;
