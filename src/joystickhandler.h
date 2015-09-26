@@ -32,7 +32,7 @@
     #pragma message( "This version of the library is designed for controllers and requires linux stuff" )
 #elif __APPLE__
 extern "C" {
-#include <LibstemJoystick/gamepad/Gamepad.h>
+//  #include <LibstemJoystick/gamepad/Gamepad.h>
 }
 #endif
 

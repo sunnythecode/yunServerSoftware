@@ -1,7 +1,8 @@
 #include "gamedata.h"
 
-GameData::GameData()
+GameData::GameData(JoyStickHandler *joystickRef)
 {
+    this->jsData = joystickRef;
     this->gameSyncs = 0;
     this->gameTime = 0;
     this->gameDataTimer.setInterval(100);
@@ -25,10 +26,15 @@ void GameData::updateGameData() {
     QTextStream allGameData;
     allGameData << "gmd:" << this->gameTime << "#";
     for (int i = 0; i < 6; i++) {
-        if (i == 0)
-            allGameData << "P" << i + 1 << ":" << this->robotNames[i] << ":" << this->joystickConnections[i] << ":" << this->clientConnections[i];
-        else
-            allGameData << ";P" << i + 1 << ":" << this->robotNames[i] << ":" << this->joystickConnections[i] << ":" << this->clientConnections[i];
+            allGameData << "P" << i + 1 << ":" << this->robotNames[i] << ":" << this->joystickConnections[i] << ":" << this->clientConnections[i] << ":"
+                                  << QString::number(this->jsData->readAxis(0)) << ":"
+                                  << QString::number(this->jsData->readAxis(1)) << ":"
+                                  << QString::number(this->jsData->readAxis(2)) << ":"
+                                  << QString::number(this->jsData->readAxis(3)) << ":"
+                                  << QString::number(this->jsData->readAxis(4)) << ":"
+                                  << QString::number(this->jsData->readAxis(5)) << ":"
+                                  << QString::number(this->jsData->readBttn(0))
+                                  << ";";
     }
     this->gameSyncs++;
 

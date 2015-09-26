@@ -4,6 +4,7 @@
 #include <QTimer>
 #include <QtNetwork>
 #include <udpsend.h>
+#include <joystickhandler.h>
 
 typedef union {
     unsigned char data[200];
@@ -19,7 +20,7 @@ class GameData : public QObject
     Q_OBJECT
 
 public:
-    explicit GameData();
+    explicit GameData(JoyStickHandler *joystickRef);
     ~GameData();
 
     QTimer gameDataTimer;
@@ -35,6 +36,9 @@ public slots:
 private:
    float gameTime;
    int gameSyncs;
+
+   JoyStickHandler *jsData;
+
    QString robotNames[6];
    bool joystickConnections[6];
    char clientConnections[6];
