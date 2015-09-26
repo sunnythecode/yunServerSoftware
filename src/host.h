@@ -36,6 +36,15 @@ public:
     Host();
     ~Host();
     QList<QString>getClientNames();
+    QList<ConnectedClient> *getClients() const;
+    void setClients(QList<ConnectedClient> *value);
+
+    QList<ConnectedRobot> *getRobots() const;
+    void setRobots(QList<ConnectedRobot> *value);
+
+    RobotInfo *getMasterList() const;
+    void setMasterList(RobotInfo *value);
+
 public slots:
     void sendBroadcast();
     void sendGameSync(QByteArray dgram);

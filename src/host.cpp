@@ -150,15 +150,46 @@ void Host::sendRobotSync()
                 QTime currTime = QTime::currentTime();
                 if(currTime.msecsTo(masterList->getUpdates()[playerNum])<300)
                 {
-                    QByteArray dgram;
-                    QTextStream stream(dgram);
+                    QString dgram;
+                    QTextStream stream(&dgram);
                     stream << "ROB#" << this->masterList->getJoys()[playerNum].lX << ":" << this->masterList->getJoys()[playerNum].lY << ":"
                           << this->masterList->getJoys()[playerNum].rX << ":" << this->masterList->getJoys()[playerNum].rY << ":"
                           << this->masterList->getJoys()[playerNum].buttons.bttns << ";";
-                    stream.flush();
-                    this->commSock->writeDatagram(dgram,robots->at(x).addr,robots->at(x).port);
+
+                    D_MSG(dgram);
+                    this->commSock->writeDatagram(dgram.toUtf8(),robots->at(x).addr,robots->at(x).port);
                 }
             }
         }
     }
 }
+RobotInfo *Host::getMasterList() const
+{
+    return masterList;
+}
+
+void Host::setMasterList(RobotInfo *value)
+{
+    masterList = value;
+}
+
+QList<ConnectedRobot> *Host::getRobots() const
+{
+    return robots;
+}
+
+void Host::setRobots(QList<ConnectedRobot> *value)
+{
+    robots = value;
+}
+
+QList<ConnectedClient> *Host::getClients() const
+{
+    return clients;
+}
+
+void Host::setClients(QList<ConnectedClient> *value)
+{
+    clients = value;
+}
+

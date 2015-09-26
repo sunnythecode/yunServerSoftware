@@ -23,6 +23,7 @@ private:
     Host *host;
     Client *client;
     QTimer *timer;
+
 public slots:
     void startClient();
     void check4Host();
