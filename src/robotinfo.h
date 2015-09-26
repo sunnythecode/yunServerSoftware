@@ -3,34 +3,7 @@
 
 #include <QTime>
 #include<stdint.h>
-typedef union
-{
-  struct
-  {
-    bool DPAD_UP        : 1;
-    bool DPAD_DOWN      : 1;
-    bool DPAD_LEFT      : 1;
-    bool DPAD_RIGHT     : 1;
-    bool START          : 1;
-    bool BACK           : 1;
-    bool LEFT_THUMB     : 1;
-    bool RIGHT_THUMB    : 1;
-    bool LEFT_SHOULDER  : 1;
-    bool RIGHT_SHOULDER : 1;
-    bool A              : 1;
-    bool B              : 1;
-    bool X              : 1;
-    bool Y              : 1;
-  }indvBttn;
-  struct
-  {
-      uint8_t lByte;
-      uint8_t hByte;
-  }byte;
-  uint16_t bttns;
-
-}buttonArry;
-
+#include<joystickhandler.h>
 typedef struct
 {
  qint16 lX;
