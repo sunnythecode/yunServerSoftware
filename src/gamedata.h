@@ -47,8 +47,6 @@ private:
    char clientConnections[6];
    int robotConnections[6];
 
-   QUdpSocket *socket;
-   UdpSend *udpSender;
 };
 
 #endif // GAMEDATA_H
