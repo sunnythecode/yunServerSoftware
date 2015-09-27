@@ -38,7 +38,7 @@ void GameData::updateGameData() {
     }
     this->gameSyncs++;
 
-    this->udpSender->sendVals(allGameData.readAll());
+    emit signalToHost(allGameData.readAll().toUtf8());
 }
 
 float GameData::getGameTime() {
