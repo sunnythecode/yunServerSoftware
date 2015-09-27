@@ -45,6 +45,12 @@ void JoyStickHandler::initJoystick(int index)
         this->joy_dx_index = JOYSTICK_NOT_CONNECTED;    
     }
 }
+bool JoyStickHandler::readBttn(int index){
+    return true;
+}
+int16_t JoyStickHandler::readAxis(int index){
+    return 25;
+}
 
 void JoyStickHandler::updateJoystick()
 {
