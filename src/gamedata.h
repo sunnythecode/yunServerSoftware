@@ -30,6 +30,9 @@ public:
 
     void startGameUpdates();
     void endGameUpdates();
+
+signals:
+    void signalToHost(QByteArray data);
 public slots:
     void updateGameData();
 
