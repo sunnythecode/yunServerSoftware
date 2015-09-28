@@ -29,13 +29,13 @@ void GameData::updateGameData() {
     for (int i = 0; i < 6; i++) {
         // THE SECOND TO LAST COMPONENT THAT GETS STREAMED (READBUTTON) NEEDS TO BE CHANGED TO A READ ALL BUTTONS METHOD
             allGameData << "P" << i + 1 << ":" << this->robotNames[i] << ":" << this->joystickConnections[i] << ":" << this->clientConnections[i] << ":"
-                                  << QString::number(this->jsData[i]->readAxis(0)) << ":"
-                                  << QString::number(this->jsData[i]->readAxis(1)) << ":"
-                                  << QString::number(this->jsData[i]->readAxis(2)) << ":"
-                                  << QString::number(this->jsData[i]->readAxis(3)) << ":"
-                                  << QString::number(this->jsData[i]->readAxis(4)) << ":"
-                                  << QString::number(this->jsData[i]->readAxis(5)) << ":"
-                                  << QString::number(this->jsData[i]->readBttn(0))
+                                  << QString::number(this->jsData[i].readAxis(0)) << ":"
+                                  << QString::number(this->jsData[i].readAxis(1)) << ":"
+                                  << QString::number(this->jsData[i].readAxis(2)) << ":"
+                                  << QString::number(this->jsData[i].readAxis(3)) << ":"
+                                  << QString::number(this->jsData[i].readAxis(4)) << ":"
+                                  << QString::number(this->jsData[i].readAxis(5)) << ":"
+                                  << QString::number(this->jsData[i].readRawBttn(0))
                                   << ";";
     }
     this->gameSyncs++;
