@@ -10,10 +10,17 @@ MainWindow::MainWindow(QWidget *parent) :
     this->timer = new QTimer();
     this->timer->setInterval(50);
 
+    //connect menu bar buttons
     connect(ui->actionStart_as_Host,SIGNAL(triggered()),this,SLOT(check4Host()));
     connect(ui->actionStart_as_Player,SIGNAL(triggered()),this,SLOT(startClient()));
+
+
     connect(this->host,SIGNAL(clientAdded()),this,SLOT(updateClientList()));
-    ///*Start test code
+
+
+
+
+    /*Start test code
     connect(this->timer,SIGNAL(timeout()),this->host,SLOT(sendRobotSync()));
     ConnectedRobot rob1;
     rob1.addr = QHostAddress("192.10.0.1");
@@ -104,8 +111,15 @@ void MainWindow::startHost()
 }
 void MainWindow::updateClientList()
 {
-    this->ui->comboBox->clear();
-    this->ui->comboBox->addItems(this->host->getClientNames());
+    QList<QComboBox *> comboBoxes =ui->mainTabs->findChildren<QComboBox*>(); //create list of combo boxes
+    for(int i=0; i<comboBoxes.length(); i++)
+    {
+        if(comboBoxes[i]->objectName().endsWith("_cb"))
+        {
+            comboBoxes[i]->clear();
+            comboBoxes[i]->addItems(this->host->getClientNames());
+        }
+    }
 }
 
 void MainWindow::on_btn_ForceMatchStart_clicked()
