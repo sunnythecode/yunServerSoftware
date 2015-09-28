@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tb_game">
      <attribute name="title">
@@ -711,7 +711,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
-          <widget class="QComboBox" name="comboBox">
+          <widget class="QComboBox" name="p1_name_cb">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>180</horstretch>
@@ -784,7 +784,10 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_11">
          <item>
-          <widget class="QComboBox" name="comboBox_5">
+          <widget class="QComboBox" name="p2_name_cb">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>180</horstretch>
@@ -857,7 +860,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_12">
          <item>
-          <widget class="QComboBox" name="comboBox_6">
+          <widget class="QComboBox" name="p3_name_cb">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>180</horstretch>
@@ -930,7 +933,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_13">
          <item>
-          <widget class="QComboBox" name="comboBox_7">
+          <widget class="QComboBox" name="p4_name_cb">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>180</horstretch>
@@ -1003,7 +1006,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_14">
          <item>
-          <widget class="QComboBox" name="comboBox_8">
+          <widget class="QComboBox" name="p5_name_cb">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>180</horstretch>
@@ -1076,7 +1079,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_15">
          <item>
-          <widget class="QComboBox" name="comboBox_9">
+          <widget class="QComboBox" name="p6_name_cb">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>180</horstretch>
