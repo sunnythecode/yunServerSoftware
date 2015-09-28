@@ -32,25 +32,17 @@ JoyStickHandler::~JoyStickHandler()
 {
 }
 
+qint16 JoyStickHandler::readRawBttn(int index){
+    return this->buttonVal[index].bttns;
+}
+qint16 JoyStickHandler::readAxis(int index){
+    return this->axisVal[index];
+}
+buttonArry JoyStickHandler::readBttn(int index){
+    return this->buttonVal[index];
+}
+
 #if defined(__WIN32) || defined(__WIN64) || defined(__WINNT)
-void JoyStickHandler::initJoystick(int index)
-{
-    if(XInputGetState(index,&this->controller) != ERROR_DEVICE_NOT_CONNECTED)
-    {
-        this->joy_dx_index = index;
-    }
-    else
-    {
-        emit joystickMissing(index);
-        this->joy_dx_index = JOYSTICK_NOT_CONNECTED;    
-    }
-}
-bool JoyStickHandler::readBttn(int index){
-    return true;
-}
-int16_t JoyStickHandler::readAxis(int index){
-    return 25;
-}
 
 void JoyStickHandler::updateJoystick()
 {
@@ -138,12 +130,6 @@ void JoyStickHandler::rumbleJoystick(unsigned int lMtr, unsigned int rMtr)
 }
 #elif __APPLE__
 
-bool JoyStickHandler::readBttn(int index){
-    return true;
-}
-int16_t JoyStickHandler::readAxis(int index){
-    return 25;
-}
 
 void JoyStickHandler::jsAttached(struct Gamepad_device * device, void * context) {
 

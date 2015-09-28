@@ -89,8 +89,9 @@ private:
 public:
     JoyStickHandler();
     ~JoyStickHandler();
-    bool readBttn(int index);
-    int16_t readAxis(int index);
+    buttonArry readBttn(int index);
+    qint16 readRawBttn(int index);
+    qint16 readAxis(int index);
     void initJoystick(int index);
     void updateJoystick();
     void rumbleJoystick(unsigned int lMtr, unsigned int rMtr);
