@@ -42,8 +42,8 @@ public:
     QList<ConnectedRobot> *getRobots() const;
     void setRobots(QList<ConnectedRobot> *value);
 
-    RobotInfo *getMasterList() const;
-    void setMasterList(RobotInfo *value);
+    QList<RobotInfo *> *getMasterList() const;
+    void setMasterList(QList<RobotInfo *> *value);
 
 public slots:
     void sendBroadcast();
@@ -64,7 +64,7 @@ private:
     QHostAddress multiAddr;
     QList<ConnectedClient> *clients;
     QList<ConnectedRobot> *robots;
-    RobotInfo *masterList;
+    QList<RobotInfo*> *masterList;
 };
 
 

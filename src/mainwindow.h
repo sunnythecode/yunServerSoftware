@@ -33,6 +33,12 @@ public slots:
     void checkStartMatch();
 private slots:
     void on_btn_ForceMatchStart_clicked();
+    void on_p1_linkCont_clicked();
+    void on_p2_linkCont_clicked();
+    void on_p3_linkCont_clicked();
+    void on_p4_linkCont_clicked();
+    void on_p5_linkCont_clicked();
+    void on_p6_linkCont_clicked();
 };
 
 #endif // MAINWINDOW_H

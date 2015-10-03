@@ -18,14 +18,14 @@ class RobotInfo
 {
 public:
     RobotInfo();
-    void updateVal(int index, QString name, JoystickData data);
-    QString* getNames();
-    QTime* getUpdates();
-    JoystickData* getJoys();
+    void updateVal(QString name, JoystickData data);
+    QString getName();
+    QTime getUpdate();
+    JoystickData getJoystickData();
 private:
-    QTime updates[6];
-    JoystickData joys[6];
-    QString names[6];
+    QTime lastUpdate;
+    JoystickData joystickData;
+    QString name;
 };
 
 #endif // ROBOTINFO_H

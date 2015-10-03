@@ -4,31 +4,33 @@ RobotInfo::RobotInfo()
 {
     for(int i =0;i<6;i++)
     {
-        this->joys[i].buttons.bttns=0;
-        this->joys[i].lX=0;
-        this->joys[i].lY=1;
-        this->joys[i].rX=2;
-        this->joys[i].rY=3;
-        this->joys[i].lT=4;
-        this->joys[i].rT=5;
+        this->joystickData.buttons.bttns=0;
+        this->joystickData.lX=0;
+        this->joystickData.lY=1;
+        this->joystickData.rX=2;
+        this->joystickData.rY=3;
+        this->joystickData.lT=4;
+        this->joystickData.rT=5;
     }
 }
-void RobotInfo::updateVal(int index, QString name, JoystickData data)
+void RobotInfo::updateVal(QString name, JoystickData data)
 {
-    this->names[index]=name;
-    this->joys[index]=data;
-    this->updates[index]=QTime::currentTime();
-}
-QString* RobotInfo::getNames()
-{
-    return this->names;
+    this->name=name;
+    this->joystickData=data;
+    this->lastUpdate=QTime::currentTime();
 }
 
-QTime* RobotInfo::getUpdates()
+
+QString RobotInfo::getName()
 {
-    return this->updates;
+    return this->name;
 }
-JoystickData* RobotInfo::getJoys()
+
+QTime RobotInfo::getUpdate()
 {
-    return this->joys;
+    return this->lastUpdate;
+}
+JoystickData RobotInfo::getJoystickData()
+{
+    return this->joystickData;
 }
