@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     connect(this->host,SIGNAL(clientAdded()),this,SLOT(updateClientList()));
-
+    connect(this->host, SIGNAL(robotAdded()), this, SLOT(checkStartMatch()));
 
 
 
@@ -120,6 +120,13 @@ void MainWindow::updateClientList()
             comboBoxes[i]->addItems(this->host->getClientNames());
         }
     }
+}
+
+void MainWindow::checkStartMatch() {
+        if (this->host->getRobots()->count() == 6)
+            this->ui->btn_startMatch->setEnabled(true);
+        else
+            this->ui->btn_startMatch->setEnabled(false);
 }
 
 void MainWindow::on_btn_ForceMatchStart_clicked()

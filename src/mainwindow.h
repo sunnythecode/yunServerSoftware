@@ -29,6 +29,7 @@ public slots:
     void check4Host();
     void startHost();
     void updateClientList();
+    void checkStartMatch();
 private slots:
     void on_btn_ForceMatchStart_clicked();
 };
