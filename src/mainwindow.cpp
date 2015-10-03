@@ -261,3 +261,19 @@ void MainWindow::on_p6_linkCont_clicked()
         this->host->getMasterList()->at(ui->mainTabs->currentIndex())->setJoyIndex(index);
     }
 }
+void MainWindow::updateJoyVals()
+{
+    for(int i = 0;i<this->host->getMasterList()->size();i++)
+    {
+        int index = this->host->getMasterList()->at(i)->getJoyIndex();
+        JoystickData data;
+        data.lX = this->joyList.at(index)->readAxis(0);
+        data.lY = this->joyList.at(index)->readAxis(1);
+        data.rX = this->joyList.at(index)->readAxis(2);
+        data.rY = this->joyList.at(index)->readAxis(3);
+        data.lT = this->joyList.at(index)->readAxis(4);
+        data.rT = this->joyList.at(index)->readAxis(5);
+        data.buttons = this->joyList.at(index)->readBttn(index);
+        this->host->getMasterList()->at(i)->setJoystickData(data);
+    }
+}

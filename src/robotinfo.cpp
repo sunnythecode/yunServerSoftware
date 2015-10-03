@@ -43,4 +43,7 @@ void RobotInfo::setJoyIndex(int value)
 {
     joyIndex = value;
 }
-
+void RobotInfo::setJoystickData(JoystickData data)
+{
+    this->joystickData = data;
+}

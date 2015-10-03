@@ -39,6 +39,7 @@ private slots:
     void on_p4_linkCont_clicked();
     void on_p5_linkCont_clicked();
     void on_p6_linkCont_clicked();
+    void updateJoyVals();
 };
 
 #endif // MAINWINDOW_H

@@ -22,6 +22,7 @@ public:
     QString getName();
     QTime getUpdate();
     JoystickData getJoystickData();
+    void setJoystickData(JoystickData data);
     int getJoyIndex() const;
     void setJoyIndex(int value);
 
