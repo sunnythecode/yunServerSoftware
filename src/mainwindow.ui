@@ -721,14 +721,14 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="p1_linkRob">
            <property name="text">
             <string>Link Robot</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="p1_linkCont">
            <property name="text">
             <string>Link Controller</string>
            </property>
@@ -797,14 +797,14 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_9">
+          <widget class="QPushButton" name="p2_linkRob">
            <property name="text">
             <string>Link Robot</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_10">
+          <widget class="QPushButton" name="p2_linkCont">
            <property name="text">
             <string>Link Controller</string>
            </property>
@@ -870,14 +870,14 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_11">
+          <widget class="QPushButton" name="p3_linkRob">
            <property name="text">
             <string>Link Robot</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_12">
+          <widget class="QPushButton" name="p3_linkCont">
            <property name="text">
             <string>Link Controller</string>
            </property>
@@ -943,14 +943,14 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_13">
+          <widget class="QPushButton" name="p4_linkRob">
            <property name="text">
             <string>Link Robot</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_14">
+          <widget class="QPushButton" name="p4_linkCont">
            <property name="text">
             <string>Link Controller</string>
            </property>
@@ -1016,14 +1016,14 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_15">
+          <widget class="QPushButton" name="p5_linkRob">
            <property name="text">
             <string>Link Robot</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_16">
+          <widget class="QPushButton" name="p5_linkCont">
            <property name="text">
             <string>Link Controller</string>
            </property>
@@ -1089,14 +1089,14 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_17">
+          <widget class="QPushButton" name="p6_linkRob">
            <property name="text">
             <string>Link Robot</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_18">
+          <widget class="QPushButton" name="p6_linkCont">
            <property name="text">
             <string>Link Controller</string>
            </property>
