@@ -5,6 +5,7 @@
 #include <QtNetwork>
 #include <host.h>
 #include <client.h>
+#include <joystickhandler.h>
 
 namespace Ui {
 class MainWindow;
@@ -23,7 +24,7 @@ private:
     Host *host;
     Client *client;
     QTimer *timer;
-
+    QList<JoyStickHandler*> joyList;
 public slots:
     void startClient();
     void check4Host();

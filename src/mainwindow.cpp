@@ -9,7 +9,13 @@ MainWindow::MainWindow(QWidget *parent) :
     host = new Host();
     this->timer = new QTimer();
     this->timer->setInterval(50);
+    this->joyList = QList<JoyStickHandler*>();
+    for(int i = 0;i<4;i++)
+    {
+        this->joyList.append(new JoyStickHandler());
+        this->joyList.at(i)->initJoystick(i);
 
+    }
     //connect menu bar buttons
     connect(ui->actionStart_as_Host,SIGNAL(triggered()),this,SLOT(check4Host()));
     connect(ui->actionStart_as_Player,SIGNAL(triggered()),this,SLOT(startClient()));

@@ -43,6 +43,10 @@ buttonArry JoyStickHandler::readBttn(int index){
 }
 
 #if defined(__WIN32) || defined(__WIN64) || defined(__WINNT)
+void JoyStickHandler::initJoystick(int index)
+{
+    this->joy_dx_index = index;
+}
 
 void JoyStickHandler::updateJoystick()
 {
