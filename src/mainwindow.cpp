@@ -281,3 +281,8 @@ void MainWindow::updateJoyVals()
     }
     this->host->sendRobotSync();
 }
+
+void MainWindow::on_btn_stopMatch_clicked()
+{
+    disconnect(this->timer,SIGNAL(timeout()),this,SLOT(updateJoyVals()));
+}
