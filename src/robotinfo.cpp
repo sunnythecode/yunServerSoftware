@@ -34,3 +34,13 @@ JoystickData RobotInfo::getJoystickData()
 {
     return this->joystickData;
 }
+int RobotInfo::getJoyIndex() const
+{
+    return joyIndex;
+}
+
+void RobotInfo::setJoyIndex(int value)
+{
+    joyIndex = value;
+}
+

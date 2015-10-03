@@ -142,6 +142,28 @@ void MainWindow::on_btn_ForceMatchStart_clicked()
 
 void MainWindow::on_p1_linkCont_clicked()
 {
+    D_MSG("BITCH");
+    int index = -1;
+    QTime timeout = QTime::currentTime().addSecs(5);
+    for(int i = 0;QTime::currentTime() < timeout ;i++)
+    {
+        if(i>=this->joyList.size())i=0;
+        this->joyList.at(i)->updateJoystick();
+        if(this->joyList.at(i)->readBttn(i).indvBttn.START)
+        {
+            index = i;
+            break;
+        }
+    }
+    if(index!=-1)
+    {
+        D_MSG("Controlled linked successfully");
+        this->host->getMasterList()->at(ui->mainTabs->currentIndex())->setJoyIndex(index);
+    }
+}
+
+void MainWindow::on_p2_linkCont_clicked()
+{
     int index = -1;
     QTime timeout = QTime::currentTime().addSecs(5);
     for(int i = 0;QTime::currentTime() > timeout ;i++)
@@ -156,30 +178,86 @@ void MainWindow::on_p1_linkCont_clicked()
     }
     if(index!=-1)
     {
+        this->host->getMasterList()->at(ui->mainTabs->currentIndex())->setJoyIndex(index);
     }
-}
-
-void MainWindow::on_p2_linkCont_clicked()
-{
-
 }
 
 void MainWindow::on_p3_linkCont_clicked()
 {
-
+    int index = -1;
+    QTime timeout = QTime::currentTime().addSecs(5);
+    for(int i = 0;QTime::currentTime() > timeout ;i++)
+    {
+        if(i>this->joyList.size())i=0;
+        this->joyList.at(i)->updateJoystick();
+        if(this->joyList.at(i)->readBttn(i).indvBttn.START)
+        {
+            index = i;
+            break;
+        }
+    }
+    if(index!=-1)
+    {
+        this->host->getMasterList()->at(ui->mainTabs->currentIndex())->setJoyIndex(index);
+    }
 }
 
 void MainWindow::on_p4_linkCont_clicked()
 {
-
+    int index = -1;
+    QTime timeout = QTime::currentTime().addSecs(5);
+    for(int i = 0;QTime::currentTime() > timeout ;i++)
+    {
+        if(i>this->joyList.size())i=0;
+        this->joyList.at(i)->updateJoystick();
+        if(this->joyList.at(i)->readBttn(i).indvBttn.START)
+        {
+            index = i;
+            break;
+        }
+    }
+    if(index!=-1)
+    {
+        this->host->getMasterList()->at(ui->mainTabs->currentIndex())->setJoyIndex(index);
+    }
 }
 
 void MainWindow::on_p5_linkCont_clicked()
 {
-
+    int index = -1;
+    QTime timeout = QTime::currentTime().addSecs(5);
+    for(int i = 0;QTime::currentTime() > timeout ;i++)
+    {
+        if(i>this->joyList.size())i=0;
+        this->joyList.at(i)->updateJoystick();
+        if(this->joyList.at(i)->readBttn(i).indvBttn.START)
+        {
+            index = i;
+            break;
+        }
+    }
+    if(index!=-1)
+    {
+        this->host->getMasterList()->at(ui->mainTabs->currentIndex())->setJoyIndex(index);
+    }
 }
 
 void MainWindow::on_p6_linkCont_clicked()
 {
-
+    int index = -1;
+    QTime timeout = QTime::currentTime().addSecs(5);
+    for(int i = 0;QTime::currentTime() > timeout ;i++)
+    {
+        if(i>this->joyList.size())i=0;
+        this->joyList.at(i)->updateJoystick();
+        if(this->joyList.at(i)->readBttn(i).indvBttn.START)
+        {
+            index = i;
+            break;
+        }
+    }
+    if(index!=-1)
+    {
+        this->host->getMasterList()->at(ui->mainTabs->currentIndex())->setJoyIndex(index);
+    }
 }

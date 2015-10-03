@@ -22,10 +22,14 @@ public:
     QString getName();
     QTime getUpdate();
     JoystickData getJoystickData();
+    int getJoyIndex() const;
+    void setJoyIndex(int value);
+
 private:
     QTime lastUpdate;
     JoystickData joystickData;
     QString name;
+    int joyIndex;
 };
 
 #endif // ROBOTINFO_H

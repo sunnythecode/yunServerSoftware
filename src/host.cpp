@@ -8,6 +8,10 @@ Host::Host()
     this->robots = new QList<ConnectedRobot>;
     this->commSock->bind(HOST_LISTENING_PORT); 
     this->masterList = new QList<RobotInfo*>();
+    for(int i=0;i<6;i++)
+    {
+        masterList->append(new RobotInfo());
+    }
     connect(this->commSock, SIGNAL(readyRead()), this, SLOT(readData()));
     connect(this,SIGNAL(receivedValidDgram(QByteArray)),this,SLOT(parseDgram(QByteArray)));
 }
@@ -149,19 +153,22 @@ void Host::sendRobotSync()
         {
             if(robots->at(x).name==this->masterList->at(playerNum)->getName())
             {
-                QTime currTime = QTime::currentTime();
-                if(currTime.msecsTo(this->masterList->at(playerNum)->getUpdate())<300)
+                if(playerNum<this->masterList->size())
                 {
-                    QString dgram;
-                    QTextStream stream(&dgram);
-                    stream << "ROB#" << this->masterList->at(playerNum)->getJoystickData().lX << ":"
-                           << this->masterList->at(playerNum)->getJoystickData().lY << ":"
-                           << this->masterList->at(playerNum)->getJoystickData().rX << ":"
-                           << this->masterList->at(playerNum)->getJoystickData().rY << ":"
-                           << this->masterList->at(playerNum)->getJoystickData().buttons.bttns << ";";
+                    QTime currTime = QTime::currentTime();
+                    if(currTime.msecsTo(this->masterList->at(playerNum)->getUpdate())<300)
+                    {
+                        QString dgram;
+                        QTextStream stream(&dgram);
+                        stream << "ROB#" << this->masterList->at(playerNum)->getJoystickData().lX << ":"
+                               << this->masterList->at(playerNum)->getJoystickData().lY << ":"
+                               << this->masterList->at(playerNum)->getJoystickData().rX << ":"
+                               << this->masterList->at(playerNum)->getJoystickData().rY << ":"
+                               << this->masterList->at(playerNum)->getJoystickData().buttons.bttns << ";";
 
-                    D_MSG(dgram);
-                    this->commSock->writeDatagram(dgram.toUtf8(),robots->at(x).addr,robots->at(x).port);
+                        D_MSG(dgram);
+                        this->commSock->writeDatagram(dgram.toUtf8(),robots->at(x).addr,robots->at(x).port);
+                    }
                 }
             }
         }
