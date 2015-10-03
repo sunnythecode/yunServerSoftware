@@ -2,6 +2,7 @@
 
 RobotInfo::RobotInfo()
 {
+    this->joyIndex = -1;
     for(int i =0;i<6;i++)
     {
         this->joystickData.buttons.bttns=0;
@@ -45,5 +46,10 @@ void RobotInfo::setJoyIndex(int value)
 }
 void RobotInfo::setJoystickData(JoystickData data)
 {
+    this->lastUpdate=QTime::currentTime();
     this->joystickData = data;
+}
+void RobotInfo::setName(QString name)
+{
+    this->name = name;
 }

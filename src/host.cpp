@@ -156,7 +156,7 @@ void Host::sendRobotSync()
                 if(playerNum<this->masterList->size())
                 {
                     QTime currTime = QTime::currentTime();
-                    if(currTime.msecsTo(this->masterList->at(playerNum)->getUpdate())<300)
+                    if(currTime.msecsTo(this->masterList->at(playerNum)->getUpdate())<300 && this->masterList->at(playerNum)->getJoyIndex()!=-1)
                     {
                         QString dgram;
                         QTextStream stream(&dgram);
@@ -164,10 +164,16 @@ void Host::sendRobotSync()
                                << this->masterList->at(playerNum)->getJoystickData().lY << ":"
                                << this->masterList->at(playerNum)->getJoystickData().rX << ":"
                                << this->masterList->at(playerNum)->getJoystickData().rY << ":"
+                               << this->masterList->at(playerNum)->getJoystickData().lT << ":"
+                               << this->masterList->at(playerNum)->getJoystickData().rT << ":"
                                << this->masterList->at(playerNum)->getJoystickData().buttons.bttns << ";";
 
-                        D_MSG(dgram);
+                        //D_MSG(dgram);
                         this->commSock->writeDatagram(dgram.toUtf8(),robots->at(x).addr,robots->at(x).port);
+                    }
+                    else
+                    {
+
                     }
                 }
             }

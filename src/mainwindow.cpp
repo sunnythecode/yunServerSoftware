@@ -9,7 +9,6 @@ MainWindow::MainWindow(QWidget *parent) :
     host = new Host();
     this->timer = new QTimer();
     this->timer->setInterval(50);
-    this->joyList = QList<JoyStickHandler*>();
     for(int i = 0;i<4;i++)
     {
         this->joyList.append(new JoyStickHandler());
@@ -26,8 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-    /*Start test code
-    connect(this->timer,SIGNAL(timeout()),this->host,SLOT(sendRobotSync()));
+    //*Start test code
+    connect(this->timer,SIGNAL(timeout()),this,SLOT(updateJoyVals()));
     ConnectedRobot rob1;
     rob1.addr = QHostAddress("192.10.0.1");
     rob1.name = "Swag1";
@@ -59,12 +58,12 @@ MainWindow::MainWindow(QWidget *parent) :
     this->host->getRobots()->append(rob5);
     this->host->getRobots()->append(rob6);
 
-    this->host->getMasterList()->getNames()[0]="Swag1";
-    this->host->getMasterList()->getNames()[1]="Swag2";
-    this->host->getMasterList()->getNames()[2]="Swag3";
-    this->host->getMasterList()->getNames()[3]="Swag4";
-    this->host->getMasterList()->getNames()[4]="Swag5";
-    this->host->getMasterList()->getNames()[5]="Swag6";
+    this->host->getMasterList()->at(0)->setName("Swag1");
+    this->host->getMasterList()->at(1)->setName("Swag2");
+    this->host->getMasterList()->at(2)->setName("Swag3");
+    this->host->getMasterList()->at(3)->setName("Swag4");
+    this->host->getMasterList()->at(4)->setName("Swag5");
+    this->host->getMasterList()->at(5)->setName("Swag6");
 
     this->timer->start();
     //*/
@@ -158,7 +157,7 @@ void MainWindow::on_p1_linkCont_clicked()
     if(index!=-1)
     {
         D_MSG("Controlled linked successfully");
-        this->host->getMasterList()->at(ui->mainTabs->currentIndex())->setJoyIndex(index);
+        this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
     }
 }
 
@@ -178,7 +177,7 @@ void MainWindow::on_p2_linkCont_clicked()
     }
     if(index!=-1)
     {
-        this->host->getMasterList()->at(ui->mainTabs->currentIndex())->setJoyIndex(index);
+        this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
     }
 }
 
@@ -198,7 +197,7 @@ void MainWindow::on_p3_linkCont_clicked()
     }
     if(index!=-1)
     {
-        this->host->getMasterList()->at(ui->mainTabs->currentIndex())->setJoyIndex(index);
+        this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
     }
 }
 
@@ -218,7 +217,7 @@ void MainWindow::on_p4_linkCont_clicked()
     }
     if(index!=-1)
     {
-        this->host->getMasterList()->at(ui->mainTabs->currentIndex())->setJoyIndex(index);
+        this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
     }
 }
 
@@ -238,7 +237,7 @@ void MainWindow::on_p5_linkCont_clicked()
     }
     if(index!=-1)
     {
-        this->host->getMasterList()->at(ui->mainTabs->currentIndex())->setJoyIndex(index);
+        this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
     }
 }
 
@@ -258,7 +257,7 @@ void MainWindow::on_p6_linkCont_clicked()
     }
     if(index!=-1)
     {
-        this->host->getMasterList()->at(ui->mainTabs->currentIndex())->setJoyIndex(index);
+        this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
     }
 }
 void MainWindow::updateJoyVals()
@@ -266,14 +265,19 @@ void MainWindow::updateJoyVals()
     for(int i = 0;i<this->host->getMasterList()->size();i++)
     {
         int index = this->host->getMasterList()->at(i)->getJoyIndex();
-        JoystickData data;
-        data.lX = this->joyList.at(index)->readAxis(0);
-        data.lY = this->joyList.at(index)->readAxis(1);
-        data.rX = this->joyList.at(index)->readAxis(2);
-        data.rY = this->joyList.at(index)->readAxis(3);
-        data.lT = this->joyList.at(index)->readAxis(4);
-        data.rT = this->joyList.at(index)->readAxis(5);
-        data.buttons = this->joyList.at(index)->readBttn(index);
-        this->host->getMasterList()->at(i)->setJoystickData(data);
+        if(index!=-1)
+        {
+            this->joyList.at(index)->updateJoystick();
+            JoystickData data;
+            data.lX = this->joyList.at(index)->readAxis(0);
+            data.lY = this->joyList.at(index)->readAxis(1);
+            data.rX = this->joyList.at(index)->readAxis(2);
+            data.rY = this->joyList.at(index)->readAxis(3);
+            data.lT = this->joyList.at(index)->readAxis(4);
+            data.rT = this->joyList.at(index)->readAxis(5);
+            data.buttons = this->joyList.at(index)->readBttn(index);
+            this->host->getMasterList()->at(i)->setJoystickData(data);
+        }
     }
+    this->host->sendRobotSync();
 }

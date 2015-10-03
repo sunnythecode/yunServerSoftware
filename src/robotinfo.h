@@ -20,6 +20,7 @@ public:
     RobotInfo();
     void updateVal(QString name, JoystickData data);
     QString getName();
+    void setName(QString name);
     QTime getUpdate();
     JoystickData getJoystickData();
     void setJoystickData(JoystickData data);
