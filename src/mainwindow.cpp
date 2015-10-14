@@ -81,6 +81,8 @@ void MainWindow::startClient()
     //disable menu buttons after a selection
     this->ui->actionStart_as_Host->setEnabled(false);
     this->ui->actionStart_as_Player->setEnabled(false);
+    connect(this->timer,SIGNAL(timeout()),this,SLOT(updateJoyVals()));
+
 }
 void MainWindow::check4Host()
 {
@@ -110,6 +112,7 @@ void MainWindow::startHost()
     {
         //no other host is available so we will start up as the host
         connect(this->timer,SIGNAL(timeout()),host,SLOT(sendBroadcast()));
+        connect(this->timer,SIGNAL(timeout()),this,SLOT(updateJoyVals()));
         this->timer->start();
         delete this->client;
     }
