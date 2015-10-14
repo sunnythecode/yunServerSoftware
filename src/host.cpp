@@ -8,6 +8,7 @@ Host::Host()
     this->robots = new QList<ConnectedRobot>;
     this->commSock->bind(HOST_LISTENING_PORT); 
     this->masterList = new QList<RobotInfo*>();
+    this->gameData = new GameData();
     for(int i=0;i<6;i++)
     {
         masterList->append(new RobotInfo());
@@ -99,7 +100,7 @@ bool Host::checkValidDgram(QByteArray dgram, QHostAddress sender, quint16 sender
         {
             if(robots->at(i).name==rob.name)
             {
-                D_MSG("DUPLICATE CLIENT");
+                D_MSG("DUPLICATE ROBOT");
             }
         }
         if(!dupRob)
