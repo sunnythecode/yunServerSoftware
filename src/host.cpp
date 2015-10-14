@@ -83,7 +83,7 @@ bool Host::checkValidDgram(QByteArray dgram, QHostAddress sender, quint16 sender
         {
             clients->append(cli);
             QByteArray dgram = "CLI:connected";
-            this->broadCastSock->writeDatagram(dgram,sender,BROADCAST_PORT);
+            this->broadCastSock->writeDatagram(dgram,sender,senderPort);
             emit clientAdded();
             return true;
         }

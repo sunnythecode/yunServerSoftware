@@ -39,10 +39,6 @@ void Client::receivedBroadPacket()
     {
         emit connectRequest(sendStr);
     }
-    else if(messStr.indexOf("connected")!=-1)
-    {
-        connectedToHost = true;
-    }
 }
 
 void Client::receivedCommPacket()
@@ -57,10 +53,15 @@ void Client::receivedCommPacket()
         this->commSock->readDatagram(datagram.data(),datagram.size(),&sender,&port);
         QString messStr = QString::fromUtf8(datagram.data());
         D_MSG(messStr);
+        if(messStr.indexOf("connected")!=-1)
+        {
+            connectedToHost = true;
+        }
         if(messStr.startsWith("gmd"))
         {
             emit formattedPacket(messStr);
         }
+
     }
 }
 
