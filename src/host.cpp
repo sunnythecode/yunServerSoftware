@@ -8,7 +8,7 @@ Host::Host()
     this->robots = new QList<ConnectedRobot>;
     this->commSock->bind(HOST_LISTENING_PORT); 
     this->masterList = new QList<RobotInfo*>();
-    this->gameData = new GameData();
+    //this->gameData = new GameData();
     for(int i=0;i<6;i++)
     {
         masterList->append(new RobotInfo());
