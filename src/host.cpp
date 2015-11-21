@@ -102,6 +102,7 @@ bool Host::checkValidDgram(QByteArray dgram, QHostAddress sender, quint16 sender
             {
                 dupRob = true;
                 D_MSG("DUPLICATE ROBOT");
+                break;
             }
         }
         if(!dupRob)
