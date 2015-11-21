@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-    //*Start test code
+    /*Start test code
     connect(this->timer,SIGNAL(timeout()),this,SLOT(updateJoyVals()));
     ConnectedRobot rob1;
     rob1.addr = QHostAddress("192.10.0.1");
