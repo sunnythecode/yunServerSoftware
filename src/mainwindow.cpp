@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     host = new Host();
     this->timer = new QTimer();
-    this->timer->setInterval(50);
+    this->timer->setInterval(200);
     for(int i = 0;i<4;i++)
     {
         this->joyList.append(new JoyStickHandler());
