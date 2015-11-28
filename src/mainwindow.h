@@ -39,8 +39,17 @@ private slots:
     void on_p4_linkCont_clicked();
     void on_p5_linkCont_clicked();
     void on_p6_linkCont_clicked();
+
+    void updateDropdowns();
+
     void updateJoyVals();
     void on_btn_stopMatch_clicked();
+    void on_p2_linkRob_clicked();
+    void on_p1_linkRob_clicked();
+    void on_p3_linkRob_clicked();
+    void on_p4_linkRob_clicked();
+    void on_p5_linkRob_clicked();
+    void on_p6_linkRob_clicked();
 };
 
 #endif // MAINWINDOW_H

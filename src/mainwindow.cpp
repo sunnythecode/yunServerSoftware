@@ -23,9 +23,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this->host,SIGNAL(clientAdded()),this,SLOT(updateClientList()));
     connect(this->host, SIGNAL(robotAdded()), this, SLOT(checkStartMatch()));
 
+    connect(this->host,SIGNAL(robotAdded()),this,SLOT(updateDropdowns()));
 
-
-    /*Start test code
+    //*Start test code
     connect(this->timer,SIGNAL(timeout()),this,SLOT(updateJoyVals()));
     ConnectedRobot rob1;
     rob1.addr = QHostAddress("192.10.0.1");
@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
     rob2.name = "Swag2";
     rob2.port = 69;
     ConnectedRobot rob3;
+    //*/
     rob3.addr = QHostAddress("192.10.0.3");
     rob3.name = "Swag3";
     rob3.port = 69;
@@ -57,7 +58,6 @@ MainWindow::MainWindow(QWidget *parent) :
     this->host->getRobots()->append(rob4);
     this->host->getRobots()->append(rob5);
     this->host->getRobots()->append(rob6);
-
     this->host->getMasterList()->at(0)->setName("Swag1");
     this->host->getMasterList()->at(1)->setName("Swag2");
     this->host->getMasterList()->at(2)->setName("Swag3");
@@ -293,4 +293,50 @@ void MainWindow::updateJoyVals()
 void MainWindow::on_btn_stopMatch_clicked()
 {
     disconnect(this->timer,SIGNAL(timeout()),this,SLOT(updateJoyVals()));
+}
+
+void MainWindow::updateDropdowns()
+{
+    ui->p1_name_cb->addItem(this->host->getRobots()->at(this->host->getRobots()->size()-1).name);
+    ui->p2_name_cb->addItem(this->host->getRobots()->at(this->host->getRobots()->size()-1).name);
+    ui->p3_name_cb->addItem(this->host->getRobots()->at(this->host->getRobots()->size()-1).name);
+    ui->p4_name_cb->addItem(this->host->getRobots()->at(this->host->getRobots()->size()-1).name);
+    ui->p5_name_cb->addItem(this->host->getRobots()->at(this->host->getRobots()->size()-1).name);
+    ui->p6_name_cb->addItem(this->host->getRobots()->at(this->host->getRobots()->size()-1).name);
+}
+
+void MainWindow::on_p1_linkRob_clicked()
+{
+    QString name = ui->p1_name_cb->currentText();
+    this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
+}
+
+void MainWindow::on_p2_linkRob_clicked()
+{
+    QString name = ui->p2_name_cb->currentText();
+    this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
+}
+
+void MainWindow::on_p3_linkRob_clicked()
+{
+    QString name = ui->p3_name_cb->currentText();
+    this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
+}
+
+void MainWindow::on_p4_linkRob_clicked()
+{
+    QString name = ui->p4_name_cb->currentText();
+    this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
+}
+
+void MainWindow::on_p5_linkRob_clicked()
+{
+    QString name = ui->p5_name_cb->currentText();
+    this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
+}
+
+void MainWindow::on_p6_linkRob_clicked()
+{
+    QString name = ui->p6_name_cb->currentText();
+    this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
 }
