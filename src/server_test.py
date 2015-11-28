@@ -1,4 +1,6 @@
 import socket
+import select
+import serial
 import sys
 import time
 from Queue import Queue
@@ -11,17 +13,11 @@ BROADCAST_IP = '' # Symbolic name, meaning all available interfaces
 FLAG_ARDUINO_CONNECT = True
 KEEP_ALIVE_TIMEOUT = 3
 LOST_BROADCAST_CONNECTION = '127.0.0.1'
-def check4keepAlive(dgram):
-    a = dgram.split('.')
-    if len(a) != 4:          #check that the dgram is not too small
-        return False
-    for x in a:              #check that each member is a number less than 255
-        if not x.isdigit():
-            return False
-        i = int(x)
-        if i< -1 or i > 255:
-                return False
-    return True
+def check4keepAlive(dgram, source):
+	if dgram == source[0]:	
+		return True
+	else:
+		return False	
 
 def broadcastListener():
     lastKeepAlive = time.time()
@@ -37,18 +33,19 @@ def broadcastListener():
         sys.exit()
      
     while True:    
-        data =  bCastSock.recv(1500) # buffer size is 1500 bytes
-        if check4keepAlive(data) == True:
-            lastKeepAlive = time.time()
-            broadcastQueue.put(data)
+        data, sender =  bCastSock.recvfrom(1500) # buffer size is 1500 bytes
+        if check4keepAlive(data, sender):
+		lastKeepAlive = time.time()
+		broadcastQueue.put(sender)
         elif time.time() - lastKeepAlive > KEEP_ALIVE_TIMEOUT:
-            broadcastQueue.put(LOST_BROADCAST_CONNECTION)
-        time.sleep(.1)
+		#broadcastQueue.put(LOST_BROADCAST_CONNECTION)
+		print 'Lost Bcast'
+	time.sleep(.1)
 
 def arduinoCommRead():
-    return "data" #add serial code later
+    return ser.readLine()
 def arduinoCommWrite(data):
-    pass #add serial code later
+    ser.write(data)
 
 #start program
 mainQueue = Queue()
@@ -57,49 +54,63 @@ broadcastQueue = Queue()
 t1 = Thread(target=broadcastListener, args=())
 t1.start()
 
+UDP_IP = "192.168.1.9"
+UDP_PORT = 5005
+MESSAGE = "Hello, World!"
 #set up socket for connection to host
 
 while  True:
     print 'waiting for host broadcast.'
     host = broadcastQueue.get(True) #block until there is data from the broadcast thread
     validIp = True
+    #setup arduino serial comm
+    ser = serial.Serial('/dev/ttyATH0', 115200) # open serial port
+    print ser.portstr
+    ser.open()
+    ser.flushInput()
 
-    try:
-        socket.inet_aton(host)
-    except socket.error:
-        validIp = False
-        
     if validIp:
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        try:
-            s.bind((host, PORT))
-        except socket.error as msg:
-            s.close()
-            print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
-        else:
-            fKeepAlive = True
-            keepAliveHolder = time.time()
-            while fKeepAlive:
-                print "alive"
-                if not broadcastQueue.empty():
-                    qPop = broadcastQueue.get()
-                    keepAliveHolder = time.time()
+	
+	sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+	try:
+		sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
+	except socket.error as msg:
+		print 'could not send to ' + host[0] + 'error code: ' + str(msg[0])
+		time.sleep(1000)
+	fKeepAlive = True
+	keepAliveHolder = time.time()
+	while fKeepAlive:
+		print "alive"
+		if not broadcastQueue.empty():
+			qPop = broadcastQueue.get()
+			keepAliveHolder = time.time()
 
-                if time.time() - keepAliveHolder > KEEP_ALIVE_TIMEOUT:
-                    fKeepAlive = False
-                    print "connection died"
+		if time.time() - keepAliveHolder > KEEP_ALIVE_TIMEOUT:
+			fKeepAlive = False
+			print "connection died"
+			break
 
-                ardData = arduinoCommRead()
-                print host
-                s.sendto("gotta go fast",(host,PORT))
-                bridgeData = s.recv(1024)
-                arduinoCommWrite(bridgeData)
-                
-                
-                
-                
-            
-    
+		ardData = arduinoCommRead()
+		print host
+		MESSAGE = "gotta go fast"
+		try:
+			sock.sendto("ROB:TEST_ROBOT",(host[0], PORT))
+		except socket.error as msg:
+			print ' could not send message 1 to ' + host[0] + ' error code: ' + msg[1]
+
+		senderAddr =''
+		ready = select.select([sock], [], [], .02)
+		if ready[0]:
+			bridgeData, senderAddr = sock.recv(1024)
+		if(senderAddr == host[0]):
+			arduinoCommWrite(bridgeData)
+
+	sock.close()
         
+        
+        
+        
+    
+
+
     
