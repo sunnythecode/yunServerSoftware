@@ -1,5 +1,6 @@
 import socket
 import select
+import serial
 import sys
 import time
 from Queue import Queue
@@ -42,9 +43,9 @@ def broadcastListener():
 	time.sleep(.1)
 
 def arduinoCommRead():
-    return "data" #add serial code later
+    return ser.readLine()
 def arduinoCommWrite(data):
-    pass #add serial code later
+    ser.write(data)
 
 #start program
 mainQueue = Queue()
@@ -62,7 +63,11 @@ while  True:
     print 'waiting for host broadcast.'
     host = broadcastQueue.get(True) #block until there is data from the broadcast thread
     validIp = True
-
+    #setup arduino serial comm
+    ser = serial.Serial('/dev/ttyATH0', 115200) # open serial port
+    print ser.portstr
+    ser.open()
+    ser.flushInput()
 
     if validIp:
 	
