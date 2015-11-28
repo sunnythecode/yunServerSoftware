@@ -144,7 +144,6 @@ void MainWindow::on_btn_ForceMatchStart_clicked()
 
 void MainWindow::on_p1_linkCont_clicked()
 {
-    D_MSG("BITCH");
     int index = -1;
     QTime timeout = QTime::currentTime().addSecs(5);
     for(int i = 0;QTime::currentTime() < timeout ;i++)
@@ -160,6 +159,7 @@ void MainWindow::on_p1_linkCont_clicked()
     if(index!=-1)
     {
         D_MSG("Controlled linked successfully");
+        ui->p1_linkCont->setEnabled(false);
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
     }
 }
@@ -180,6 +180,7 @@ void MainWindow::on_p2_linkCont_clicked()
     }
     if(index!=-1)
     {
+        ui->p2_linkCont->setEnabled(false);
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
     }
 }
@@ -200,6 +201,7 @@ void MainWindow::on_p3_linkCont_clicked()
     }
     if(index!=-1)
     {
+        ui->p3_linkCont->setEnabled(false);
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
     }
 }
@@ -220,6 +222,7 @@ void MainWindow::on_p4_linkCont_clicked()
     }
     if(index!=-1)
     {
+        ui->p4_linkCont->setEnabled(false);
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
     }
 }
@@ -240,6 +243,7 @@ void MainWindow::on_p5_linkCont_clicked()
     }
     if(index!=-1)
     {
+        ui->p5_linkCont->setEnabled(false);
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
     }
 }
@@ -260,6 +264,7 @@ void MainWindow::on_p6_linkCont_clicked()
     }
     if(index!=-1)
     {
+        ui->p6_linkCont->setEnabled(false);
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
     }
 }
