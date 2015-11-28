@@ -34,7 +34,6 @@ def broadcastListener():
     while True:    
         data, sender =  bCastSock.recvfrom(1500) # buffer size is 1500 bytes
         if check4keepAlive(data, sender):
-		print 'Good bcast from' + str(sender)
 		lastKeepAlive = time.time()
 		broadcastQueue.put(sender)
         elif time.time() - lastKeepAlive > KEEP_ALIVE_TIMEOUT:
@@ -69,51 +68,44 @@ while  True:
 	
 	sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 	try:
-		sock.bind(('127.0.0.1', PORT))
-        except socket.error as msg:
-		print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
-		print 'tried to connect to:' + host[0]
-        else:
+		sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
+	except socket.error as msg:
+		print 'could not send to ' + host[0] + 'error code: ' + str(msg[0])
+		time.sleep(1000)
+	fKeepAlive = True
+	keepAliveHolder = time.time()
+	while fKeepAlive:
+		print "alive"
+		if not broadcastQueue.empty():
+			qPop = broadcastQueue.get()
+			keepAliveHolder = time.time()
+
+		if time.time() - keepAliveHolder > KEEP_ALIVE_TIMEOUT:
+			fKeepAlive = False
+			print "connection died"
+			break
+
+		ardData = arduinoCommRead()
+		print host
+		MESSAGE = "gotta go fast"
 		try:
-			sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
+			sock.sendto("ROB:TEST_ROBOT",(host[0], PORT))
 		except socket.error as msg:
-			print 'could not send to ' + host[0] + 'error code: ' + str(msg[0])
-			time.sleep(1000)
-		fKeepAlive = True
-		keepAliveHolder = time.time()
-		while fKeepAlive:
-			print "alive"
-			if not broadcastQueue.empty():
-				qPop = broadcastQueue.get()
-				keepAliveHolder = time.time()
+			print ' could not send message 1 to ' + host[0] + ' error code: ' + msg[1]
 
-			if time.time() - keepAliveHolder > KEEP_ALIVE_TIMEOUT:
-				fKeepAlive = False
-				print "connection died"
-				break
+		senderAddr =''
+		ready = select.select([sock], [], [], .02)
+		if ready[0]:
+			bridgeData, senderAddr = sock.recv(1024)
+		if(senderAddr == host[0]):
+			arduinoCommWrite(bridgeData)
 
-			ardData = arduinoCommRead()
-			print host
-			MESSAGE = "gotta go fast"
-			try:
-				sock.sendto("ROB:TEST_ROBOT",(host[0], PORT))
-			except socket.error as msg:
-				print ' could not send message 1 to ' + host[0] + ' error code: ' + msg[1]
-
-			senderAddr =''
-			ready = select.select([sock], [], [], .02)
-			if ready[0]:
-				bridgeData, senderAddr = sock.recv(1024)
-			if(senderAddr == host[0]):
-				arduinoCommWrite(bridgeData)
-			else:
-				print senderAddr + ' - did not match - ' + host[0]
-		sock.close()
-	        
-	        
-	        
-                
-            
-    
+	sock.close()
         
+        
+        
+        
+    
+
+
     
