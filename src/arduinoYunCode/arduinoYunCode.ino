@@ -14,7 +14,7 @@
 #define MOTOR_MIN 0
 #define L_STICK_DEADZONE 5
 #define R_STICK_DEADZONE 10
-#define MIN_STRING 22
+#define MIN_STRING 10
 
 #define MTR1_SIG 5  
 #define MTR1_POS 6
@@ -30,10 +30,10 @@
 //uncomment next line to inver right axis
 //#define INVERT_RIGHT_AXIS 1
 
-char data_read[40];
+char data_read[128];
 int ledDelay = LED_FAST_DELAY;
 bool ledState =true;
-bool sockStat = false;
+bool sockStat = true;
 bool updateOutputs = false;
 Servo mtr1, mtr2;
 long ledTimeout, motorWatchdog;
@@ -76,35 +76,22 @@ void loop() {
   if (Serial1.available() > MIN_STRING)
   {
     Serial.print("rdy:");
-    int i;
-    for (i = 0; i < MIN_STRING && Serial1.read() != '!'; i++);
 
-    Serial1.readBytesUntil('?', data_read, 50);
+    Serial1.readBytesUntil('?', data_read, 128);
 	
-	//check to weed out garbage data on start-up, if reasonable data size between delimiters then accept packet 
-	char *gCheckStart, *gCheckEnd;
-	if(strstr(data_read,"started"))
-	{
-		sockStat = true;
-		ledDelay = LED_FAST_DELAY;
-	}
-	if(gCheckStart=strchr(data_read, ','))
-	{
-		if(gCheckEnd = strchr(gCheckStart+1, ','))
-		{
-			if(gCheckEnd - gCheckStart < 7)
-			{
-				ledDelay = LED_SLOW_DELAY;
-				updateOutputs = true;
-			}
-		}
-				
-	}
-	
-	#ifdef DEBUG
+  	//check to weed out garbage data on start-up, if reasonable data size between delimiters then accept packet 
+  	if(strstr(strtok(data_read, "!"), "ROB#"))
+    {
+      ledDelay = LED_SLOW_DELAY;
+      updateOutputs = true;
+    }
+        
+  #ifdef DEBUG
+    Serial.print("data: ");
     Serial.println(data_read);
-	#endif
-  }
+  #endif	
+	}
+
 
   if (updateOutputs)
   {
