@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>6</number>
     </property>
     <widget class="QWidget" name="tb_game">
      <attribute name="title">
@@ -706,7 +706,7 @@
         <number>10</number>
        </property>
        <item>
-        <widget class="QTextBrowser" name="textBrowser"/>
+        <widget class="QTextBrowser" name="p1_log"/>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -779,7 +779,7 @@
         <number>10</number>
        </property>
        <item>
-        <widget class="QTextBrowser" name="textBrowser_5"/>
+        <widget class="QTextBrowser" name="p2_log"/>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_11">
@@ -855,7 +855,7 @@
         <number>10</number>
        </property>
        <item>
-        <widget class="QTextBrowser" name="textBrowser_6"/>
+        <widget class="QTextBrowser" name="p3_log"/>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_12">
@@ -928,7 +928,7 @@
         <number>10</number>
        </property>
        <item>
-        <widget class="QTextBrowser" name="textBrowser_7"/>
+        <widget class="QTextBrowser" name="p4_log"/>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_13">
@@ -1001,7 +1001,7 @@
         <number>10</number>
        </property>
        <item>
-        <widget class="QTextBrowser" name="textBrowser_8"/>
+        <widget class="QTextBrowser" name="p5_log"/>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -1074,7 +1074,7 @@
         <number>10</number>
        </property>
        <item>
-        <widget class="QTextBrowser" name="textBrowser_9"/>
+        <widget class="QTextBrowser" name="p6_log"/>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_15">

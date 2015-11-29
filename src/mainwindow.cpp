@@ -163,8 +163,7 @@ void MainWindow::on_p1_linkCont_clicked()
     }
     if(index!=-1)
     {
-        D_MSG(index);
-        D_MSG("Controlled linked successfully");
+        ui->p1_log->append("Controller " + QString::number(index) + "linked successfully");
         ui->p1_linkCont->setEnabled(false);
         ui->txt_game_p1_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
@@ -187,6 +186,7 @@ void MainWindow::on_p2_linkCont_clicked()
     }
     if(index!=-1)
     {
+        ui->p2_log->append("Controller " + QString::number(index) + "linked successfully");
         ui->p2_linkCont->setEnabled(false);
         ui->txt_game_p2_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
@@ -209,6 +209,7 @@ void MainWindow::on_p3_linkCont_clicked()
     }
     if(index!=-1)
     {
+        ui->p3_log->append("Controller " + QString::number(index) + "linked successfully");
         ui->p3_linkCont->setEnabled(false);
         ui->txt_game_p3_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
@@ -231,6 +232,7 @@ void MainWindow::on_p4_linkCont_clicked()
     }
     if(index!=-1)
     {
+        ui->p4_log->append("Controller " + QString::number(index) + "linked successfully");
         ui->p4_linkCont->setEnabled(false);
         ui->txt_game_p4_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
@@ -253,6 +255,7 @@ void MainWindow::on_p5_linkCont_clicked()
     }
     if(index!=-1)
     {
+        ui->p5_log->append("Controller " + QString::number(index) + " linked successfully");
         ui->p5_linkCont->setEnabled(false);
         ui->txt_game_p5_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
@@ -275,6 +278,7 @@ void MainWindow::on_p6_linkCont_clicked()
     }
     if(index!=-1)
     {
+        ui->p6_log->append("Controller " + QString::number(index) + "linked successfully");
         ui->p6_linkCont->setEnabled(false);
         ui->txt_game_p6_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
@@ -303,8 +307,10 @@ void MainWindow::updateJoyVals()
 
 void MainWindow::on_btn_stopMatch_clicked()
 {
+
     this->robotSendTimer->stop();
     this->joystickTimer->stop();
+    ui->btn_stopMatch->setEnabled(false);
 }
 
 void MainWindow::updateDropdowns()
@@ -320,7 +326,8 @@ void MainWindow::updateDropdowns()
 void MainWindow::on_p1_linkRob_clicked()
 {
     QString name = ui->p1_name_cb->currentText();
-        ui->gb_game_player1->setTitle("Player 1: " + name);
+    ui->gb_game_player1->setTitle("Player 1: " + name);
+    ui->p1_log->append("Connected to " + name);
     ui->txt_game_p1_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
     this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
 }
@@ -328,38 +335,43 @@ void MainWindow::on_p1_linkRob_clicked()
 void MainWindow::on_p2_linkRob_clicked()
 {
     QString name = ui->p2_name_cb->currentText();
-        ui->gb_game_player2->setTitle("Player 2: " + name);
-        ui->txt_game_p2_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
+    ui->p2_log->append("Connected to " + name);
+    ui->gb_game_player2->setTitle("Player 2: " + name);
+    ui->txt_game_p2_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
     this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
 }
 
 void MainWindow::on_p3_linkRob_clicked()
 {
     QString name = ui->p3_name_cb->currentText();
-        ui->gb_game_player3->setTitle("Player 3: " + name);
-        ui->txt_game_p3_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
+    ui->p3_log->append("Connected to " + name);
+    ui->gb_game_player3->setTitle("Player 3: " + name);
+    ui->txt_game_p3_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
     this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
 }
 
 void MainWindow::on_p4_linkRob_clicked()
 {
     QString name = ui->p4_name_cb->currentText();
-        ui->gb_game_player4->setTitle("Player 4: " + name);
-        ui->txt_game_p4_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
+    ui->p4_log->append("Connected to " + name);
+    ui->gb_game_player4->setTitle("Player 4: " + name);
+    ui->txt_game_p4_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
     this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
 }
 
 void MainWindow::on_p5_linkRob_clicked()
 {
     QString name = ui->p5_name_cb->currentText();
-        ui->gb_game_player5->setTitle("Player 5: " + name);
-        ui->txt_game_p5_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
+    ui->p5_log->append("Connected to " + name);
+    ui->gb_game_player5->setTitle("Player 5: " + name);
+    ui->txt_game_p5_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
     this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
 }
 
 void MainWindow::on_p6_linkRob_clicked()
 {
     QString name = ui->p6_name_cb->currentText();
+    ui->p6_log->append("Connected to " + name);
     ui->gb_game_player6->setTitle("Player 6: " + name);
     ui->txt_game_p6_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
     this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
