@@ -7,8 +7,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     host = new Host();
-    this->timer = new QTimer();
-    this->timer->setInterval(200);
+    this->broadcastTimer = new QTimer();
+    this->robotSendTimer = new QTimer();
+    this->joystickTimer = new QTimer();
+    this->broadcastTimer->setInterval(200);
+    this->robotSendTimer->setInterval(50);
+    this->joystickTimer->setInterval(30);
     for(int i = 0;i<4;i++)
     {
         this->joyList.append(new JoyStickHandler());
@@ -24,9 +28,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this->host, SIGNAL(robotAdded()), this, SLOT(checkStartMatch()));
 
     connect(this->host,SIGNAL(robotAdded()),this,SLOT(updateDropdowns()));
+    connect(this->joystickTimer,SIGNAL(timeout()),this,SLOT(updateJoyVals()));
+    connect(this->robotSendTimer,SIGNAL(timeout()),this->host,SLOT(sendRobotSync()));
 
-    //*Start test code
-    connect(this->timer,SIGNAL(timeout()),this,SLOT(updateJoyVals()));
+    /*Start test code
+
     ConnectedRobot rob1;
     rob1.addr = QHostAddress("192.10.0.1");
     rob1.name = "Swag1";
@@ -36,7 +42,6 @@ MainWindow::MainWindow(QWidget *parent) :
     rob2.name = "Swag2";
     rob2.port = 69;
     ConnectedRobot rob3;
-    //*/
     rob3.addr = QHostAddress("192.10.0.3");
     rob3.name = "Swag3";
     rob3.port = 69;
@@ -64,8 +69,6 @@ MainWindow::MainWindow(QWidget *parent) :
     this->host->getMasterList()->at(3)->setName("Swag4");
     this->host->getMasterList()->at(4)->setName("Swag5");
     this->host->getMasterList()->at(5)->setName("Swag6");
-
-    this->timer->start();
     //*/
 
 }
@@ -81,7 +84,7 @@ void MainWindow::startClient()
     //disable menu buttons after a selection
     this->ui->actionStart_as_Host->setEnabled(false);
     this->ui->actionStart_as_Player->setEnabled(false);
-    connect(this->timer,SIGNAL(timeout()),this,SLOT(updateJoyVals()));
+    connect(this->broadcastTimer,SIGNAL(timeout()),this,SLOT(updateJoyVals()));
 
 }
 void MainWindow::check4Host()
@@ -111,9 +114,8 @@ void MainWindow::startHost()
     else
     {
         //no other host is available so we will start up as the host
-        connect(this->timer,SIGNAL(timeout()),host,SLOT(sendBroadcast()));
-        connect(this->timer,SIGNAL(timeout()),this,SLOT(updateJoyVals()));
-        this->timer->start();
+        connect(this->broadcastTimer,SIGNAL(timeout()),host,SLOT(sendBroadcast()));
+        this->broadcastTimer->start();
         delete this->client;
     }
 }
@@ -139,7 +141,10 @@ void MainWindow::checkStartMatch() {
 
 void MainWindow::on_btn_ForceMatchStart_clicked()
 {
-    //do stuff
+    D_MSG("Game started");
+    ui->btn_stopMatch->setEnabled(true);
+    this->joystickTimer->start();
+    this->robotSendTimer->start();
 }
 
 void MainWindow::on_p1_linkCont_clicked()
@@ -158,8 +163,10 @@ void MainWindow::on_p1_linkCont_clicked()
     }
     if(index!=-1)
     {
+        D_MSG(index);
         D_MSG("Controlled linked successfully");
         ui->p1_linkCont->setEnabled(false);
+        ui->txt_game_p1_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
     }
 }
@@ -181,6 +188,7 @@ void MainWindow::on_p2_linkCont_clicked()
     if(index!=-1)
     {
         ui->p2_linkCont->setEnabled(false);
+        ui->txt_game_p2_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
     }
 }
@@ -202,6 +210,7 @@ void MainWindow::on_p3_linkCont_clicked()
     if(index!=-1)
     {
         ui->p3_linkCont->setEnabled(false);
+        ui->txt_game_p3_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
     }
 }
@@ -223,6 +232,7 @@ void MainWindow::on_p4_linkCont_clicked()
     if(index!=-1)
     {
         ui->p4_linkCont->setEnabled(false);
+        ui->txt_game_p4_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
     }
 }
@@ -244,6 +254,7 @@ void MainWindow::on_p5_linkCont_clicked()
     if(index!=-1)
     {
         ui->p5_linkCont->setEnabled(false);
+        ui->txt_game_p5_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
     }
 }
@@ -265,6 +276,7 @@ void MainWindow::on_p6_linkCont_clicked()
     if(index!=-1)
     {
         ui->p6_linkCont->setEnabled(false);
+        ui->txt_game_p6_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
     }
 }
@@ -287,12 +299,12 @@ void MainWindow::updateJoyVals()
             this->host->getMasterList()->at(i)->setJoystickData(data);
         }
     }
-    this->host->sendRobotSync();
 }
 
 void MainWindow::on_btn_stopMatch_clicked()
 {
-    disconnect(this->timer,SIGNAL(timeout()),this,SLOT(updateJoyVals()));
+    this->robotSendTimer->stop();
+    this->joystickTimer->stop();
 }
 
 void MainWindow::updateDropdowns()
@@ -308,35 +320,47 @@ void MainWindow::updateDropdowns()
 void MainWindow::on_p1_linkRob_clicked()
 {
     QString name = ui->p1_name_cb->currentText();
+        ui->gb_game_player1->setTitle("Player 1: " + name);
+    ui->txt_game_p1_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
     this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
 }
 
 void MainWindow::on_p2_linkRob_clicked()
 {
     QString name = ui->p2_name_cb->currentText();
+        ui->gb_game_player2->setTitle("Player 2: " + name);
+        ui->txt_game_p2_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
     this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
 }
 
 void MainWindow::on_p3_linkRob_clicked()
 {
     QString name = ui->p3_name_cb->currentText();
+        ui->gb_game_player3->setTitle("Player 3: " + name);
+        ui->txt_game_p3_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
     this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
 }
 
 void MainWindow::on_p4_linkRob_clicked()
 {
     QString name = ui->p4_name_cb->currentText();
+        ui->gb_game_player4->setTitle("Player 4: " + name);
+        ui->txt_game_p4_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
     this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
 }
 
 void MainWindow::on_p5_linkRob_clicked()
 {
     QString name = ui->p5_name_cb->currentText();
+        ui->gb_game_player5->setTitle("Player 5: " + name);
+        ui->txt_game_p5_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
     this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
 }
 
 void MainWindow::on_p6_linkRob_clicked()
 {
     QString name = ui->p6_name_cb->currentText();
+    ui->gb_game_player6->setTitle("Player 6: " + name);
+    ui->txt_game_p6_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
     this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
 }

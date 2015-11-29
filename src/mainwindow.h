@@ -23,7 +23,9 @@ private:
     Ui::MainWindow *ui;
     Host *host;
     Client *client;
-    QTimer *timer;
+    QTimer *broadcastTimer;
+    QTimer *joystickTimer;
+    QTimer *robotSendTimer;
     QList<JoyStickHandler*> joyList;
 public slots:
     void startClient();

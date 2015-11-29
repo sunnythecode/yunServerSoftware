@@ -171,8 +171,6 @@ void Host::sendRobotSync()
                                << this->masterList->at(playerNum)->getJoystickData().lT << ":"
                                << this->masterList->at(playerNum)->getJoystickData().rT << ":"
                                << this->masterList->at(playerNum)->getJoystickData().buttons.bttns << ";";
-
-                        //D_MSG(dgram);
                         this->commSock->writeDatagram(dgram.toUtf8(),robots->at(x).addr,robots->at(x).port);
                     }
                     else
