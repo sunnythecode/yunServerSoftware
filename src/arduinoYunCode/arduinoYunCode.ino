@@ -2,7 +2,7 @@
 #include <string.h>
 
 //uncomment to enable hardware serial debug messages
-#define DEBUG 1 
+#define DEBUG 0 
 
 #define DELIM ":"
 
@@ -30,7 +30,7 @@
 //uncomment next line to inver right axis
 //#define INVERT_RIGHT_AXIS 1
 
-char data_read[128];
+char data_read[32];
 int ledDelay = LED_FAST_DELAY;
 bool ledState =true;
 bool sockStat = true;
@@ -73,39 +73,32 @@ void setup() {
 }
 
 void loop() {
-  if (Serial1.available() > MIN_STRING)
+  if (Serial1.available())
   {
-    Serial.print("rdy:");
 
-    Serial1.readBytesUntil('?', data_read, 128);
+    Serial1.readBytesUntil('?', data_read, 32);
 	
   	//check to weed out garbage data on start-up, if reasonable data size between delimiters then accept packet 
-  	if(strstr(strtok(data_read, "!"), "ROB#"))
+  	if(strstr(data_read, "ROB#"))
     {
       ledDelay = LED_SLOW_DELAY;
       updateOutputs = true;
     }
         
-  #ifdef DEBUG
-    Serial.print("data: ");
-    Serial.println(data_read);
-  #endif	
 	}
 
 
   if (updateOutputs)
   {
     updateOutputs = false;
-    data_read[0] = '0';
     strtok(data_read, "#");
-    oneVal   = map(atoi(strtok(NULL, DELIM)), 0, 255, MOTOR_MIN, MOTOR_MAX);
     twoVal   = map(atoi(strtok(NULL, DELIM)), 0, 255, MOTOR_MIN, MOTOR_MAX);
     threeVal = map(atoi(strtok(NULL, DELIM)), 0, 255, MOTOR_MIN, MOTOR_MAX);
 
 	#ifdef DEBUG
-    Serial.print(oneVal);
+    Serial.print(twoVal);
     Serial.print(" ");
-    Serial.print(threeVal);
+    Serial.println(threeVal);
 	#endif
 
 

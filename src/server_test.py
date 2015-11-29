@@ -34,7 +34,7 @@ def broadcastListener():
 		print 'Broadcast bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]  
 
 	while True:   
-		readReady = select.select([bCastSock], [], [], .02)
+		readReady = select.select([bCastSock], [], [], .07)
 		if readReady[0]: 
 			data, sender =  bCastSock.recvfrom(1500) # buffer size is 1500 bytes
 			if check4keepAlive(data, sender):
@@ -44,7 +44,7 @@ def broadcastListener():
 def arduinoCommRead():
     return ser.readLine()
 def arduinoCommWrite(data):
-    print data
+    ser.write(data)
 
 #start program
 mainQueue = Queue()
@@ -60,10 +60,10 @@ while  True:
 	host = broadcastQueue.get(True) #block until there is data from the broadcast thread
 
 	#setup arduino serial comm
-	#ser = serial.Serial('/dev/ttyATH0', 115200) # open serial port
-	#print ser.portstr
-	#ser.open()
-	#ser.flushInput()
+	ser = serial.Serial('/dev/ttyATH0', 115200) # open serial port
+	print ser.portstr
+	ser.open()
+	ser.flushInput()
 	
 	#send robot name to server
 	fKeepAlive = True
@@ -94,7 +94,7 @@ while  True:
 			break
 
 		#ardData = arduinoCommRead()
-		ready = select.select([sock], [], [], .01)
+		ready = select.select([sock], [], [], .001)
 		if ready[0]:
 			bridgeData, senderAddr = sock.recvfrom(1024)
 			if not bridgeData:
