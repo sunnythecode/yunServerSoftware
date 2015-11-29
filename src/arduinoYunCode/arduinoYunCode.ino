@@ -2,7 +2,7 @@
 #include <string.h>
 
 //uncomment to enable hardware serial debug messages
-//#define DEBUG 1 
+#define DEBUG 1 
 
 #define DELIM ":"
 
@@ -79,7 +79,7 @@ void loop() {
     int i;
     for (i = 0; i < MIN_STRING && Serial1.read() != '!'; i++);
 
-    Serial1.readBytesUntil('?', data_read, 40);
+    Serial1.readBytesUntil('?', data_read, 50);
 	
 	//check to weed out garbage data on start-up, if reasonable data size between delimiters then accept packet 
 	char *gCheckStart, *gCheckEnd;
