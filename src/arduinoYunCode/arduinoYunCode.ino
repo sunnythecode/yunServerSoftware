@@ -4,6 +4,8 @@
 //uncomment to enable hardware serial debug messages
 //#define DEBUG 1 
 
+#define DELIM ":"
+
 #define LED_FAST_DELAY 50
 #define LED_SLOW_DELAY 200
 #define MOTOR_WATCHDOG_DELAY 200
@@ -39,9 +41,6 @@ long ledTimeout, motorWatchdog;
 byte oneVal;
 byte twoVal;
 byte threeVal;
-byte fourVal;
-byte fiveVal;
-byte sixVal;
 
 void setup() {
   Serial1.begin(115200); // Set the baud.
@@ -111,25 +110,15 @@ void loop() {
   {
     updateOutputs = false;
     data_read[0] = '0';
-    oneVal = map(atoi(strtok(data_read, ",")), 0, 255, MOTOR_MIN, MOTOR_MAX);
-    twoVal = map(atoi(strtok(NULL, ",")), 0, 255, MOTOR_MIN, MOTOR_MAX);
-    threeVal = map(atoi(strtok(NULL, ",")), 0, 255, MOTOR_MIN, MOTOR_MAX);
-    fourVal = map(atoi(strtok(NULL, ",")), 0, 255, MOTOR_MIN, MOTOR_MAX);
-    fiveVal = map(atoi(strtok(NULL, ",")), 0, 255, MOTOR_MIN, MOTOR_MAX);
-    sixVal = map(atoi(strtok(NULL, ",")), 0, 255, MOTOR_MIN, MOTOR_MAX);
+    strtok(data_read, "#");
+    oneVal   = map(atoi(strtok(NULL, DELIM)), 0, 255, MOTOR_MIN, MOTOR_MAX);
+    twoVal   = map(atoi(strtok(NULL, DELIM)), 0, 255, MOTOR_MIN, MOTOR_MAX);
+    threeVal = map(atoi(strtok(NULL, DELIM)), 0, 255, MOTOR_MIN, MOTOR_MAX);
 
 	#ifdef DEBUG
     Serial.print(oneVal);
     Serial.print(" ");
-    Serial.print(twoVal);
-    Serial.print(" ");
     Serial.print(threeVal);
-    Serial.print(" ");
-    Serial.print(fourVal);
-    Serial.print(" ");
-    Serial.print(fiveVal);
-    Serial.print(" ");
-    Serial.println(sixVal);
 	#endif
 
 
