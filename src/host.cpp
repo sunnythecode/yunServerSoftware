@@ -93,7 +93,7 @@ bool Host::checkValidDgram(QByteArray dgram, QHostAddress sender, quint16 sender
     {
         ConnectedRobot rob;
         rob.addr = sender;
-        rob.port = senderPort;
+        rob.port = HOST_LISTENING_PORT;
         QString name = QString::fromUtf8(dgram.data());
         rob.name = name.section(':',1);
         bool dupRob = false;
