@@ -43,116 +43,114 @@ byte twoVal;
 byte threeVal;
 
 void setup() {
-  Serial1.begin(115200); // Set the baud.
-  while (!Serial1)
-  {
-  }
-  Serial.begin(115200);
-  pinMode(MTR1_SIG, OUTPUT);
-  pinMode(MTR1_POS, OUTPUT);
-  pinMode(MTR1_GND, OUTPUT);
+	Serial1.begin(115200); // Set the baud.
+	while (!Serial1)
+	{
+	}
+	Serial.begin(115200);
+	pinMode(MTR1_SIG, OUTPUT);
+	pinMode(MTR1_POS, OUTPUT);
+	pinMode(MTR1_GND, OUTPUT);
 
-  pinMode(MTR2_SIG, OUTPUT);
-  pinMode(MTR2_POS, OUTPUT);
-  pinMode(MTR2_GND, OUTPUT);
+	pinMode(MTR2_SIG, OUTPUT);
+	pinMode(MTR2_POS, OUTPUT);
+	pinMode(MTR2_GND, OUTPUT);
 
-  digitalWrite(MTR1_POS, HIGH);
-  digitalWrite(MTR1_GND, LOW);
-  digitalWrite(MTR2_POS, HIGH);
-  digitalWrite(MTR2_GND, LOW);
+	digitalWrite(MTR1_POS, HIGH);
+	digitalWrite(MTR1_GND, LOW);
+	digitalWrite(MTR2_POS, HIGH);
+	digitalWrite(MTR2_GND, LOW);
 
-  mtr1.attach(MTR1_SIG);
-  mtr2.attach(MTR2_SIG);
-  mtr1.write(MOTOR_IDLE);
-  mtr2.write(MOTOR_IDLE);
+	mtr1.attach(MTR1_SIG);
+	mtr2.attach(MTR2_SIG);
+	mtr1.write(MOTOR_IDLE);
+	mtr2.write(MOTOR_IDLE);
 
 
-  digitalWrite(13, LOW); //have LED start in off state
-  ledTimeout = millis() + ledDelay;
-  motorWatchdog = millis();
+	digitalWrite(13, LOW); //have LED start in off state
+	ledTimeout = millis() + ledDelay;
+	motorWatchdog = millis();
 }
 
 void loop() {
-  if (Serial1.available())
-  {
+	if (Serial1.available())
+	{
+		Serial1.readBytesUntil('?', data_read, 32);
 
-    Serial1.readBytesUntil('?', data_read, 32);
-	
-  	//check to weed out garbage data on start-up, if reasonable data size between delimiters then accept packet 
-  	if(strstr(data_read, "ROB#"))
-    {
-      ledDelay = LED_SLOW_DELAY;
-      updateOutputs = true;
-    }
-        
+		//check to weed out garbage data on start-up, if reasonable data size between delimiters then accept packet 
+		if(strstr(data_read, "ROB#"))
+		{
+			ledDelay = LED_SLOW_DELAY;
+			updateOutputs = true;
+		}	
 	}
 
 
-  if (updateOutputs)
-  {
-    updateOutputs = false;
-    strtok(data_read, "#");
-    twoVal   = map(atoi(strtok(NULL, DELIM)), 0, 255, MOTOR_MIN, MOTOR_MAX);
-    threeVal = map(atoi(strtok(NULL, DELIM)), 0, 255, MOTOR_MIN, MOTOR_MAX);
+	if (updateOutputs)
+	{
+		updateOutputs = false;
+		strtok(data_read, "#");
+		twoVal   = map(atoi(strtok(NULL, DELIM)), 0, 255, MOTOR_MIN, MOTOR_MAX);
+		threeVal = map(atoi(strtok(NULL, DELIM)), 0, 255, MOTOR_MIN, MOTOR_MAX);
 
-	#ifdef DEBUG
-    Serial.print(twoVal);
-    Serial.print(" ");
-    Serial.println(threeVal);
-	#endif
+		#ifdef DEBUG
+		Serial.print(twoVal);
+		Serial.print(" ");
+		Serial.println(threeVal);
+		#endif
 
 
-    int lftMtr = MOTOR_IDLE;
-    int rghtMtr = MOTOR_IDLE;
-    if(twoVal > MOTOR_IDLE + L_STICK_DEADZONE || twoVal < MOTOR_IDLE - L_STICK_DEADZONE)
-    {
-	#ifdef INVERT_LEFT_AXIS
-      rghtMtr = map(twoVal,0,190,190,0); //right motor is inverted
-      lftMtr = twoVal;		
-	#else
-      rghtMtr = map(twoVal,0,190,190,0); //left motor is inverted
-      lftMtr = twoVal;
-	#endif
-    }
-    if(threeVal > MOTOR_IDLE + R_STICK_DEADZONE || threeVal < MOTOR_IDLE - R_STICK_DEADZONE)
-    {
-	#ifdef INVERT_RIGHT_AXIS
-	  rghtMtr -= threeVal - MOTOR_IDLE;
-      lftMtr -= threeVal - MOTOR_IDLE;
-	#else
-      lftMtr += threeVal - MOTOR_IDLE;
-      rghtMtr += threeVal - MOTOR_IDLE;
-	#endif
-    }
-    
-    mtr1.write(lftMtr);
-    mtr2.write(rghtMtr);
-    motorWatchdog = millis();
-  }
+		int lftMtr = MOTOR_IDLE;
+		int rghtMtr = MOTOR_IDLE;
+		if(twoVal > MOTOR_IDLE + L_STICK_DEADZONE || twoVal < MOTOR_IDLE - L_STICK_DEADZONE)
+		{
+			#ifdef INVERT_LEFT_AXIS
+			  rghtMtr = map(twoVal,0,190,190,0); //right motor is inverted
+			  lftMtr = twoVal;		
+			#else
+			  rghtMtr = map(twoVal,0,190,190,0); //left motor is inverted
+			  lftMtr = twoVal;
+			#endif
+		}
+		if(threeVal > MOTOR_IDLE + R_STICK_DEADZONE || threeVal < MOTOR_IDLE - R_STICK_DEADZONE)
+		{
+			#ifdef INVERT_RIGHT_AXIS
+			  rghtMtr -= threeVal - MOTOR_IDLE;
+			  lftMtr -= threeVal - MOTOR_IDLE;
+			#else
+			  lftMtr += threeVal - MOTOR_IDLE;
+			  rghtMtr += threeVal - MOTOR_IDLE;
+			#endif
+			}
 
-  if (motorWatchdog + MOTOR_WATCHDOG_DELAY < millis())
-  {
-    mtr1.write(MOTOR_IDLE);
-    mtr2.write(MOTOR_IDLE);
-    motorWatchdog = millis();
-	
-	#ifdef DEBUG
-    Serial.println("watchdog not feed");
-	#endif
-  }
+		mtr1.write(lftMtr);
+		mtr2.write(rghtMtr);
+		motorWatchdog = millis();
+	}
 
-  if (ledTimeout < millis() && sockStat)
-  {
-    ledTimeout = millis() + ledDelay;
-    if (ledState)
-    {
-      digitalWrite(13, LOW);
-      ledState = false;
-    }
-    else
-    {
-      digitalWrite(13, HIGH);
-      ledState = true;
-    }
-  }
+	if (motorWatchdog + MOTOR_WATCHDOG_DELAY < millis())
+	{
+		mtr1.write(MOTOR_IDLE);
+		mtr2.write(MOTOR_IDLE);
+		motorWatchdog = millis();
+
+		#ifdef DEBUG
+		Serial.println("watchdog not feed");
+		#endif
+	}
+
+	if (ledTimeout < millis() && sockStat)
+	{
+		ledTimeout = millis() + ledDelay;
+		if (ledState)
+		{
+			digitalWrite(13, LOW);
+			ledState = false;
+		}
+		else
+		{
+			digitalWrite(13, HIGH);
+			ledState = true;
+		}
+	}
 }
