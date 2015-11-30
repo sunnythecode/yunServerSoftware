@@ -7,7 +7,7 @@
 #define DELIM ":"
 
 #define LED_FAST_DELAY 50
-#define LED_SLOW_DELAY 200
+#define LED_SLOW_DELAY 300
 #define MOTOR_WATCHDOG_DELAY 200
 #define MOTOR_IDLE 93
 #define MOTOR_MAX 190
@@ -31,7 +31,7 @@
 //#define INVERT_RIGHT_AXIS 1
 
 char data_read[32];
-int ledDelay = LED_FAST_DELAY;
+int ledDelay = LED_SLOW_DELAY;
 bool ledState =true;
 bool sockStat = true;
 bool updateOutputs = false;
@@ -133,7 +133,7 @@ void loop() {
 		mtr1.write(MOTOR_IDLE);
 		mtr2.write(MOTOR_IDLE);
 		motorWatchdog = millis();
-
+		ledTimeout = LED_FAST_DELAY
 		#ifdef DEBUG
 		Serial.println("watchdog not feed");
 		#endif
