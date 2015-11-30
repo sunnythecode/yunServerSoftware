@@ -13,6 +13,7 @@ LOCAL_IP = ''
 
 FLAG_ARDUINO_CONNECT = True
 KEEP_ALIVE_TIMEOUT = 2
+NAME_BROADCAST_TIMEOUT = 5
 
 def check4keepAlive(dgram, source):
 	if dgram == source[0]:	
@@ -78,8 +79,9 @@ while  True:
 	except socket.error as msg:
 		print ' Could not send robot name to ' + host[0] + ' error code: ' + msg[1]
 		fKeepAlive = False
+		
 	keepAliveHolder = time.time()
-	
+	nameBroadcastTimer = time.time()
 
 	print "Alive"
 	
@@ -93,8 +95,17 @@ while  True:
 			fKeepAlive = False
 			print "Connection Died"
 			break
-
-		#ardData = arduinoCommRead()
+			
+		if time.time() - nameBroadcastTimer > NAME_BROADCAST_TIMEOUT:
+			nameBroadcastTimer = time.time()
+			try:
+				sock.sendto("ROB:Laptop1",(host[0], PORT))
+			except socket.error as msg:
+				print ' Could not send robot name to ' + host[0] + ' error code: ' + msg[1]
+				fKeepAlive = False
+				break
+		
+		
 		ready = select.select([sock], [], [], .001)
 		if ready[0]:
 			bridgeData, senderAddr = sock.recvfrom(1024)
