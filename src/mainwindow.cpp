@@ -315,12 +315,13 @@ void MainWindow::on_btn_stopMatch_clicked()
 
 void MainWindow::updateDropdowns()
 {
-    ui->p1_name_cb->addItem(this->host->getRobots()->at(this->host->getRobots()->size()-1).name);
-    ui->p2_name_cb->addItem(this->host->getRobots()->at(this->host->getRobots()->size()-1).name);
-    ui->p3_name_cb->addItem(this->host->getRobots()->at(this->host->getRobots()->size()-1).name);
-    ui->p4_name_cb->addItem(this->host->getRobots()->at(this->host->getRobots()->size()-1).name);
-    ui->p5_name_cb->addItem(this->host->getRobots()->at(this->host->getRobots()->size()-1).name);
-    ui->p6_name_cb->addItem(this->host->getRobots()->at(this->host->getRobots()->size()-1).name);
+
+    ui->p1_name_cb->addItem(this->host->getRobots()->last().name);
+    ui->p2_name_cb->addItem(this->host->getRobots()->last().name);
+    ui->p3_name_cb->addItem(this->host->getRobots()->last().name);
+    ui->p4_name_cb->addItem(this->host->getRobots()->last().name);
+    ui->p5_name_cb->addItem(this->host->getRobots()->last().name);
+    ui->p6_name_cb->addItem(this->host->getRobots()->last().name);
 }
 
 void MainWindow::on_p1_linkRob_clicked()
@@ -330,6 +331,7 @@ void MainWindow::on_p1_linkRob_clicked()
     ui->p1_log->append("Connected to " + name);
     ui->txt_game_p1_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
     this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
+
 }
 
 void MainWindow::on_p2_linkRob_clicked()
