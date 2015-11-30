@@ -15,6 +15,8 @@ FLAG_ARDUINO_CONNECT = True
 KEEP_ALIVE_TIMEOUT = 2
 NAME_BROADCAST_TIMEOUT = 5
 
+ROBOT_NAME = "ChangeThisToTheTeamName"
+
 def check4keepAlive(dgram, source):
 	if dgram == source[0]:	
 		return True
@@ -75,7 +77,7 @@ while  True:
 		print 'Broadcast bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]  
 		sys.exit()
 	try:
-		sock.sendto("ROB:Laptop1",(host[0], PORT))
+		sock.sendto("ROB:" + ROBOT_NAME,(host[0], PORT))
 	except socket.error as msg:
 		print ' Could not send robot name to ' + host[0] + ' error code: ' + msg[1]
 		fKeepAlive = False
@@ -99,7 +101,7 @@ while  True:
 		if time.time() - nameBroadcastTimer > NAME_BROADCAST_TIMEOUT:
 			nameBroadcastTimer = time.time()
 			try:
-				sock.sendto("ROB:Laptop1",(host[0], PORT))
+				sock.sendto("ROB:" + ROBOT_NAME,(host[0], PORT))
 			except socket.error as msg:
 				print ' Could not send robot name to ' + host[0] + ' error code: ' + msg[1]
 				fKeepAlive = False
