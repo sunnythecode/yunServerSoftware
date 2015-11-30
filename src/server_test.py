@@ -79,6 +79,7 @@ while  True:
 		print ' Could not send robot name to ' + host[0] + ' error code: ' + msg[1]
 		fKeepAlive = False
 	keepAliveHolder = time.time()
+	
 
 	print "Alive"
 	
@@ -86,9 +87,9 @@ while  True:
 		if not broadcastQueue.empty():
 			while not broadcastQueue.empty() :
 				qPop = broadcastQueue.get()
-				keepAliveHolder = time.time()
+				keepAliveTimer = time.time()
 
-		if time.time() - keepAliveHolder > KEEP_ALIVE_TIMEOUT:
+		if time.time() - keepAliveTimer > KEEP_ALIVE_TIMEOUT:
 			fKeepAlive = False
 			print "Connection Died"
 			break
