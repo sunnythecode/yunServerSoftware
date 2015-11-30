@@ -11,8 +11,8 @@ MainWindow::MainWindow(QWidget *parent) :
     this->robotSendTimer = new QTimer();
     this->joystickTimer = new QTimer();
     this->broadcastTimer->setInterval(200);
-    this->robotSendTimer->setInterval(50);
-    this->joystickTimer->setInterval(30);
+    this->robotSendTimer->setInterval(20);
+    this->joystickTimer->setInterval(10);
     for(int i = 0;i<4;i++)
     {
         this->joyList.append(new JoyStickHandler());
