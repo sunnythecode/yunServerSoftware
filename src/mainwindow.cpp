@@ -151,6 +151,7 @@ void MainWindow::on_p1_linkCont_clicked()
 {
     int index = -1;
     QTime timeout = QTime::currentTime().addSecs(5);
+    ui->p1_log->append("Press start on a controller to link it to this player");
     for(int i = 0;QTime::currentTime() < timeout ;i++)
     {
         if(i>=this->joyList.size())i=0;
@@ -163,7 +164,7 @@ void MainWindow::on_p1_linkCont_clicked()
     }
     if(index!=-1)
     {
-        ui->p1_log->append("Controller " + QString::number(index) + "linked successfully");
+        ui->p1_log->append("Controller " + QString::number(index) + " linked successfully");
         ui->p1_linkCont->setEnabled(false);
         ui->txt_game_p1_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
@@ -174,6 +175,7 @@ void MainWindow::on_p2_linkCont_clicked()
 {
     int index = -1;
     QTime timeout = QTime::currentTime().addSecs(5);
+    ui->p2_log->append("Press start on a controller to link it to this player");
     for(int i = 0;QTime::currentTime() > timeout ;i++)
     {
         if(i>this->joyList.size())i=0;
@@ -197,6 +199,7 @@ void MainWindow::on_p3_linkCont_clicked()
 {
     int index = -1;
     QTime timeout = QTime::currentTime().addSecs(5);
+    ui->p3_log->append("Press start on a controller to link it to this player");
     for(int i = 0;QTime::currentTime() > timeout ;i++)
     {
         if(i>this->joyList.size())i=0;
@@ -220,6 +223,7 @@ void MainWindow::on_p4_linkCont_clicked()
 {
     int index = -1;
     QTime timeout = QTime::currentTime().addSecs(5);
+    ui->p4_log->append("Press start on a controller to link it to this player");
     for(int i = 0;QTime::currentTime() > timeout ;i++)
     {
         if(i>this->joyList.size())i=0;
@@ -243,6 +247,7 @@ void MainWindow::on_p5_linkCont_clicked()
 {
     int index = -1;
     QTime timeout = QTime::currentTime().addSecs(5);
+    ui->p5_log->append("Press start on a controller to link it to this player");
     for(int i = 0;QTime::currentTime() > timeout ;i++)
     {
         if(i>this->joyList.size())i=0;
@@ -266,6 +271,7 @@ void MainWindow::on_p6_linkCont_clicked()
 {
     int index = -1;
     QTime timeout = QTime::currentTime().addSecs(5);
+    ui->p6_log->append("Press start on a controller to link it to this player");
     for(int i = 0;QTime::currentTime() > timeout ;i++)
     {
         if(i>this->joyList.size())i=0;
