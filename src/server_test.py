@@ -43,7 +43,7 @@ def broadcastListener():
 	while True:   
 		readReady = select.select([bCastSock], [], [], .07)
 		if readReady[0]: 
-			data, sender =  bCastSock.recvfrom(1500) # buffer size is 1500 bytes
+			data, sender =  bCastSock.recvfrom(1500) 
 			if check4keepAlive(data, sender):
 				lastKeepAlive = time.time()
 				broadcastQueue.put(sender)
@@ -90,7 +90,6 @@ while  True:
 		print ' Could not send robot name to ' + host[0] + ' error code: ' + msg[1]
 		fKeepAlive = False
 	
-	
 	print "Alive"
 	
 	#reset timers for first run after the robot has connected to the host
@@ -104,7 +103,7 @@ while  True:
 		if not broadcastQueue.empty():
 			while not broadcastQueue.empty() :
 				qPop = broadcastQueue.get()
-				keepAliveTimer = time.time()
+			keepAliveTimer = time.time()
 		if time.time() - keepAliveTimer > KEEP_ALIVE_TIMEOUT:
 			fKeepAlive = False
 			print "Connection Died"
