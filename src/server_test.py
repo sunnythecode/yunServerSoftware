@@ -76,7 +76,7 @@ while  True:
 	try:
 		sock.sendto("ROB:Laptop1",(host[0], PORT))
 	except socket.error as msg:
-		print ' could not send message 1 to ' + host[0] + ' error code: ' + msg[1]
+		print ' Could not send robot name to ' + host[0] + ' error code: ' + msg[1]
 		fKeepAlive = False
 	keepAliveHolder = time.time()
 
@@ -90,7 +90,7 @@ while  True:
 
 		if time.time() - keepAliveHolder > KEEP_ALIVE_TIMEOUT:
 			fKeepAlive = False
-			print "connection died"
+			print "Connection Died"
 			break
 
 		#ardData = arduinoCommRead()
