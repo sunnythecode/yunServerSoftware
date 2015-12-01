@@ -93,7 +93,7 @@ while  True:
 	print "Alive"
 	
 	#reset timers for first run after the robot has connected to the host
-	keepAliveHolder = time.time()
+	keepAliveTimer = time.time()
 	nameBroadcastTimer = time.time()
 	
 	#bridge data until connection with host is lost

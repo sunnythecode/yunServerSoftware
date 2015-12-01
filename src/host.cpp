@@ -1,5 +1,5 @@
 #include "host.h"
-
+#define SINT_2_UINT(a) ((a+32768)/65535)
 Host::Host()
 {
     this->broadCastSock = new QUdpSocket();;
@@ -164,13 +164,12 @@ void Host::sendRobotSync()
                     {
                         QString dgram;
                         QTextStream stream(&dgram);
-                        stream << "ROB#" << this->masterList->at(playerNum)->getJoystickData().lX << ":"
-                               << this->masterList->at(playerNum)->getJoystickData().lY << ":"
-                               << this->masterList->at(playerNum)->getJoystickData().rX << ":"
-                               << this->masterList->at(playerNum)->getJoystickData().rY << ":"
-                               << this->masterList->at(playerNum)->getJoystickData().lT << ":"
-                               << this->masterList->at(playerNum)->getJoystickData().rT << ":"
-                               << this->masterList->at(playerNum)->getJoystickData().buttons.bttns << ";";
+                        quint8 leftY = SINT_2_UINT(this->masterList->at(playerNum)->getJoystickData().lY);
+                        quint8 rightX = SINT_2_UINT(this->masterList->at(playerNum)->getJoystickData().rX);
+                        stream << "!ROB#"
+                               << leftY << ":"
+                               << rightX << "?";
+                        D_MSG(dgram.toUtf8());
                         this->commSock->writeDatagram(dgram.toUtf8(),robots->at(x).addr,robots->at(x).port);
                     }
                     else
