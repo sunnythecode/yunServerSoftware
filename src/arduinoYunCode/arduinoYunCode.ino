@@ -133,7 +133,7 @@ void loop() {
 		mtr1.write(MOTOR_IDLE);
 		mtr2.write(MOTOR_IDLE);
 		motorWatchdog = millis();
-		ledTimeout = LED_FAST_DELAY
+		ledTimeout = LED_FAST_DELAY;
 		#ifdef DEBUG
 		Serial.println("watchdog not feed");
 		#endif
