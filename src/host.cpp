@@ -1,5 +1,5 @@
 #include "host.h"
-#define SINT_2_UINT(a) ((a+32768)/65535)
+#define SINT_2_UINT(a) ((a+32768)*255/65535)
 Host::Host()
 {
     this->broadCastSock = new QUdpSocket();;
