@@ -41,13 +41,35 @@ def broadcastListener():
 		print 'Broadcast bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]  
 
 	while True:   
-		readReady = select.select([bCastSock], [], [], .07)
+		readReady = select.select([bCastSock], [], [])
 		if readReady[0]: 
 			data, sender =  bCastSock.recvfrom(1500) 
 			if check4keepAlive(data, sender):
 				lastKeepAlive = time.time()
 				broadcastQueue.put(sender)
+				nameQueue(sender)
+		time.sleep(.05)
 
+				
+def nameResponse():
+	nameBroadcastTimer = time.time()
+	nameSock =socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	
+	while True:
+		host = nameQueue.get(True) #block until we get a broadcast packet
+		if nameBroadcastTimer > time.time():
+			nameBroadcastTimer = time.time() + NAME_BROADCAST_TIMEOUT
+			try:
+				sock.sendto("ROB:" + ROBOT_NAME,(host[0], PORT))
+			except socket.error as msg:
+				print ' Could not send robot name to ' + host[0] + ' error code: ' + msg[1]
+				
+		time.sleep(.2)
+		
+		
+		
+			
+	
 #deprecated function. Will replace next version revision
 def arduinoCommRead():
     return ser.readLine()
@@ -59,8 +81,12 @@ def arduinoCommWrite(data):
 #start program
 mainQueue = Queue()
 broadcastQueue = Queue()
+nameQueue = Queue()
+
 t1 = Thread(target=broadcastListener, args=())
+t2 = Thread(target=nameResponse, args=())
 t1.start()
+t2.start()
 
 
 #Main thread that handles bridging data from the host to the robots
@@ -82,14 +108,6 @@ while  True:
 	except socket.error as msg:
 		print 'Broadcast bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]  
 		sys.exit()
-		
-	#send robot name to host
-	try:
-		sock.sendto("ROB:" + ROBOT_NAME,(host[0], PORT))
-	except socket.error as msg:
-		print ' Could not send robot name to ' + host[0] + ' error code: ' + msg[1]
-		fKeepAlive = False
-	
 	print "Alive"
 	
 	#reset timers for first run after the robot has connected to the host
@@ -109,18 +127,8 @@ while  True:
 			print "Connection Died"
 			break
 		
-		#Send robot name on interval
-		if time.time() - nameBroadcastTimer > NAME_BROADCAST_TIMEOUT:
-			nameBroadcastTimer = time.time()
-			try:
-				sock.sendto("ROB:" + ROBOT_NAME,(host[0], PORT))
-			except socket.error as msg:
-				print ' Could not send robot name to ' + host[0] + ' error code: ' + msg[1]
-				fKeepAlive = False
-				break
-		
 		#if controller data has come from the host send it to the arduino
-		ready = select.select([sock], [], [], .001)
+		ready = select.select([sock], [], [])
 		if ready[0]:
 			bridgeData, senderAddr = sock.recvfrom(1024)
 			if not bridgeData:
