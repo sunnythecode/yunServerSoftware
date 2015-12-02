@@ -188,7 +188,7 @@ void MainWindow::on_p2_linkCont_clicked()
     }
     if(index!=-1)
     {
-        ui->p2_log->append("Controller " + QString::number(index) + "linked successfully");
+        ui->p2_log->append("Controller " + QString::number(index) + " linked successfully");
         ui->p2_linkCont->setEnabled(false);
         ui->txt_game_p2_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
@@ -212,7 +212,7 @@ void MainWindow::on_p3_linkCont_clicked()
     }
     if(index!=-1)
     {
-        ui->p3_log->append("Controller " + QString::number(index) + "linked successfully");
+        ui->p3_log->append("Controller " + QString::number(index) + " linked successfully");
         ui->p3_linkCont->setEnabled(false);
         ui->txt_game_p3_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
@@ -236,7 +236,7 @@ void MainWindow::on_p4_linkCont_clicked()
     }
     if(index!=-1)
     {
-        ui->p4_log->append("Controller " + QString::number(index) + "linked successfully");
+        ui->p4_log->append("Controller " + QString::number(index) + " linked successfully");
         ui->p4_linkCont->setEnabled(false);
         ui->txt_game_p4_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
@@ -284,7 +284,7 @@ void MainWindow::on_p6_linkCont_clicked()
     }
     if(index!=-1)
     {
-        ui->p6_log->append("Controller " + QString::number(index) + "linked successfully");
+        ui->p6_log->append("Controller " + QString::number(index) + " linked successfully");
         ui->p6_linkCont->setEnabled(false);
         ui->txt_game_p6_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
         this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
