@@ -47,7 +47,7 @@ def broadcastListener():
 			if check4keepAlive(data, sender):
 				lastKeepAlive = time.time()
 				broadcastQueue.put(sender)
-				nameQueue(sender)
+				nameQueue.put(sender)
 		time.sleep(.05)
 
 				
