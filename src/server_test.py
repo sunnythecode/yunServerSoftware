@@ -60,7 +60,7 @@ def nameResponse():
 		if nameBroadcastTimer < time.time():
 			nameBroadcastTimer = time.time() + NAME_BROADCAST_TIMEOUT
 			try:
-				sock.sendto("ROB:" + ROBOT_NAME,(host[0], PORT))
+				nameSock.sendto("ROB:" + ROBOT_NAME,(host[0], PORT))
 			except socket.error as msg:
 				print ' Could not send robot name to ' + host[0] + ' error code: ' + msg[1]
 				
@@ -77,11 +77,13 @@ def arduinoCommRead():
 #deprecated function. Will replace next version revision	
 def arduinoCommWrite(data):
     ser.write(data)
+	ser.reset_input_buffer()
 
 #start program
 mainQueue = Queue()
 broadcastQueue = Queue()
 nameQueue = Queue()
+serialQueue = Queue()
 
 t1 = Thread(target=broadcastListener, args=())
 t2 = Thread(target=nameResponse, args=())
@@ -100,6 +102,8 @@ while  True:
 	print ser.portstr
 	ser.open()
 	ser.flushInput()
+	ser.flushOutput()
+	
 	
 	#create socket to recieve from host
 	sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
@@ -136,6 +140,7 @@ while  True:
 			else:
 				if senderAddr[0] == host[0]:
 					arduinoCommWrite(bridgeData)    
+					
         
         
         
