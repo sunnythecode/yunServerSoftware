@@ -57,7 +57,7 @@ def nameResponse():
 	
 	while True:
 		host = nameQueue.get(True) #block until we get a broadcast packet
-		if nameBroadcastTimer > time.time():
+		if nameBroadcastTimer < time.time():
 			nameBroadcastTimer = time.time() + NAME_BROADCAST_TIMEOUT
 			try:
 				sock.sendto("ROB:" + ROBOT_NAME,(host[0], PORT))
