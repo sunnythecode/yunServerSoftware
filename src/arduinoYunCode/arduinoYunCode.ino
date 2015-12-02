@@ -4,7 +4,7 @@
 //uncomment to enable hardware serial debug messages
 #define DEBUG 0 
 
-#define DELIM ":"
+#define DELIMS "#:!?"
 
 #define LED_FAST_DELAY 50
 #define LED_SLOW_DELAY 300
@@ -66,7 +66,6 @@ void setup() {
 	mtr1.write(MOTOR_IDLE);
 	mtr2.write(MOTOR_IDLE);
 
-
 	digitalWrite(13, LOW); //have LED start in off state
 	ledTimeout = millis() + ledDelay;
 	motorWatchdog = millis();
@@ -75,6 +74,7 @@ void setup() {
 void loop() {
 	if (Serial1.available())
 	{
+		memset(data_read, 0, 32);
 		Serial1.readBytesUntil('?', data_read, 32);
 
 		//check to weed out garbage data on start-up, if reasonable data size between delimiters then accept packet 
@@ -90,18 +90,21 @@ void loop() {
 	{
 		updateOutputs = false;
 		strtok(data_read, "#");
-		twoVal   = map(atoi(strtok(NULL, DELIM)), 0, 255, MOTOR_MIN, MOTOR_MAX);
-		threeVal = map(atoi(strtok(NULL, DELIM)), 0, 255, MOTOR_MIN, MOTOR_MAX);
+		char *lStick = strtok(NULL, DELIMS);
+		char *rStick = strtok(NULL, DELIMS);
+		twoVal   = map(atoi(lStick), 0, 255, MOTOR_MIN, MOTOR_MAX);
+		threeVal = map(atoi(rStick), 0, 255, MOTOR_MIN, MOTOR_MAX);
 
 		#ifdef DEBUG
-		Serial.print(twoVal);
-		Serial.print(" ");
-		Serial.println(threeVal);
+			Serial.print(twoVal);
+			Serial.print(" ");
+			Serial.println(threeVal);
 		#endif
 
 
 		int lftMtr = MOTOR_IDLE;
 		int rghtMtr = MOTOR_IDLE;
+		
 		if(twoVal > MOTOR_IDLE + L_STICK_DEADZONE || twoVal < MOTOR_IDLE - L_STICK_DEADZONE)
 		{
 			#ifdef INVERT_LEFT_AXIS
