@@ -77,7 +77,6 @@ def arduinoCommRead():
 #deprecated function. Will replace next version revision	
 def arduinoCommWrite(data):
 	ser.write(data)
-	ser.flushInput()
 	
 
 #start program
