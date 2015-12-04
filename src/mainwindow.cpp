@@ -149,146 +149,44 @@ void MainWindow::on_btn_ForceMatchStart_clicked()
 
 void MainWindow::on_p1_linkCont_clicked()
 {
-    int index = -1;
-    QTime timeout = QTime::currentTime().addSecs(5);
-    ui->p1_log->append("Press start on a controller to link it to this player");
-    for(int i = 0;QTime::currentTime() < timeout ;i++)
-    {
-        if(i>=this->joyList.size())i=0;
-        this->joyList.at(i)->updateJoystick();
-        if(this->joyList.at(i)->readBttn(i).indvBttn.START)
-        {
-            index = i;
-            break;
-        }
-    }
-    if(index!=-1)
-    {
-        ui->p1_log->append("Controller " + QString::number(index) + " linked successfully");
-        ui->p1_linkCont->setEnabled(false);
-        ui->txt_game_p1_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
-        this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
-    }
+    ui->p1_log->append("Controller " + QString::number(ui->mainTabs->currentIndex()-1) + " linked successfully");
+    ui->p1_linkCont->setEnabled(false);
+    ui->txt_game_p1_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
+    this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(ui->mainTabs->currentIndex()-1);
 }
 
 void MainWindow::on_p2_linkCont_clicked()
 {
-    int index = -1;
-    QTime timeout = QTime::currentTime().addSecs(5);
-    ui->p2_log->append("Press start on a controller to link it to this player");
-    for(int i = 0;QTime::currentTime() > timeout ;i++)
-    {
-        if(i>this->joyList.size())i=0;
-        this->joyList.at(i)->updateJoystick();
-        if(this->joyList.at(i)->readBttn(i).indvBttn.START)
-        {
-            index = i;
-            break;
-        }
-    }
-    if(index!=-1)
-    {
-        ui->p2_log->append("Controller " + QString::number(index) + " linked successfully");
-        ui->p2_linkCont->setEnabled(false);
-        ui->txt_game_p2_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
-        this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
-    }
+    ui->p2_log->append("Controller " + QString::number(ui->mainTabs->currentIndex()-1) + " linked successfully");
+    ui->p2_linkCont->setEnabled(false);
+    ui->txt_game_p2_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
+    this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(ui->mainTabs->currentIndex()-1);
 }
 
 void MainWindow::on_p3_linkCont_clicked()
 {
-    int index = -1;
-    QTime timeout = QTime::currentTime().addSecs(5);
-    ui->p3_log->append("Press start on a controller to link it to this player");
-    for(int i = 0;QTime::currentTime() > timeout ;i++)
-    {
-        if(i>this->joyList.size())i=0;
-        this->joyList.at(i)->updateJoystick();
-        if(this->joyList.at(i)->readBttn(i).indvBttn.START)
-        {
-            index = i;
-            break;
-        }
-    }
-    if(index!=-1)
-    {
-        ui->p3_log->append("Controller " + QString::number(index) + " linked successfully");
-        ui->p3_linkCont->setEnabled(false);
-        ui->txt_game_p3_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
-        this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
-    }
+    ui->p3_log->append("Controller " + QString::number(ui->mainTabs->currentIndex()-1) + " linked successfully");
+    ui->p3_linkCont->setEnabled(false);
+    ui->txt_game_p3_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
+    this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(ui->mainTabs->currentIndex()-1);
 }
 
 void MainWindow::on_p4_linkCont_clicked()
 {
-    int index = -1;
-    QTime timeout = QTime::currentTime().addSecs(5);
-    ui->p4_log->append("Press start on a controller to link it to this player");
-    for(int i = 0;QTime::currentTime() > timeout ;i++)
-    {
-        if(i>this->joyList.size())i=0;
-        this->joyList.at(i)->updateJoystick();
-        if(this->joyList.at(i)->readBttn(i).indvBttn.START)
-        {
-            index = i;
-            break;
-        }
-    }
-    if(index!=-1)
-    {
-        ui->p4_log->append("Controller " + QString::number(index) + " linked successfully");
-        ui->p4_linkCont->setEnabled(false);
-        ui->txt_game_p4_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
-        this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
-    }
+    ui->p4_log->append("Controller " + QString::number(ui->mainTabs->currentIndex()-1) + " linked successfully");
+    ui->p4_linkCont->setEnabled(false);
+    ui->txt_game_p4_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
+    this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(ui->mainTabs->currentIndex()-1);
 }
 
 void MainWindow::on_p5_linkCont_clicked()
 {
-    int index = -1;
-    QTime timeout = QTime::currentTime().addSecs(5);
-    ui->p5_log->append("Press start on a controller to link it to this player");
-    for(int i = 0;QTime::currentTime() > timeout ;i++)
-    {
-        if(i>this->joyList.size())i=0;
-        this->joyList.at(i)->updateJoystick();
-        if(this->joyList.at(i)->readBttn(i).indvBttn.START)
-        {
-            index = i;
-            break;
-        }
-    }
-    if(index!=-1)
-    {
-        ui->p5_log->append("Controller " + QString::number(index) + " linked successfully");
-        ui->p5_linkCont->setEnabled(false);
-        ui->txt_game_p5_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
-        this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
-    }
+
 }
 
 void MainWindow::on_p6_linkCont_clicked()
 {
-    int index = -1;
-    QTime timeout = QTime::currentTime().addSecs(5);
-    ui->p6_log->append("Press start on a controller to link it to this player");
-    for(int i = 0;QTime::currentTime() > timeout ;i++)
-    {
-        if(i>this->joyList.size())i=0;
-        this->joyList.at(i)->updateJoystick();
-        if(this->joyList.at(i)->readBttn(i).indvBttn.START)
-        {
-            index = i;
-            break;
-        }
-    }
-    if(index!=-1)
-    {
-        ui->p6_log->append("Controller " + QString::number(index) + " linked successfully");
-        ui->p6_linkCont->setEnabled(false);
-        ui->txt_game_p6_joystick->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
-        this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(index);
-    }
+
 }
 void MainWindow::updateJoyVals()
 {
