@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     this->broadcastTimer = new QTimer();
     this->robotSendTimer = new QTimer();
     this->joystickTimer = new QTimer();
+    this->robotTimeoutUi = new QTimer();
+    this->robotTimeoutUi->setInterval(1000);
     this->broadcastTimer->setInterval(200);
     this->robotSendTimer->setInterval(20);
     this->joystickTimer->setInterval(10);
@@ -31,45 +33,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this->joystickTimer,SIGNAL(timeout()),this,SLOT(updateJoyVals()));
     connect(this->robotSendTimer,SIGNAL(timeout()),this->host,SLOT(sendRobotSync()));
 
-    /*Start test code
-
-    ConnectedRobot rob1;
-    rob1.addr = QHostAddress("192.10.0.1");
-    rob1.name = "Swag1";
-    rob1.port = 69;
-    ConnectedRobot rob2;
-    rob2.addr = QHostAddress("192.10.0.2");
-    rob2.name = "Swag2";
-    rob2.port = 69;
-    ConnectedRobot rob3;
-    rob3.addr = QHostAddress("192.10.0.3");
-    rob3.name = "Swag3";
-    rob3.port = 69;
-    ConnectedRobot rob4;
-    rob4.addr = QHostAddress("192.10.0.4");
-    rob4.name = "Swag4";
-    rob4.port = 69;
-    ConnectedRobot rob5;
-    rob5.addr = QHostAddress("192.10.0.5");
-    rob5.name = "Swag5";
-    rob5.port = 69;
-    ConnectedRobot rob6;
-    rob6.addr = QHostAddress("192.10.0.6");
-    rob6.name = "Swag6";
-    rob6.port = 69;
-    this->host->getRobots()->append(rob1);
-    this->host->getRobots()->append(rob2);
-    this->host->getRobots()->append(rob3);
-    this->host->getRobots()->append(rob4);
-    this->host->getRobots()->append(rob5);
-    this->host->getRobots()->append(rob6);
-    this->host->getMasterList()->at(0)->setName("Swag1");
-    this->host->getMasterList()->at(1)->setName("Swag2");
-    this->host->getMasterList()->at(2)->setName("Swag3");
-    this->host->getMasterList()->at(3)->setName("Swag4");
-    this->host->getMasterList()->at(4)->setName("Swag5");
-    this->host->getMasterList()->at(5)->setName("Swag6");
-    //*/
+    connect(this->robotTimeoutUi, SIGNAL(timeout()), this, SLOT(robotComTimeout()));
+    this->robotTimeoutUi->start();
 
 }
 
@@ -267,18 +232,51 @@ void MainWindow::on_p4_linkRob_clicked()
 
 void MainWindow::on_p5_linkRob_clicked()
 {
-    QString name = ui->p5_name_cb->currentText();
-    ui->p5_log->append("Connected to " + name);
-    ui->gb_game_player5->setTitle("Player 5: " + name);
-    ui->txt_game_p5_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
-    this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
+
 }
 
 void MainWindow::on_p6_linkRob_clicked()
 {
-    QString name = ui->p6_name_cb->currentText();
-    ui->p6_log->append("Connected to " + name);
-    ui->gb_game_player6->setTitle("Player 6: " + name);
-    ui->txt_game_p6_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
-    this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
+
+}
+
+void MainWindow::robotComTimeout()
+{
+    //robot 1
+    const int maxTimeout = 6;
+    if(this->host->getMasterList()->at(0)->getUpdate().secsTo(QTime::currentTime())> maxTimeout)
+    {
+        ui->txt_game_p1_robcom->setStyleSheet("background-color:rgba(255, 10, 10, 0.75);");
+    }
+    else
+    {
+        ui->txt_game_p1_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
+    }
+    //robot 2
+    if(this->host->getMasterList()->at(1)->getUpdate().secsTo(QTime::currentTime())> maxTimeout)
+    {
+        ui->txt_game_p2_robcom->setStyleSheet("background-color:rgba(255, 10, 10, 0.75);");
+    }
+    else
+    {
+        ui->txt_game_p2_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
+    }
+    //robot 3
+    if(this->host->getMasterList()->at(2)->getUpdate().secsTo(QTime::currentTime())> maxTimeout)
+    {
+        ui->txt_game_p3_robcom->setStyleSheet("background-color:rgba(255, 10, 10, 0.75);");
+    }
+    else
+    {
+        ui->txt_game_p3_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
+    }
+    //robot 4
+    if(this->host->getMasterList()->at(3)->getUpdate().secsTo(QTime::currentTime())> maxTimeout)
+    {
+        ui->txt_game_p4_robcom->setStyleSheet("background-color:rgba(255, 10, 10, 0.75);");
+    }
+    else
+    {
+        ui->txt_game_p4_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
+    }
 }

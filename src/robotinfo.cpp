@@ -13,6 +13,7 @@ RobotInfo::RobotInfo()
         this->joystickData.lT=4;
         this->joystickData.rT=5;
     }
+    this->lastUpdate = QTime::currentTime().addSecs(-10);
 }
 void RobotInfo::updateVal(QString name, JoystickData data)
 {
@@ -52,4 +53,9 @@ void RobotInfo::setJoystickData(JoystickData data)
 void RobotInfo::setName(QString name)
 {
     this->name = name;
+}
+
+void RobotInfo::updateTime(QTime t)
+{
+    this->lastUpdate = t;
 }
