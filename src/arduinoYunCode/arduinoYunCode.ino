@@ -12,8 +12,8 @@
 #define MOTOR_IDLE 93
 #define MOTOR_MAX 190
 #define MOTOR_MIN 0
-#define L_STICK_DEADZONE 5
-#define R_STICK_DEADZONE 10
+#define L_STICK_DEADZONE 9
+#define R_STICK_DEADZONE 15
 #define MIN_STRING 10
 
 #define MTR1_SIG 5  
