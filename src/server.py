@@ -70,6 +70,7 @@ def broadcastListener():
 #serial communication thread
 def serialComthread():
 	#setup arduino serial comm
+	noSerialFlag = True
 	try:
 		ser = serial.Serial('/dev/ttyATH0', 115200)
 	except Exception as msg:
