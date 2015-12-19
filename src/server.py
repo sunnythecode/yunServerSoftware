@@ -1,7 +1,6 @@
 import socket
 import select
 import serial
-import string
 import sys
 import time
 import atexit
@@ -21,7 +20,6 @@ NAME_BROADCAST_TIMEOUT = 1
 #thread communication queues
 broadcastQueue = Queue()
 serialRealTimeQueue = Queue()
-serialQueue = Queue()
 networkRealTimeQueue = Queue()
 networkQueue = Queue()
 
@@ -36,7 +34,7 @@ except Exception as f:
 	print "Uhhh... check that your hard drive isn't on fire!"   
 	sys.exit(1)
 else:
-	print "log File" + logFile
+	logWrite("log File" + logFile)
 
 #loging wrapper function    
 def logWrite(strng):
@@ -107,8 +105,7 @@ def serialComthread():
 		if not noSerialFlag:
 			readReady = select.select([ser], [], [])
 			if readReady[0]:
-				networkQueue.put(ser.read())
-			
+				networkQueue.put(ser.read())	
 			
 def networkComThread():
 	#create socket to recieve from host
@@ -154,12 +151,13 @@ def networkComThread():
 			#check serial queue and pass to the host if data is available
 			if not networkQueue.empty():
 				serialData = networkQueue.get()
-				netSock.sendto('DBG:' + ROBOT_NAME + ':' + serialData,(host[0], PORT))
-				
+				netSock.sendto('DBG:' + ROBOT_NAME + ':' + serialData,(host[0], PORT))		
 			
+			#broadcast name on interval
+			if time.time() - nameBroadcastTimer > NAME_BROADCAST_TIMEOUT:
+				nameBroadcastTimer = time.time()
+				netSock.sendto('ROB:' + ROBOT_NAME,(host[0], PORT))
 				
-		
-		
 #cleanup function
 def cleanup():
 	logWrite('cleanup')
@@ -167,11 +165,14 @@ def cleanup():
 #Main program start
 serialThread = Thread(target=serialComthread, args=())
 broadcastThread = Thread(target=broadcastListener, args=())
+networkThread = Thread(target=networkComThread, args=())
 
 serialThread.start()
 broadcastThread.start()
+networkThread.start()
 
 atexit.register(cleanup)
+
 while True:
 	if not serialThread.isAlive():
 		serialThread.run()
@@ -179,6 +180,9 @@ while True:
 	if not broadcastThread.isAlive():
 		broadcastThread.run()
 		logWrite("Restarting broadcast listener thread")
+	if not networkThread.isAlive():
+		networkThread.run()
+		logWrite("Restarting network thread")
+		
 	time.sleep(1)
-	logWrite("uhhh..")
 	
