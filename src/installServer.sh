@@ -9,6 +9,7 @@ opkg install python pyserial unzip
 mkdir /home
 mkdir /home/robotics
 cd /home/robotics
+rm *.zip
 wget https://github.com/Saint-Francis-Robotics-Team2367/yunServerSoftware/archive/jstickStatic.zip --no-check-certificate
 unzip jstickStatic.zip
 
