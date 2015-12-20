@@ -11,7 +11,7 @@ mkdir /home/robotics
 cd /home/robotics
 rm *.zip
 wget https://github.com/Saint-Francis-Robotics-Team2367/yunServerSoftware/archive/master.zip --no-check-certificate
-unzip jstickStatic.zip
+unzip master.zip
 
 echo "# Put your custom commands here that should be executed once
 # the system init finished. By default this file does nothing.
@@ -24,5 +24,5 @@ boot-complete-notify
 # debug messages, thus having a silent and clean serial communication
 # with the microcontroller
 #echo 0 > /proc/sys/kernel/printk
-python /home/robotics/yunServerSoftware-jstickStatic/src/server_test.py
+python /home/robotics/yunServerSoftware-master/src/server_test.py
 exit 0" > /etc/rc.local
