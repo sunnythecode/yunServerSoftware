@@ -66,7 +66,6 @@ def broadcastListener():
 			if data == sender[0]:
 				lastKeepAlive = time.time()
 				broadcastQueue.put(sender)
-				nameQueue.put(sender)
 		time.sleep(.05)
         
 #serial communication thread
