@@ -104,7 +104,7 @@ def serialComthread():
         
 		#check if the arduino sent us some data to relay to the host
 		if not noSerialFlag:
-			readReady = select.select([ser], [], []0.01)
+			readReady = select.select([ser], [], [], 0.01)
 			if readReady[0]:
 				networkQueue.put(ser.read())	
 			
@@ -141,7 +141,7 @@ def networkComThread():
 				break
 				
 			#check for data from host and pass it to the serial thread
-			ready = select.select([netSock], [], [],0.005)
+			ready = select.select([netSock], [], [], 0.005)
 			if ready[0]:
 				bridgeData, senderAddr = netSock.recvfrom(1024)
 				if bridgeData:
