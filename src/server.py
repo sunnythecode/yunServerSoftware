@@ -128,6 +128,7 @@ def networkComThread():
 		fKeepAlive = True
 		keepAliveTimer = time.time()
 		nameBroadcastTimer = time.time()
+		logWrite("Found Host.")
 		while fKeepAlive:
 			if not broadcastQueue.empty():
 				while not broadcastQueue.empty():
@@ -158,6 +159,7 @@ def networkComThread():
 			if time.time() - nameBroadcastTimer > NAME_BROADCAST_TIMEOUT:
 				nameBroadcastTimer = time.time()
 				netSock.sendto('ROB:' + ROBOT_NAME,(host[0], PORT))
+				logWrite("Sent robot name.")
 				
 #cleanup function
 def cleanup():
