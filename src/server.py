@@ -144,9 +144,7 @@ def networkComThread():
 			ready = select.select([netSock], [], [])
 			if ready[0]:
 				bridgeData, senderAddr = netSock.recvfrom(1024)
-				if not bridgeData:
-					continue
-				else:
+				if bridgeData:
 					if senderAddr[0] == host[0]:
 						serialRealTimeQueue.put(bridgeData)    
 		
