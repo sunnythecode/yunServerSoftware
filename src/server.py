@@ -26,6 +26,12 @@ networkQueue = Queue()
 #change this to the relevant team name when the script is loaded to the yun
 ROBOT_NAME = "ChangeThisToTheTeamName"
 
+
+#loging wrapper function    
+def logWrite(strng):
+	log.write("[" + str(time.time()) + "]" +strng +"\n")
+	print strng
+	
 #Error log file, overwtite file from last reset
 logFile = "./elog_" + str(time.time()) + ".txt"
 try:
@@ -36,10 +42,6 @@ except Exception as f:
 else:
 	logWrite("log File" + logFile)
 
-#loging wrapper function    
-def logWrite(strng):
-	log.write("[" + str(time.time()) + "]" +strng +"\n")
-	print strng
     
 #threaded function that listens for broadcasts from host.
 def broadcastListener():
@@ -70,7 +72,6 @@ def broadcastListener():
 #serial communication thread
 def serialComthread():
 	#setup arduino serial comm
-	noSerialFlag = True
 	try:
 		ser = serial.Serial('/dev/ttyATH0', 115200)
 	except Exception as msg:
@@ -78,11 +79,11 @@ def serialComthread():
 			noSerialFlag = True
 			logWrite("Running on windows, assuming debug mode. Printing serial data to STDOUT")
 		else:
-			noSerialFlag = False
 			logWrite("port in use by another program")
 			logWrite(msg[0])
 			sys.exit(1)
 	else:
+                noSerialFlag = False
 		print ser.portstr
 		ser.open()
 	
