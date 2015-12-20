@@ -63,7 +63,7 @@ def broadcastListener():
 		if readReady[0]: 
 			data, sender =  bCastSock.recvfrom(1500) 
             #check that the datagram is a alive packet
-			if dgram == source[0]:
+			if data == source[0]:
 				lastKeepAlive = time.time()
 				broadcastQueue.put(sender)
 				nameQueue.put(sender)
