@@ -103,6 +103,14 @@ bool Host::checkValidDgram(QByteArray dgram, QHostAddress sender, quint16 sender
             {
                 dupRob = true;
                 D_MSG("DUPLICATE ROBOT");
+
+                for(int j = 0; j<4;j++)
+                {
+                    if(this->masterList->at(j)->getName() == rob.name)
+                    {
+                        this->masterList->at(j)->updateTime(QTime::currentTime());
+                    }
+                }
                 break;
             }
         }
