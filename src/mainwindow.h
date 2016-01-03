@@ -35,6 +35,7 @@ public slots:
     void updateClientList();
     void checkStartMatch();
     void robotComTimeout();
+    void displayDbgMsg(QByteArray dgram);
 private slots:
     void on_btn_ForceMatchStart_clicked();
     void on_p1_linkCont_clicked();

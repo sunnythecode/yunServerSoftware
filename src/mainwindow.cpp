@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(this->host,SIGNAL(clientAdded()),this,SLOT(updateClientList()));
     connect(this->host, SIGNAL(robotAdded()), this, SLOT(checkStartMatch()));
+    connect(this->host,SIGNAL(receivedDbgMsg(QByteArray)),this,SLOT(displayDbgMsg(QByteArray)));
 
     connect(this->host,SIGNAL(robotAdded()),this,SLOT(updateDropdowns()));
     connect(this->joystickTimer,SIGNAL(timeout()),this,SLOT(updateJoyVals()));
@@ -278,5 +279,30 @@ void MainWindow::robotComTimeout()
     else
     {
         ui->txt_game_p4_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
+    }
+}
+void MainWindow::displayDbgMsg(QByteArray dgram)
+{
+    QString msg(dgram);
+    QString robName = msg.section(":",1,1);
+    int player = -1;
+    for(int i = 0;i<this->host->getMasterList()->size();i++)
+    {
+        if(robName==this->host->getMasterList()->at(i)->getName())
+        {
+            player = i;
+        }
+    }
+    if(player!=-1)
+    {
+        switch(player)
+        {
+            case 0: ui->p1_log->append(msg);
+            case 1: ui->p2_log->append(msg);
+            case 2: ui->p3_log->append(msg);
+            case 3: ui->p4_log->append(msg);
+            case 4: ui->p5_log->append(msg);
+            case 5: ui->p6_log->append(msg);
+        }
     }
 }

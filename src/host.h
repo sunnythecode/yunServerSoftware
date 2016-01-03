@@ -55,6 +55,7 @@ public slots:
 signals:
     void receivedValidDgram(QByteArray dgram);
     void newClient(QByteArray dgram);
+    void receivedDbgMsg(QByteArray dgram);
     void clientAdded();
     void robotAdded();
 private:

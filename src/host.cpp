@@ -123,6 +123,11 @@ bool Host::checkValidDgram(QByteArray dgram, QHostAddress sender, quint16 sender
             return true;
         }
     }
+    else if(dgram.startsWith("DBG:"))
+    {
+        emit receivedDbgMsg(dgram);
+        return true;
+    }
     return false;
 }
 QList<QString> Host::getClientNames()
