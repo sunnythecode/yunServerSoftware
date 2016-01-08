@@ -12,8 +12,8 @@
 #define MOTOR_IDLE 93
 #define MOTOR_MAX 190
 #define MOTOR_MIN 0
-#define L_STICK_DEADZONE 5
-#define R_STICK_DEADZONE 10
+#define L_STICK_DEADZONE 17
+#define R_STICK_DEADZONE 17
 #define MIN_STRING 10
 
 #define MTR1_SIG 5  
@@ -104,27 +104,51 @@ void loop() {
 
 		int lftMtr = MOTOR_IDLE;
 		int rghtMtr = MOTOR_IDLE;
-		
-		if(twoVal > MOTOR_IDLE + L_STICK_DEADZONE || twoVal < MOTOR_IDLE - L_STICK_DEADZONE)
-		{
-			#ifdef INVERT_LEFT_AXIS
-			  rghtMtr = map(twoVal,0,190,190,0); //right motor is inverted
-			  lftMtr = twoVal;		
-			#else
-			  rghtMtr = map(twoVal,0,190,190,0); //left motor is inverted
-			  lftMtr = twoVal;
-			#endif
-		}
-		if(threeVal > MOTOR_IDLE + R_STICK_DEADZONE || threeVal < MOTOR_IDLE - R_STICK_DEADZONE)
-		{
-			#ifdef INVERT_RIGHT_AXIS
-			  rghtMtr -= threeVal - MOTOR_IDLE;
-			  lftMtr -= threeVal - MOTOR_IDLE;
-			#else
-			  lftMtr += threeVal - MOTOR_IDLE;
-			  rghtMtr += threeVal - MOTOR_IDLE;
-			#endif
-			}
+
+    if(twoVal > MOTOR_IDLE + L_STICK_DEADZONE)
+    {
+       #ifdef INVERT_LEFT_AXIS
+        rghtMtr = map(twoVal, MOTOR_IDLE + L_STICK_DEADZONE,  MOTOR_MAX,  MOTOR_IDLE,  MOTOR_MIN); //right motor is inverted
+        lftMtr =  map(twoVal, MOTOR_IDLE + L_STICK_DEADZONE,  MOTOR_MAX,  MOTOR_IDLE,  MOTOR_MAX);   
+      #else
+        lftMtr =  map(twoVal, MOTOR_IDLE + L_STICK_DEADZONE,  MOTOR_MAX,  MOTOR_IDLE,  MOTOR_MIN); //left motor is inverted
+        rghtMtr = map(twoVal, MOTOR_IDLE + L_STICK_DEADZONE,  MOTOR_MAX,  MOTOR_IDLE,  MOTOR_MAX);  
+      #endif
+    }
+    else if(twoVal < MOTOR_IDLE - L_STICK_DEADZONE)
+    {
+       #ifdef INVERT_LEFT_AXIS
+        lftMtr =  map(twoVal, MOTOR_IDLE - L_STICK_DEADZONE,  MOTOR_MIN,  MOTOR_IDLE,  MOTOR_MIN); //left motor is inverted
+        rghtMtr = map(twoVal, MOTOR_IDLE - L_STICK_DEADZONE,  MOTOR_MIN,  MOTOR_IDLE,  MOTOR_MAX);  
+
+      #else
+        rghtMtr = map(twoVal, MOTOR_IDLE - L_STICK_DEADZONE,  MOTOR_MIN,  MOTOR_IDLE,  MOTOR_MIN); //right motor is inverted
+        lftMtr =  map(twoVal, MOTOR_IDLE - L_STICK_DEADZONE,  MOTOR_MIN,  MOTOR_IDLE,  MOTOR_MAX);   
+      #endif
+    }
+
+    if(threeVal > MOTOR_IDLE + R_STICK_DEADZONE)
+    {
+      int turnRate = map(threeVal, MOTOR_IDLE + R_STICK_DEADZONE, MOTOR_MAX, MOTOR_IDLE, MOTOR_MAX);
+      #ifdef INVERT_RIGHT_AXIS
+        rghtMtr -= turnRate - MOTOR_IDLE;
+        lftMtr -= turnRate - MOTOR_IDLE;
+      #else
+        lftMtr += turnRate - MOTOR_IDLE;
+        rghtMtr += turnRate - MOTOR_IDLE;
+      #endif
+    }
+    else if(threeVal < MOTOR_IDLE - R_STICK_DEADZONE)
+    {
+      int turnRate = map(threeVal, MOTOR_IDLE - R_STICK_DEADZONE, MOTOR_MIN, MOTOR_IDLE, MOTOR_MIN);
+      #ifdef INVERT_RIGHT_AXIS
+        rghtMtr -= turnRate - MOTOR_IDLE;
+        lftMtr -= turnRate - MOTOR_IDLE;
+      #else
+        lftMtr += turnRate - MOTOR_IDLE;
+        rghtMtr += turnRate - MOTOR_IDLE;
+      #endif
+    }
 
 		mtr1.write(lftMtr);
 		mtr2.write(rghtMtr);
