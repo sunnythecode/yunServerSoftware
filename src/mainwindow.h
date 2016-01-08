@@ -26,6 +26,7 @@ private:
     QTimer *broadcastTimer;
     QTimer *joystickTimer;
     QTimer *robotSendTimer;
+    QTimer *robotTimeoutUi;
     QList<JoyStickHandler*> joyList;
 public slots:
     void startClient();
@@ -33,6 +34,8 @@ public slots:
     void startHost();
     void updateClientList();
     void checkStartMatch();
+    void robotComTimeout();
+    void displayDbgMsg(QByteArray dgram);
 private slots:
     void on_btn_ForceMatchStart_clicked();
     void on_p1_linkCont_clicked();
@@ -52,6 +55,8 @@ private slots:
     void on_p4_linkRob_clicked();
     void on_p5_linkRob_clicked();
     void on_p6_linkRob_clicked();
+
+
 };
 
 #endif // MAINWINDOW_H
