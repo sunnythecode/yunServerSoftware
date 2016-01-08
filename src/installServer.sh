@@ -24,5 +24,5 @@ boot-complete-notify
 # debug messages, thus having a silent and clean serial communication
 # with the microcontroller
 #echo 0 > /proc/sys/kernel/printk
-python /home/robotics/yunServerSoftware-master/src/server_test.py
+python /home/robotics/yunServerSoftware-master/src/server.py
 exit 0" > /etc/rc.local
