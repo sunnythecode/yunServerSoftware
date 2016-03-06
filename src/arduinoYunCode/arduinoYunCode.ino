@@ -39,8 +39,8 @@ Servo mtr1, mtr2;
 long ledTimeout, motorWatchdog;
 
 byte oneVal;
-byte twoVal;
-byte threeVal;
+byte LStickX;
+byte RStickY;
 
 void setup() {
 	Serial1.begin(115200); // Set the baud.
@@ -92,44 +92,44 @@ void loop() {
 		strtok(data_read, "#");
 		char *lStick = strtok(NULL, DELIMS);
 		char *rStick = strtok(NULL, DELIMS);
-		twoVal   = map(atoi(lStick), 0, 255, MOTOR_MIN, MOTOR_MAX);
-		threeVal = map(atoi(rStick), 0, 255, MOTOR_MIN, MOTOR_MAX);
+		LStickX   = map(atoi(lStick), 0, 255, MOTOR_MIN, MOTOR_MAX);
+		RStickY = map(atoi(rStick), 0, 255, MOTOR_MIN, MOTOR_MAX);
 
 		#ifdef DEBUG
-			Serial.print(twoVal);
+			Serial.print(LStickX);
 			Serial.print(" ");
-			Serial.println(threeVal);
+			Serial.println(RStickY);
 		#endif
 
 
 		int lftMtr = MOTOR_IDLE;
 		int rghtMtr = MOTOR_IDLE;
 
-    if(twoVal > MOTOR_IDLE + L_STICK_DEADZONE)
+    if(LStickX > MOTOR_IDLE + L_STICK_DEADZONE)
     {
        #ifdef INVERT_LEFT_AXIS
-        rghtMtr = map(twoVal, MOTOR_IDLE + L_STICK_DEADZONE,  MOTOR_MAX,  MOTOR_IDLE,  MOTOR_MIN); //right motor is inverted
-        lftMtr =  map(twoVal, MOTOR_IDLE + L_STICK_DEADZONE,  MOTOR_MAX,  MOTOR_IDLE,  MOTOR_MAX);   
+        rghtMtr = map(LStickX, MOTOR_IDLE + L_STICK_DEADZONE,  MOTOR_MAX,  MOTOR_IDLE,  MOTOR_MIN); //right motor is inverted
+        lftMtr =  map(LStickX, MOTOR_IDLE + L_STICK_DEADZONE,  MOTOR_MAX,  MOTOR_IDLE,  MOTOR_MAX);   
       #else
-        lftMtr =  map(twoVal, MOTOR_IDLE + L_STICK_DEADZONE,  MOTOR_MAX,  MOTOR_IDLE,  MOTOR_MIN); //left motor is inverted
-        rghtMtr = map(twoVal, MOTOR_IDLE + L_STICK_DEADZONE,  MOTOR_MAX,  MOTOR_IDLE,  MOTOR_MAX);  
+        lftMtr =  map(LStickX, MOTOR_IDLE + L_STICK_DEADZONE,  MOTOR_MAX,  MOTOR_IDLE,  MOTOR_MIN); //left motor is inverted
+        rghtMtr = map(LStickX, MOTOR_IDLE + L_STICK_DEADZONE,  MOTOR_MAX,  MOTOR_IDLE,  MOTOR_MAX);  
       #endif
     }
-    else if(twoVal < MOTOR_IDLE - L_STICK_DEADZONE)
+    else if(LStickX < MOTOR_IDLE - L_STICK_DEADZONE)
     {
        #ifdef INVERT_LEFT_AXIS
-        lftMtr =  map(twoVal, MOTOR_IDLE - L_STICK_DEADZONE,  MOTOR_MIN,  MOTOR_IDLE,  MOTOR_MIN); //left motor is inverted
-        rghtMtr = map(twoVal, MOTOR_IDLE - L_STICK_DEADZONE,  MOTOR_MIN,  MOTOR_IDLE,  MOTOR_MAX);  
+        lftMtr =  map(LStickX, MOTOR_IDLE - L_STICK_DEADZONE,  MOTOR_MIN,  MOTOR_IDLE,  MOTOR_MIN); //left motor is inverted
+        rghtMtr = map(LStickX, MOTOR_IDLE - L_STICK_DEADZONE,  MOTOR_MIN,  MOTOR_IDLE,  MOTOR_MAX);  
 
       #else
-        rghtMtr = map(twoVal, MOTOR_IDLE - L_STICK_DEADZONE,  MOTOR_MIN,  MOTOR_IDLE,  MOTOR_MIN); //right motor is inverted
-        lftMtr =  map(twoVal, MOTOR_IDLE - L_STICK_DEADZONE,  MOTOR_MIN,  MOTOR_IDLE,  MOTOR_MAX);   
+        rghtMtr = map(LStickX, MOTOR_IDLE - L_STICK_DEADZONE,  MOTOR_MIN,  MOTOR_IDLE,  MOTOR_MIN); //right motor is inverted
+        lftMtr =  map(LStickX, MOTOR_IDLE - L_STICK_DEADZONE,  MOTOR_MIN,  MOTOR_IDLE,  MOTOR_MAX);   
       #endif
     }
 
-    if(threeVal > MOTOR_IDLE + R_STICK_DEADZONE)
+    if(RStickY > MOTOR_IDLE + R_STICK_DEADZONE)
     {
-      int turnRate = map(threeVal, MOTOR_IDLE + R_STICK_DEADZONE, MOTOR_MAX, MOTOR_IDLE, MOTOR_MAX);
+      int turnRate = map(RStickY, MOTOR_IDLE + R_STICK_DEADZONE, MOTOR_MAX, MOTOR_IDLE, MOTOR_MAX);
       #ifdef INVERT_RIGHT_AXIS
         rghtMtr -= turnRate - MOTOR_IDLE;
         lftMtr -= turnRate - MOTOR_IDLE;
@@ -138,9 +138,9 @@ void loop() {
         rghtMtr += turnRate - MOTOR_IDLE;
       #endif
     }
-    else if(threeVal < MOTOR_IDLE - R_STICK_DEADZONE)
+    else if(RStickY < MOTOR_IDLE - R_STICK_DEADZONE)
     {
-      int turnRate = map(threeVal, MOTOR_IDLE - R_STICK_DEADZONE, MOTOR_MIN, MOTOR_IDLE, MOTOR_MIN);
+      int turnRate = map(RStickY, MOTOR_IDLE - R_STICK_DEADZONE, MOTOR_MIN, MOTOR_IDLE, MOTOR_MIN);
       #ifdef INVERT_RIGHT_AXIS
         rghtMtr -= turnRate - MOTOR_IDLE;
         lftMtr -= turnRate - MOTOR_IDLE;
@@ -162,7 +162,7 @@ void loop() {
 		motorWatchdog = millis();
 		ledTimeout = LED_FAST_DELAY;
 		#ifdef DEBUG
-		Serial.println("watchdog not feed");
+		  Serial.println("watchdog not feed");
 		#endif
 	}
 
