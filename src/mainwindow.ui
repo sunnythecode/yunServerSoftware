@@ -41,6 +41,9 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QTabWidget" name="mainTabs">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -969,6 +972,9 @@
      </widget>
     </widget>
     <widget class="QWidget" name="tb_p5">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <attribute name="title">
       <string>Player 5</string>
      </attribute>
@@ -1042,6 +1048,9 @@
      </widget>
     </widget>
     <widget class="QWidget" name="tb_p6">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <attribute name="title">
       <string>Player 6</string>
      </attribute>
@@ -1143,14 +1152,14 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionStart_as_Host">
-   <property name="text">
-    <string>Start as Host</string>
-   </property>
-  </action>
   <action name="actionStart_as_Player">
    <property name="text">
     <string>Start as Player</string>
+   </property>
+  </action>
+  <action name="actionStart_as_Host">
+   <property name="text">
+    <string>Start as Host</string>
    </property>
   </action>
  </widget>

@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
         this->joyList.at(i)->initJoystick(i);
 
     }
+    this->ui->mainTabs->removeTab(this->ui->mainTabs->count()-1);
+    this->ui->mainTabs->removeTab(this->ui->mainTabs->count()-1);
     //connect menu bar buttons
     connect(ui->actionStart_as_Host,SIGNAL(triggered()),this,SLOT(check4Host()));
     connect(ui->actionStart_as_Player,SIGNAL(triggered()),this,SLOT(startClient()));
@@ -99,7 +101,7 @@ void MainWindow::updateClientList()
 }
 
 void MainWindow::checkStartMatch() {
-        if (this->host->getRobots()->count() == 6)
+        if (this->host->getRobots()->count() == 4)
             this->ui->btn_startMatch->setEnabled(true);
         else
             this->ui->btn_startMatch->setEnabled(false);
@@ -145,15 +147,6 @@ void MainWindow::on_p4_linkCont_clicked()
     this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setJoyIndex(ui->mainTabs->currentIndex()-1);
 }
 
-void MainWindow::on_p5_linkCont_clicked()
-{
-
-}
-
-void MainWindow::on_p6_linkCont_clicked()
-{
-
-}
 void MainWindow::updateJoyVals()
 {
     for(int i = 0;i<this->host->getMasterList()->size();i++)
@@ -190,8 +183,6 @@ void MainWindow::updateDropdowns()
     ui->p2_name_cb->addItem(this->host->getRobots()->last().name);
     ui->p3_name_cb->addItem(this->host->getRobots()->last().name);
     ui->p4_name_cb->addItem(this->host->getRobots()->last().name);
-    ui->p5_name_cb->addItem(this->host->getRobots()->last().name);
-    ui->p6_name_cb->addItem(this->host->getRobots()->last().name);
 }
 
 void MainWindow::on_p1_linkRob_clicked()
@@ -229,16 +220,6 @@ void MainWindow::on_p4_linkRob_clicked()
     ui->gb_game_player4->setTitle("Player 4: " + name);
     ui->txt_game_p4_robcom->setStyleSheet("background-color:rgba(10, 255, 10, 0.75);");
     this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->setName(name);
-}
-
-void MainWindow::on_p5_linkRob_clicked()
-{
-
-}
-
-void MainWindow::on_p6_linkRob_clicked()
-{
-
 }
 
 void MainWindow::robotComTimeout()
@@ -301,8 +282,26 @@ void MainWindow::displayDbgMsg(QByteArray dgram)
             case 1: ui->p2_log->append(msg);
             case 2: ui->p3_log->append(msg);
             case 3: ui->p4_log->append(msg);
-            case 4: ui->p5_log->append(msg);
-            case 5: ui->p6_log->append(msg);
         }
     }
+}
+
+void MainWindow::on_p5_linkRob_clicked()
+{
+
+}
+
+void MainWindow::on_p5_linkCont_clicked()
+{
+
+}
+
+void MainWindow::on_p6_linkRob_clicked()
+{
+
+}
+
+void MainWindow::on_p6_linkCont_clicked()
+{
+
 }
