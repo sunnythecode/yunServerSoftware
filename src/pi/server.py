@@ -1,6 +1,7 @@
+
+from Adafruit_PWM_Servo_Driver import PWM
 import socket
 import select
-import serial
 import sys
 import time
 import atexit
@@ -24,15 +25,26 @@ networkRealTimeQueue = Queue()
 networkQueue = Queue()
 
 #change this to the relevant team name when the script is loaded to the yun
-ROBOT_NAME = "ChangeThisToTheTeamName"
+ROBOT_NAME = "TeamTeam"
+PWM_FREQ = 50
+pwm = PWM(0x40)
 
+def setServoPulse(channel, pulse):
+	pulseLength = 1000000                   # 1,000,000 us per second
+	pulseLength /= PWM_FREQ                       # 60 Hz
+	#print "%d us per period" % pulseLength
+	pulseLength /= 4096                     # 12 bits of resolution
+	#print "%d us per bit" % pulseLength
+	pulse /= pulseLength
+	#print "%d tick" % pulse
+	pwm.setPWM(channel, 0, pulse)
 
-#loging wrapper function    
+	#loging wrapper function    
 def logWrite(strng):
 	log.write("[" + str(time.time()) + "]" +strng +"\n")
 	print strng
 	
-#Error log file, overwtite file from last reset
+	#Error log file, overwtite file from last reset
 logFile = "./elog_" + str(time.time()) + ".txt"
 try:
 	log = open(logFile, "w")
@@ -69,44 +81,31 @@ def broadcastListener():
 		time.sleep(.05)
         
 #serial communication thread
-def serialComthread():
+def pwmControlThread():
 	#setup arduino serial comm
-	try:
-		ser = serial.Serial('/dev/ttyATH0', 115200)
-	except Exception as msg:
-		if 'Windows' in str(msg):
-			noSerialFlag = True
-			logWrite("Running on windows, assuming debug mode. Printing serial data to STDOUT")
-		else:
-			logWrite("port in use by another program")
-			logWrite(msg[0])
-			sys.exit(1)
-	else:
-                noSerialFlag = False
-		print ser.portstr
-		ser.open()
-	
+	pwm.setPWMFreq(50)
+
 	#thread main loop
 	while True:
 		#check for data that needs to be bridged to arduino
 		dataFlag = True
 		if not serialRealTimeQueue.empty():
-			data = serialRealTimeQueue.get
+			data = serialRealTimeQueue.get()
 		else:
 			dataFlag = False
-			
+
+		setServoPulse(0,500)
+		setServoPulse(3,2000)
+		time.sleep(1)	
 		#if data was recieved send it to arduino
-		if dataFlag: 
-			if noSerialFlag:
-				print data
-			else:
-				ser.write(data)	
-        
+		if dataFlag:	
+			print "have data"
+			print data  
 		#check if the arduino sent us some data to relay to the host
-		if not noSerialFlag:
-			readReady = select.select([ser], [], [], 0.01)
-			if readReady[0]:
-				networkQueue.put(ser.read())	
+#		if not noSerialFlag:
+#			readReady = select.select([ser], [], [], 0.01)
+#			if readReady[0]:
+#				networkQueue.put(ser.read())	
 			
 def networkComThread():
 	#create socket to recieve from host
@@ -164,19 +163,23 @@ def cleanup():
 	logWrite('cleanup')
 	
 #Main program start
-serialThread = Thread(target=serialComthread, args=())
+pwmThread = Thread(target=pwmControlThread, args=())
 broadcastThread = Thread(target=broadcastListener, args=())
 networkThread = Thread(target=networkComThread, args=())
 
-serialThread.start()
+pwmThread.daemon = True
+broadcastThread.daemon = True
+networkThread.daemon = True
+
+pwmThread.start()
 broadcastThread.start()
 networkThread.start()
 
 atexit.register(cleanup)
 
 while True:
-	if not serialThread.isAlive():
-		serialThread.run()
+	if not pwmThread.isAlive():
+		pwmThread.run()
 		logWrite("Restarting serial thread")
 	if not broadcastThread.isAlive():
 		broadcastThread.run()
