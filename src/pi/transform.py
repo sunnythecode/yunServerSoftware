@@ -35,7 +35,7 @@ class Transform:
                 rghtMtr = map_range(left_y, Transform.MOTOR_IDLE - Transform.L_STICK_DEADZONE, Transform.MOTOR_MIN, Transform.MOTOR_IDLE, Transform.MOTOR_MIN)
                 lftMtr = map_range(left_y, Transform.MOTOR_IDLE - Transform.L_STICK_DEADZONE, Transform.MOTOR_MIN, Transform.MOTOR_IDLE, Transform.MOTOR_MAX)
 
-        elif right_x > Transform.MOTOR_IDLE + Transform.R_STICK_DEADZONE:
+        if right_x > Transform.MOTOR_IDLE + Transform.R_STICK_DEADZONE:
             turnRate = map_range(right_x, Transform.MOTOR_IDLE + Transform.R_STICK_DEADZONE, Transform.MOTOR_MAX, Transform.MOTOR_IDLE, Transform.MOTOR_MAX)
             if self.invert_right:
                 rghtMtr -= turnRate - Transform.MOTOR_IDLE

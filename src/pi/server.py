@@ -17,6 +17,7 @@ LOCAL_IP = ''
 # timouts for respective interval timers
 KEEP_ALIVE_TIMEOUT = 2
 NAME_BROADCAST_TIMEOUT = 1
+WATCHDOG_DELAY = 0.2
 
 # thread communication queues
 broadcastQueue = Queue()
@@ -27,6 +28,9 @@ networkQueue = Queue()
 # change this to the relevant team name when the script is loaded to the yun
 ROBOT_NAME = "TeamTeam"
 PWM_FREQ = 50
+LEFT_MOT = 0
+RIGHT_MOT = 3
+
 pwm = PWM(0x40)
 
 
@@ -87,7 +91,8 @@ def broadcastListener():
 def pwmControlThread():
     # setup arduino serial comm
     pwm.setPWMFreq(50)
-    t = Transform(False, False)
+    t = Transform(True, False)
+    watchdog = time.time()
 
     # thread main loop
     while True:
@@ -98,16 +103,24 @@ def pwmControlThread():
         else:
             dataFlag = False
 
-        time.sleep(0.1)
         # if data was recieved send it to arduino
         if dataFlag:
-            data = data[4:-1]
-            data_nums = [int(x) for x in data.split(',') if x.strip()]
-            print "have data"
-            print "", data_nums[0], " ", data_nums[1]
+            data = data[5:-1]
+            print data
+            data_nums = [int(x) for x in data.split(':') if x.strip()]
+            #print "have data"
+            print " ", data_nums[0], " ", data_nums[1]
             leftMtr,rightMtr = t.transform(data_nums[0],data_nums[1])
-            setServoPulse(0, leftMtr)
-            setServoPulse(3, rightMtr)
+            print " ", leftMtr , " ", rightMtr
+            setServoPulse(LEFT_MOT, leftMtr)
+            setServoPulse(RIGHT_MOT, rightMtr)
+            watchdog = time.time()
+
+        if watchdog + WATCHDOG_DELAY < time.time():
+            setServoPulse(LEFT_MOT, Transform.MOTOR_IDLE)
+            setServoPulse(RIGHT_MOT, Transform.MOTOR_IDLE)
+            watchdog = time.time()
+            print "you need to feed the dogs"
 
 def networkComThread():
     # create socket to recieve from host
@@ -164,7 +177,8 @@ def networkComThread():
 # cleanup function
 def cleanup():
     logWrite('cleanup')
-
+    setServoPulse(0,1500)
+    setServoPulse(3,1500)	
 
 # Main program start
 pwmThread = Thread(target=pwmControlThread, args=())
