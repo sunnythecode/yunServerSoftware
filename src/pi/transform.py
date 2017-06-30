@@ -52,8 +52,19 @@ class Transform:
             else:
                 lftMtr += turnRate - Transform.MOTOR_IDLE
                 rghtMtr += turnRate - Transform.MOTOR_IDLE
+
+        if lftMtr > Transform.MOTOR_MAX:
+            lftMtr = Transform.MOTOR_MAX
+        elif lftMtr < Transform.MOTOR_MIN:
+            lftMtr = Transform.MOTOR_MIN
+
+        if rghtMtr > Transform.MOTOR_MAX:
+            rghtMtr = Transform.MOTOR_MAX
+        elif rghtMtr > Transform.MOTOR_MIN:
+            rghtMtr = Transform.MOTOR_MIN
+
         return lftMtr,rghtMtr
 
 t = Transform(False,False)
-print t.transform(127,0)
+print t.transform(255,255)
 
