@@ -12,6 +12,13 @@ class Transform:
     def __init__(self,invert_left_axis,invert_right_axis):
         self.invert_left = invert_left_axis
         self.invert_right = invert_right_axis
+    
+    @staticmethod
+    def map_range(x, in_min, in_max, out_min, out_max):
+        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+
+
+
 
     def transform(self, left_y, right_x):
         left_y = map_range(left_y, 0, 255, Transform.MOTOR_MIN, Transform.MOTOR_MAX)
@@ -60,7 +67,7 @@ class Transform:
 
         if rghtMtr > Transform.MOTOR_MAX:
             rghtMtr = Transform.MOTOR_MAX
-        elif rghtMtr > Transform.MOTOR_MIN:
+        elif rghtMtr < Transform.MOTOR_MIN:
             rghtMtr = Transform.MOTOR_MIN
 
         return lftMtr,rghtMtr

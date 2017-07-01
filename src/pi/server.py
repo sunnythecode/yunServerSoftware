@@ -26,10 +26,12 @@ networkRealTimeQueue = Queue()
 networkQueue = Queue()
 
 # change this to the relevant team name when the script is loaded to the yun
-ROBOT_NAME = "TeamTeam"
+ROBOT_NAME = "DLT"
 PWM_FREQ = 50
 LEFT_MOT = 0
-RIGHT_MOT = 3
+RIGHT_MOT = 1
+LEFT_MANIP = 4
+RIGHT_MANIP = 5
 
 pwm = PWM(0x40)
 
@@ -114,11 +116,30 @@ def pwmControlThread():
             print " ", leftMtr , " ", rightMtr
             setServoPulse(LEFT_MOT, leftMtr)
             setServoPulse(RIGHT_MOT, rightMtr)
+
+
+            leftIntake = Transform.MOTOR_IDLE
+            rightIntake = Transform.MOTOR_IDLE
+            if data_nums[2] > 127 + 10:
+                leftIntake = Transform.map_range(data_nums[2],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MAX)
+                rightIntake = Transform.map_range(data_nums[2],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MIN)
+            elif data_nums[3] > 127 + 10:
+                rightIntake = Transform.map_range(data_nums[3],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MAX)
+                leftIntake = Transform.map_range(data_nums[3],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MIN)
+
+            print " " , leftIntake, " ", rightIntake
+
+            setServoPulse(LEFT_MANIP,leftIntake)
+            setServoPulse(RIGHT_MANIP,rightIntake)
+
             watchdog = time.time()
 
         if watchdog + WATCHDOG_DELAY < time.time():
             setServoPulse(LEFT_MOT, Transform.MOTOR_IDLE)
             setServoPulse(RIGHT_MOT, Transform.MOTOR_IDLE)
+            setServoPulse(LEFT_MANIP, Transform.MOTOR_IDLE)
+            setServoPulse(RIGHT_MANIP, Transform.MOTOR_IDLE)
+
             watchdog = time.time()
             print "you need to feed the dogs"
 
@@ -177,8 +198,11 @@ def networkComThread():
 # cleanup function
 def cleanup():
     logWrite('cleanup')
-    setServoPulse(0,1500)
-    setServoPulse(3,1500)	
+    setServoPulse(LEFT_MOT,Transform.MOTOR_IDLE)
+    setServoPulse(RIGHT_MOT,Transform.MOTOR_IDLE)	
+    setServoPulse(LEFT_MANIP, Transform.MOTOR_IDLE)
+    setServoPulse(RIGHT_MANIP, Transform.MOTOR_IDLE)
+
 
 # Main program start
 pwmThread = Thread(target=pwmControlThread, args=())
