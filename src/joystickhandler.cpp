@@ -2,10 +2,10 @@
 
 JoyStickHandler::JoyStickHandler()
 {
-#if defined(__WIN32) || defined(__WIN64) || defined(__WINNT)
+#if defined(__WIN32) || defined(__WIN64) || defined(__WINNT) || defined(_MSC_VER)
     XInputEnable(TRUE); /*make sure xinput is enabled*/
      this->joy_dx_index = JOYSTICK_NOT_CONNECTED;
-#elif __linux
+#if __linux
 
 #elif __APPLE__
     //Gamepad_deviceAttachFunc(jsAttached, NULL);
@@ -42,7 +42,7 @@ buttonArry JoyStickHandler::readBttn(int index){
     return this->buttonVal[index];
 }
 
-#if defined(__WIN32) || defined(__WIN64) || defined(__WINNT)
+#if defined(__WIN32) || defined(__WIN64) || defined(__WINNT) || defined(_MSC_VER)
 void JoyStickHandler::initJoystick(int index)
 {
     this->joy_dx_index = index;
