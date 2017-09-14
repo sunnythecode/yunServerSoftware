@@ -16,7 +16,7 @@
 #define D_MSG(a)
 #endif
 
-#if defined(__WIN32) || defined(__WIN64) || defined(__WINNT)
+#if defined(__WIN32) || defined(__WIN64) || defined(__WINNT) || defined(_MSC_VER)
     #define WIN32_LEAN_AND_MEAN
     #include <windows.h>
     #include<xinput.h>
@@ -91,7 +91,7 @@ private:
    int buttonCount;
    buttonArry *buttonVal;
 
-    #if defined(__WIN32) || defined(__WIN64) || defined(__WINNT)
+    #if defined(__WIN32) || defined(__WIN64) || defined(__WINNT) || defined(_MSC_VER)
         int joy_dx_index;
         XINPUT_STATE controller;
     #elif __linux
