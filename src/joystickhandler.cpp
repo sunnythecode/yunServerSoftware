@@ -5,7 +5,7 @@ JoyStickHandler::JoyStickHandler()
 #if defined(__WIN32) || defined(__WIN64) || defined(__WINNT) || defined(_MSC_VER)
     XInputEnable(TRUE); /*make sure xinput is enabled*/
      this->joy_dx_index = JOYSTICK_NOT_CONNECTED;
-#if __linux
+#elif __linux
 
 #elif __APPLE__
     //Gamepad_deviceAttachFunc(jsAttached, NULL);
