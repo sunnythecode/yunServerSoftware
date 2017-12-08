@@ -181,7 +181,10 @@ void Host::sendRobotSync()
                         quint8 rightX = SINT_2_UINT(this->masterList->at(playerNum)->getJoystickData().rX);
                         quint8 leftTrig = SINT_2_UINT(this->masterList->at(playerNum)->getJoystickData().lT);
                         quint8 rightTrig = SINT_2_UINT(this->masterList->at(playerNum)->getJoystickData().rT);
-                        quint8 bumper = 127;
+                        quint8 bumper = 128;
+                        quint8 mMax = 210;
+                        quint8 mIdle = 160;
+                        quint8 mMin = 100;
                         if(this->masterList->at(playerNum)->getJoystickData().buttons.indvBttn.LEFT_SHOULDER)
                             bumper = 255;
                         else if (this->masterList->at(playerNum)->getJoystickData().buttons.indvBttn.RIGHT_SHOULDER)
@@ -191,7 +194,10 @@ void Host::sendRobotSync()
                                << rightX << ":"
                                << leftTrig << ":"
                                << rightTrig << ":"
-                               << bumper << "?";
+                               << bumper << ":"
+                               << mMin << ":"
+                               << mIdle << ":"
+                               << mMax << "?";
                         D_MSG(dgram.toUtf8());
                         this->commSock->writeDatagram(dgram.toUtf8(),robots->at(x).addr,robots->at(x).port);
                     }
