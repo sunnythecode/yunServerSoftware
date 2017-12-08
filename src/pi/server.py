@@ -116,15 +116,18 @@ def pwmControlThread():
             setServoPulse(LEFT_MOT, leftMtr)
             setServoPulse(RIGHT_MOT, rightMtr)
 
+            Transform.MOTOR_MIN = data_nums[5]*10
+	    Transform.MOTOR_IDLE = data_nums[6]*10
+	    Transform.MOTOR_MAX = data_nums[7]*10
+
 
             leftIntake = Transform.MOTOR_IDLE
             rightIntake = Transform.MOTOR_IDLE
             if data_nums[2] > 127 + 10:
                 leftIntake = Transform.map_range(data_nums[2],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MAX)
-                #rightIntake = Transform.map_range(data_nums[2],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MIN)
             elif data_nums[3] > 127 + 10:
-                #rightIntake = Transform.map_range(data_nums[3],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MAX)
                 leftIntake = Transform.map_range(data_nums[3],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MIN)
+
 	    rightIntake = Transform.map_range(data_nums[4],0,255,Transform.MOTOR_MIN,Transform.MOTOR_MAX)
 
             print " " , leftIntake, " ", rightIntake
