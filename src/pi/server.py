@@ -38,7 +38,7 @@ pwm = PWM(0x40)
 
 def setServoPulse(channel, pulse):
     pulseLength = 1000000  # 1,000,000 us per second
-    pulseLength /= PWM_FREQ  # 60 Hz
+    pulseLength /= PWM_FREQ  # 50 Hz
     # print "%d us per period" % pulseLength
     pulseLength /= 4096  # 12 bits of resolution
     # print "%d us per bit" % pulseLength
@@ -93,7 +93,7 @@ def broadcastListener():
 def pwmControlThread():
     # setup arduino serial comm
     pwm.setPWMFreq(50)
-    t = Transform(True, False)
+    t = Transform(True, False) #invert one motor and not the other when constructing
     watchdog = time.time()
 
     # thread main loop
@@ -105,12 +105,11 @@ def pwmControlThread():
         else:
             dataFlag = False
 
-        # if data was recieved send it to arduino
+        # if data was recieved parse and update pwm hat
         if dataFlag:
             data = data[5:-1]
             print data
             data_nums = [int(x) for x in data.split(':') if x.strip()]
-            #print "have data"
             print " ", data_nums[0], " ", data_nums[1]
             leftMtr,rightMtr = t.transform(data_nums[0],data_nums[1])
             print " ", leftMtr , " ", rightMtr
