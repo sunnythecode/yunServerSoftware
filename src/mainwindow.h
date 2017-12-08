@@ -57,6 +57,9 @@ private slots:
     void on_p6_linkRob_clicked();
 
 
+    void on_p1_pwmMin_editingFinished();
+    void on_p1_pwmIdle_editingFinished();
+    void on_p1_pwmMax_editingFinished();
 };
 
 #endif // MAINWINDOW_H

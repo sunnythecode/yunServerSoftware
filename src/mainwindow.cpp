@@ -305,3 +305,18 @@ void MainWindow::on_p6_linkCont_clicked()
 {
 
 }
+
+void MainWindow::on_p1_pwmMin_editingFinished()
+{
+ this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->pwmMin = this->ui->p1_pwmMin->text().toInt();
+}
+
+void MainWindow::on_p1_pwmIdle_editingFinished()
+{
+    this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->pwmIdle = this->ui->p1_pwmIdle->text().toInt();
+}
+
+void MainWindow::on_p1_pwmMax_editingFinished()
+{
+    this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->pwmMax = this->ui->p1_pwmMax->text().toInt();
+}
