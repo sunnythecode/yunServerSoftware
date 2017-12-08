@@ -182,9 +182,9 @@ void Host::sendRobotSync()
                         quint8 leftTrig = SINT_2_UINT(this->masterList->at(playerNum)->getJoystickData().lT);
                         quint8 rightTrig = SINT_2_UINT(this->masterList->at(playerNum)->getJoystickData().rT);
                         quint8 bumper = 128;
-                        quint8 mMax = 210;
-                        quint8 mIdle = 160;
-                        quint8 mMin = 100;
+                        quint8 mMax = this->masterList->at(playerNum)->pwmMax;
+                        quint8 mIdle = this->masterList->at(playerNum)->pwmIdle;
+                        quint8 mMin = this->masterList->at(playerNum)->pwmMin;
                         if(this->masterList->at(playerNum)->getJoystickData().buttons.indvBttn.LEFT_SHOULDER)
                             bumper = 255;
                         else if (this->masterList->at(playerNum)->getJoystickData().buttons.indvBttn.RIGHT_SHOULDER)
@@ -203,7 +203,6 @@ void Host::sendRobotSync()
                     }
                     else
                     {
-
                     }
                 }
             }

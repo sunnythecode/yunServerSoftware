@@ -27,6 +27,9 @@ public:
     int getJoyIndex() const;
     void setJoyIndex(int value);
     void updateTime(QTime t);
+    int pwmMax;
+    int pwmMin;
+    int pwmIdle;
 
 private:
     QTime lastUpdate;

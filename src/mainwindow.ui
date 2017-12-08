@@ -53,7 +53,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tb_game">
      <attribute name="title">
@@ -680,36 +680,76 @@
      <attribute name="title">
       <string>Player1</string>
      </attribute>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QWidget" name="">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>551</width>
-        <height>361</height>
+        <x>0</x>
+        <y>0</y>
+        <width>561</width>
+        <height>371</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
-       <property name="spacing">
-        <number>10</number>
-       </property>
-       <property name="sizeConstraint">
-        <enum>QLayout::SetDefaultConstraint</enum>
-       </property>
-       <property name="leftMargin">
-        <number>10</number>
-       </property>
-       <property name="topMargin">
-        <number>10</number>
-       </property>
-       <property name="rightMargin">
-        <number>10</number>
-       </property>
-       <property name="bottomMargin">
-        <number>10</number>
-       </property>
        <item>
         <widget class="QTextBrowser" name="p1_log"/>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QLabel" name="p1_txt_pwmMin">
+             <property name="text">
+              <string>PWM Min</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="p1_pwmMin">
+             <property name="text">
+              <string>100</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLabel" name="p1_txt_pwmIdle">
+             <property name="text">
+              <string>PWM Idle</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="p1_pwmIdle">
+             <property name="text">
+              <string>150</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <item>
+            <widget class="QLabel" name="p1_txt_pwmMax">
+             <property name="text">
+              <string>PWM Max</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="p1_pwmMax">
+             <property name="text">
+              <string>200</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">

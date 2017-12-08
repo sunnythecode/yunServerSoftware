@@ -14,6 +14,10 @@ RobotInfo::RobotInfo()
         this->joystickData.rT=5;
     }
     this->lastUpdate = QTime::currentTime().addSecs(-10);
+
+    this->pwmMin = 100;
+    this->pwmIdle = 150;
+    this->pwmMax = 200;
 }
 void RobotInfo::updateVal(QString name, JoystickData data)
 {
