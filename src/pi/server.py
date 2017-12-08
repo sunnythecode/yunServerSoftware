@@ -121,15 +121,15 @@ def pwmControlThread():
             rightIntake = Transform.MOTOR_IDLE
             if data_nums[2] > 127 + 10:
                 leftIntake = Transform.map_range(data_nums[2],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MAX)
-                rightIntake = Transform.map_range(data_nums[2],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MIN)
+                #rightIntake = Transform.map_range(data_nums[2],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MIN)
             elif data_nums[3] > 127 + 10:
-                rightIntake = Transform.map_range(data_nums[3],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MAX)
+                #rightIntake = Transform.map_range(data_nums[3],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MAX)
                 leftIntake = Transform.map_range(data_nums[3],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MIN)
 
             print " " , leftIntake, " ", rightIntake
 
             setServoPulse(LEFT_MANIP,leftIntake)
-            setServoPulse(RIGHT_MANIP,rightIntake)
+            #setServoPulse(RIGHT_MANIP,rightIntake)
 
             watchdog = time.time()
 
