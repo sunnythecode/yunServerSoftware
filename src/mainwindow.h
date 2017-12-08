@@ -60,6 +60,15 @@ private slots:
     void on_p1_pwmMin_editingFinished();
     void on_p1_pwmIdle_editingFinished();
     void on_p1_pwmMax_editingFinished();
+    void on_p2_pwmMin_editingFinished();
+    void on_p2_pwmIdle_editingFinished();
+    void on_p2_pwmMax_editingFinished();
+    void on_p3_pwmMin_editingFinished();
+    void on_p3_pwmIdle_editingFinished();
+    void on_p3_pwmMax_editingFinished();
+    void on_p4_pwmMin_editingFinished();
+    void on_p4_pwmIdle_editingFinished();
+    void on_p4_pwmMax_editingFinished();
 };
 
 #endif // MAINWINDOW_H

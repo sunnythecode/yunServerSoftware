@@ -308,15 +308,60 @@ void MainWindow::on_p6_linkCont_clicked()
 
 void MainWindow::on_p1_pwmMin_editingFinished()
 {
- this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->pwmMin = this->ui->p1_pwmMin->text().toInt();
+ this->host->getMasterList()->at(0)->pwmMin = this->ui->p1_pwmMin->text().toInt();
 }
 
 void MainWindow::on_p1_pwmIdle_editingFinished()
 {
-    this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->pwmIdle = this->ui->p1_pwmIdle->text().toInt();
+    this->host->getMasterList()->at(0)->pwmIdle = this->ui->p1_pwmIdle->text().toInt();
 }
 
 void MainWindow::on_p1_pwmMax_editingFinished()
 {
-    this->host->getMasterList()->at(ui->mainTabs->currentIndex()-1)->pwmMax = this->ui->p1_pwmMax->text().toInt();
+    this->host->getMasterList()->at(0)->pwmMax = this->ui->p1_pwmMax->text().toInt();
+}
+
+void MainWindow::on_p2_pwmMin_editingFinished()
+{
+    this->host->getMasterList()->at(1)->pwmMin = this->ui->p2_pwmMin->text().toInt();
+}
+
+void MainWindow::on_p2_pwmIdle_editingFinished()
+{
+    this->host->getMasterList()->at(1)->pwmIdle = this->ui->p2_pwmIdle->text().toInt();
+}
+
+void MainWindow::on_p2_pwmMax_editingFinished()
+{
+    this->host->getMasterList()->at(1)->pwmMax = this->ui->p2_pwmMax->text().toInt();
+}
+
+void MainWindow::on_p3_pwmMin_editingFinished()
+{
+    this->host->getMasterList()->at(2)->pwmMin = this->ui->p3_pwmMin->text().toInt();
+}
+
+void MainWindow::on_p3_pwmIdle_editingFinished()
+{
+    this->host->getMasterList()->at(2)->pwmIdle = this->ui->p3_pwmIdle->text().toInt();
+}
+
+void MainWindow::on_p3_pwmMax_editingFinished()
+{
+    this->host->getMasterList()->at(2)->pwmMax = this->ui->p3_pwmMax->text().toInt();
+}
+
+void MainWindow::on_p4_pwmMin_editingFinished()
+{
+    this->host->getMasterList()->at(3)->pwmMin = this->ui->p4_pwmMin->text().toInt();
+}
+
+void MainWindow::on_p4_pwmIdle_editingFinished()
+{
+    this->host->getMasterList()->at(3)->pwmIdle = this->ui->p4_pwmIdle->text().toInt();
+}
+
+void MainWindow::on_p4_pwmMax_editingFinished()
+{
+    this->host->getMasterList()->at(3)->pwmMax = this->ui->p4_pwmMax->text().toInt();
 }
