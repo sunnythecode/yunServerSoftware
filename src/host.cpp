@@ -181,11 +181,17 @@ void Host::sendRobotSync()
                         quint8 rightX = SINT_2_UINT(this->masterList->at(playerNum)->getJoystickData().rX);
                         quint8 leftTrig = SINT_2_UINT(this->masterList->at(playerNum)->getJoystickData().lT);
                         quint8 rightTrig = SINT_2_UINT(this->masterList->at(playerNum)->getJoystickData().rT);
+                        quint8 bumper = 127;
+                        if(this->masterList->at(playerNum)->getJoystickData().buttons.indvBttn.LEFT_SHOULDER)
+                            bumper = 255;
+                        else if (this->masterList->at(playerNum)->getJoystickData().buttons.indvBttn.RIGHT_SHOULDER)
+                            bumper = 0;
                         stream << "!ROB#"
                                << leftY << ":"
                                << rightX << ":"
                                << leftTrig << ":"
-                               << rightTrig << "?";
+                               << rightTrig << ":"
+                               << bumper << "?";
                         D_MSG(dgram.toUtf8());
                         this->commSock->writeDatagram(dgram.toUtf8(),robots->at(x).addr,robots->at(x).port);
                     }
