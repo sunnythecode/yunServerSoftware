@@ -4,11 +4,6 @@ echo "::sysinit:/etc/init.d/rcS S boot
 #ttyATH0::askfirst:/bin/ash --login
 " > /etc/inittab
 
-opkg update
-opkg install python pyserial unzip
-mkdir /home
-mkdir /home/robotics
-cd /home/robotics
 git clone https://github.com/Saint-Francis-Robotics-Team2367/yunServerSoftware.git
 
 echo "# Put your custom commands here that should be executed once
@@ -22,5 +17,5 @@ boot-complete-notify
 # debug messages, thus having a silent and clean serial communication
 # with the microcontroller
 #echo 0 > /proc/sys/kernel/printk
-python /home/robotics/yunServerSoftware-master/src/server.py
+python /home/pi/yunServerSoftware/src/pi/server.py
 exit 0" > /etc/rc.local
