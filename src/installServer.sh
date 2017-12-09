@@ -9,9 +9,7 @@ opkg install python pyserial unzip
 mkdir /home
 mkdir /home/robotics
 cd /home/robotics
-rm *.zip
-wget https://codeload.github.com/Saint-Francis-Robotics-Team2367/yunServerSoftware/zip/master
-unzip *.zip
+git clone https://github.com/Saint-Francis-Robotics-Team2367/yunServerSoftware.git
 
 echo "# Put your custom commands here that should be executed once
 # the system init finished. By default this file does nothing.
