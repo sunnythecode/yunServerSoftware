@@ -7,7 +7,7 @@
 #include <gamedata.h>
 #include <robotinfo.h>
 
-#define BROADCAST_PORT 472
+#define BROADCAST_PORT 2367
 #define HOST_LISTENING_PORT 2380
 
 #define DEBUG /* comment out this line to lower the verbosity of the program */
