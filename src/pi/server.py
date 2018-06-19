@@ -10,7 +10,7 @@ from threading import Thread
 
 # network related variables
 PORT = 2380  # Game host port
-BROADCAST_PORT = 472  # Broadcast port
+BROADCAST_PORT = 2367  # Broadcast port
 BROADCAST_IP = ''
 LOCAL_IP = ''
 
