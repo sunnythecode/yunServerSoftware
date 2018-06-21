@@ -107,7 +107,7 @@ def pwmControlThread():
 
         # if data was recieved parse and update pwm hat
         if dataFlag:
-	    data = data[5:-1]
+        data = data[5:-1]
             print data
             data_nums = [int(x) for x in data.split(':') if x.strip()]
             print " ", data_nums[0], " ", data_nums[1]
@@ -117,8 +117,8 @@ def pwmControlThread():
             setServoPulse(RIGHT_MOT, rightMtr)
 
             Transform.MOTOR_MIN = data_nums[5]*10
-	        Transform.MOTOR_IDLE = data_nums[6]*10
-	        Transform.MOTOR_MAX = data_nums[7]*10
+            Transform.MOTOR_IDLE = data_nums[6]*10
+            Transform.MOTOR_MAX = data_nums[7]*10
 
 
             leftIntake = Transform.MOTOR_IDLE
@@ -129,9 +129,9 @@ def pwmControlThread():
             elif data_nums[3] > 127 + 10: # if right trigger pressed
                 leftIntake = Transform.map_range(data_nums[3],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MIN)
                 rightIntake = Transform.map_range(data_nums[3],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MAX)
- 	        else :
+             else :
                 leftIntake = Transform.MOTOR_IDLE
-		        rightIntake = Transform.MOTOR_IDLE
+                rightIntake = Transform.MOTOR_IDLE
  
             print " " , leftIntake, " ", rightIntake
 
