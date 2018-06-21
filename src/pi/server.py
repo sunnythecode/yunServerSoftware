@@ -117,21 +117,21 @@ def pwmControlThread():
             setServoPulse(RIGHT_MOT, rightMtr)
 
             Transform.MOTOR_MIN = data_nums[5]*10
-	    Transform.MOTOR_IDLE = data_nums[6]*10
-	    Transform.MOTOR_MAX = data_nums[7]*10
+	        Transform.MOTOR_IDLE = data_nums[6]*10
+	        Transform.MOTOR_MAX = data_nums[7]*10
 
 
             leftIntake = Transform.MOTOR_IDLE
             rightIntake = Transform.MOTOR_IDLE
-            if data_nums[2] > 127 + 10:
+            if data_nums[2] > 127 + 10: # if left trigger pressed (i think) spin motors in opposite direction
                 leftIntake = Transform.map_range(data_nums[2],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MAX)
-            elif data_nums[3] > 127 + 10:
+                rightIntake = Transform.map_range(data_nums[2],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MIN)
+            elif data_nums[3] > 127 + 10: # if right trigger pressed
                 leftIntake = Transform.map_range(data_nums[3],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MIN)
-
-	    if data_nums[4] > 127 + 10 or data_nums[4] < 127 - 10 :
-	    	rightIntake = Transform.map_range(data_nums[4],0,255,Transform.MOTOR_MIN,Transform.MOTOR_MAX)
- 	    else :
-		rightIntake = Transform.MOTOR_IDLE;
+                rightIntake = Transform.map_range(data_nums[3],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MAX)
+ 	        else :
+                leftIntake = Transform.MOTOR_IDLE
+		        rightIntake = Transform.MOTOR_IDLE
  
             print " " , leftIntake, " ", rightIntake
 
