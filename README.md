@@ -9,3 +9,9 @@ The second reason is due to the difficulty of interfacing with six FRC control s
 Thus, it makes sense to find a solution that has the minimum requirements to make a working drive base with the possibility of adding simple sensors and a manipulator. The minimum specs for each robot control system are: Wifi, microcontroller, a couple of PWM ports, power delivery, and motor controllers. The Arduino Yun comes in here as it is a microcontroller with integrated WiFi capability. Power delivery is handled by FRC's last-gen power distribution board and motor controllers are a simple off the shelf part.
 
 Because we chose to go with the Arduino Yun, custom software had to be written for it. This is the software to run the server which the Yuns connect to and allow for control of the robots. 
+
+## Installation
+
+`
+curl -s https://raw.githubusercontent.com/Saint-Francis-Robotics-Team2367/yunServerSoftware/master/src/installPiServer.sh | bash
+`
