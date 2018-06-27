@@ -7,6 +7,7 @@ import time
 import atexit
 from Queue import Queue
 from threading import Thread
+import ConfigParser
 
 # network related variables
 PORT = 2380  # Game host port
@@ -25,8 +26,13 @@ serialRealTimeQueue = Queue()
 networkRealTimeQueue = Queue()
 networkQueue = Queue()
 
+
+
+config = ConfigParser.ConfigParser()
+config.read('/home/pi/yunServerSoftware/src/pi/config.ini')
+
 # change this to the relevant team name when the script is loaded to the yun
-ROBOT_NAME = "DLT"
+ROBOT_NAME = config.get('Main','TeamName')
 PWM_FREQ = 50
 LEFT_MOT = 0
 RIGHT_MOT = 1
