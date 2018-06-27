@@ -6,6 +6,6 @@ python /home/pi/yunServerSoftware/src/pi/server.py" > startServer.sh
 chmod a+x startServer.sh
 echo "./startServer.sh" >> .bashrc
 echo -n "Enter Team Name? "
-read name
+read name < /dev/tty
 echo "[Main]
 TeamName = $name" > /home/pi/yunServerSoftware/src/pi/config.ini
