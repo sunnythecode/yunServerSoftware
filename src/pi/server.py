@@ -107,7 +107,7 @@ def pwmControlThread():
 
         # if data was recieved parse and update pwm hat
         if dataFlag:
-        data = data[5:-1]
+            data = data[5:-1]
             print data
             data_nums = [int(x) for x in data.split(':') if x.strip()]
             print " ", data_nums[0], " ", data_nums[1]
@@ -129,7 +129,7 @@ def pwmControlThread():
             elif data_nums[3] > 127 + 10: # if right trigger pressed
                 leftIntake = Transform.map_range(data_nums[3],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MIN)
                 rightIntake = Transform.map_range(data_nums[3],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MAX)
-             else :
+            else :
                 leftIntake = Transform.MOTOR_IDLE
                 rightIntake = Transform.MOTOR_IDLE
  
