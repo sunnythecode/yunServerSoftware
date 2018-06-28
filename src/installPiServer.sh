@@ -1,7 +1,7 @@
 #!/bin/sh
 cd ~
 sudo apt update
-sudo apt install -y git python-smbus
+sudo apt --yes install git python-smbus
 sudo raspi-config nonint do_boot_behaviour B2
 sudo raspi-config nonint do_i2c 1
 
