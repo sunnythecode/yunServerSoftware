@@ -104,6 +104,7 @@ def pwmControlThread():
 
     # thread main loop
     while True:
+	time.sleep(.005)
         # check for data that needs to be bridged to arduino
         dataFlag = True
         if not serialRealTimeQueue.empty():
@@ -156,6 +157,7 @@ def pwmControlThread():
             print "you need to feed the dogs"
 
 def networkComThread():
+    
     # create socket to recieve from host
     netSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     netSock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -177,6 +179,7 @@ def networkComThread():
         nameBroadcastTimer = time.time()
         logWrite("Found Host.")
         while fKeepAlive:
+            time.sleep(.005)
             if not broadcastQueue.empty():
                 while not broadcastQueue.empty():
                     qPop = broadcastQueue.get()
