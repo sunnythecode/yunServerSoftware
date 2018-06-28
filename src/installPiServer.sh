@@ -1,5 +1,7 @@
 #!/bin/sh
 cd ~
+sudo apt update
+sudo apt install git python-smbus
 git clone https://github.com/Saint-Francis-Robotics-Team2367/yunServerSoftware.git
 echo "#!/bin/sh
 python /home/pi/yunServerSoftware/src/pi/server.py" > startServer.sh
