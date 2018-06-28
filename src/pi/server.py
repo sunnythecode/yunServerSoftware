@@ -156,6 +156,7 @@ def pwmControlThread():
             print "you need to feed the dogs"
 
 def networkComThread():
+    time.sleep(.005)
     # create socket to recieve from host
     netSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     netSock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
