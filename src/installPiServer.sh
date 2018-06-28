@@ -3,7 +3,7 @@ cd ~
 sudo apt update
 sudo apt --yes install git python-smbus
 sudo raspi-config nonint do_boot_behaviour B2
-sudo raspi-config nonint do_i2c 1
+sudo raspi-config nonint do_i2c 0
 
 git clone https://github.com/Saint-Francis-Robotics-Team2367/yunServerSoftware.git
 
