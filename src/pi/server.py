@@ -156,7 +156,7 @@ def pwmControlThread():
             print "you need to feed the dogs"
 
 def networkComThread():
-    time.sleep(.005)
+    
     # create socket to recieve from host
     netSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     netSock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -178,6 +178,7 @@ def networkComThread():
         nameBroadcastTimer = time.time()
         logWrite("Found Host.")
         while fKeepAlive:
+            time.sleep(.005)
             if not broadcastQueue.empty():
                 while not broadcastQueue.empty():
                     qPop = broadcastQueue.get()
