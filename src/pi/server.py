@@ -104,6 +104,7 @@ def pwmControlThread():
 
     # thread main loop
     while True:
+	time.sleep(.005)
         # check for data that needs to be bridged to arduino
         dataFlag = True
         if not serialRealTimeQueue.empty():
