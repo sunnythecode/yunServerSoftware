@@ -36,3 +36,5 @@ Makefile*
 /build-*
 
 src/pi/\.idea/
+
+src/pi/\.vscode/

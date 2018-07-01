@@ -6,6 +6,8 @@ import sys
 import time
 import atexit
 from Queue import Queue
+from robot import Robot
+from motor_controller import MotorController
 from threading import Thread
 import ConfigParser
 
@@ -101,10 +103,10 @@ def pwmControlThread():
     pwm.setPWMFreq(50)
     t = Transform(True, False) #invert one motor and not the other when constructing
     watchdog = time.time()
-
+    robot = Robot()
     # thread main loop
     while True:
-	time.sleep(.005)
+	    time.sleep(.005)
         # check for data that needs to be bridged to arduino
         dataFlag = True
         if not serialRealTimeQueue.empty():
@@ -117,44 +119,12 @@ def pwmControlThread():
             data = data[5:-1]
             print data
             data_nums = [int(x) for x in data.split(':') if x.strip()]
-            print " ", data_nums[0], " ", data_nums[1]
-            leftMtr,rightMtr = t.transform(data_nums[0],data_nums[1])
-            print " ", leftMtr , " ", rightMtr
-            setServoPulse(LEFT_MOT, leftMtr)
-            setServoPulse(RIGHT_MOT, rightMtr)
+            robot.robot_control(data_nums[0],data_nums[1],data_nums[2],data_nums[3], data_nums[4] == 255, data_nums[4] == 0)
 
-            Transform.MOTOR_MIN = data_nums[5]*10
-            Transform.MOTOR_IDLE = data_nums[6]*10
-            Transform.MOTOR_MAX = data_nums[7]*10
-
-
-            leftIntake = Transform.MOTOR_IDLE
-            rightIntake = Transform.MOTOR_IDLE
-            if data_nums[2] > 127 + 10: # if left trigger pressed (i think) spin motors in opposite direction
-                leftIntake = Transform.map_range(data_nums[2],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MAX)
-                rightIntake = Transform.map_range(data_nums[2],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MIN)
-            elif data_nums[3] > 127 + 10: # if right trigger pressed
-                leftIntake = Transform.map_range(data_nums[3],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MIN)
-                rightIntake = Transform.map_range(data_nums[3],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MAX)
-            else :
-                leftIntake = Transform.MOTOR_IDLE
-                rightIntake = Transform.MOTOR_IDLE
- 
-            print " " , leftIntake, " ", rightIntake
-
-            setServoPulse(LEFT_MANIP,leftIntake)
-            setServoPulse(RIGHT_MANIP,rightIntake)
-
-            watchdog = time.time()
-
-        if watchdog + WATCHDOG_DELAY < time.time():
-            setServoPulse(LEFT_MOT, Transform.MOTOR_IDLE)
-            setServoPulse(RIGHT_MOT, Transform.MOTOR_IDLE)
-            setServoPulse(LEFT_MANIP, Transform.MOTOR_IDLE)
-            setServoPulse(RIGHT_MANIP, Transform.MOTOR_IDLE)
-
-            watchdog = time.time()
-            print "you need to feed the dogs"
+        for mc in dir(robot):
+            if type(mc) is MotorController
+                if mem.watchdog + WATCHDOG_DELAY < time.time():
+                    mc.set_scaled_output(127)
 
 def networkComThread():
     
