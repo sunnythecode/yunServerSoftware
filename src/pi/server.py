@@ -85,14 +85,12 @@ def broadcastListener():
         logWrite('Broadcast bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1] + "\n")
         sys.exit(1)
 
-    lastKeepAlive = time.time()
     while True:
         readReady = select.select([bCastSock], [], [], 0.02)
         if readReady[0]:
             data, sender = bCastSock.recvfrom(1500)
             # check that the datagram is a alive packet
             if data == sender[0]:
-                lastKeepAlive = time.time()
                 broadcastQueue.put(sender)
         time.sleep(.05)
 
@@ -100,13 +98,10 @@ def broadcastListener():
 # serial communication thread
 def pwmControlThread():
     # setup arduino serial comm
-    pwm.setPWMFreq(50)
-    t = Transform(True, False) #invert one motor and not the other when constructing
-    watchdog = time.time()
     robot = Robot()
     # thread main loop
     while True:
-	    time.sleep(.005)
+        time.sleep(.005)
         # check for data that needs to be bridged to arduino
         dataFlag = True
         if not serialRealTimeQueue.empty():
@@ -122,8 +117,8 @@ def pwmControlThread():
             robot.robot_control(data_nums[0],data_nums[1],data_nums[2],data_nums[3], data_nums[4] == 255, data_nums[4] == 0)
 
         for mc in dir(robot):
-            if type(mc) is MotorController
-                if mem.watchdog + WATCHDOG_DELAY < time.time():
+            if isinstance(mc,MotorController):
+                if mc.watchdog + WATCHDOG_DELAY < time.time():
                     mc.set_scaled_output(127)
 
 def networkComThread():
@@ -152,7 +147,7 @@ def networkComThread():
             time.sleep(.005)
             if not broadcastQueue.empty():
                 while not broadcastQueue.empty():
-                    qPop = broadcastQueue.get()
+                    broadcastQueue.get()
                 keepAliveTimer = time.time()
             # if we haven't recieved a keep alive packet in a while kill the connection
             if time.time() - keepAliveTimer > KEEP_ALIVE_TIMEOUT:
@@ -183,10 +178,6 @@ def networkComThread():
 # cleanup function
 def cleanup():
     logWrite('cleanup')
-    setServoPulse(LEFT_MOT,Transform.MOTOR_IDLE)
-    setServoPulse(RIGHT_MOT,Transform.MOTOR_IDLE)	
-    setServoPulse(LEFT_MANIP, Transform.MOTOR_IDLE)
-    setServoPulse(RIGHT_MANIP, Transform.MOTOR_IDLE)
 
 
 # Main program start
