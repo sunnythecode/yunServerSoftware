@@ -19,7 +19,7 @@ after_build:
     - windeployqt soccerBotSoftware.exe
     
 deploy:
-  release: soccerBotSoftware-$(APPVEYOR_REPO_TAG_NAME)
+  release: $(APPVEYOR_REPO_TAG_NAME)
   description: 'Auto-generated release'
   provider: GitHub
   auth_token:
