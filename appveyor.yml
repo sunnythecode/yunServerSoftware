@@ -23,7 +23,7 @@ deploy:
   description: 'Auto-generated release'
   provider: GitHub
   auth_token:
-    secure: EZfx5ERV/rgexlLea7x9M7pto3BtVQD856OTgUhLGpnUkHmoBHg/jL2VAu17uyeB # your encrypted token from GitHub
+    secure: U0HHM12oCKTdNLK6vOjejl03ho7wuC/r+4NACUdv4+TXa066PcsZl5/82mM/nCEg # your encrypted token from GitHub
   artifact: windows
   draft: false
   prerelease: false
