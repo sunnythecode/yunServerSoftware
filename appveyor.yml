@@ -3,16 +3,14 @@ init:
  - set PATH=%PATH%;%QTDIR%\bin;C:\Qt\5.11.3\mingw53_32
  
 build_script:
-  - cd computer
+  - cd src
   - qmake soccerBotSoftware.pro
   - mingw32-make
   
 artifacts:
-  - path: computer\release\deploy
+  - path: src\release\deploy
     name: windows
-  - path: robot\yun
-    name: yun
-  - path: robot\pi
+  - path: src\installPiServer.sh
     name: pi  
   
 after_build:
@@ -23,7 +21,7 @@ after_build:
     - windeployqt soccerBotSoftware.exe
     
 deploy:
-  release: YunServerSoftware-$(APPVEYOR_REPO_TAG_NAME)
+  release: soccerBotSoftware-$(APPVEYOR_REPO_TAG_NAME)
   description: 'Auto-generated release'
   provider: GitHub
   auth_token:
