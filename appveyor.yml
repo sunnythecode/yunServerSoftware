@@ -1,6 +1,6 @@
 init:
- - set QTDIR=C:\Qt\5.7\mingw53_32
- - set PATH=%PATH%;%QTDIR%\bin;C:\Qt\Tools\mingw530_32\bin
+ - set QTDIR=C:\Qt\5.11.3\mingw53_32
+ - set PATH=%PATH%;%QTDIR%\bin;C:\Qt\5.11.3\mingw53_32
  
 build_script:
   - cd computer
