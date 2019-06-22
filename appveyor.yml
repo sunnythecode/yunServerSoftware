@@ -10,8 +10,6 @@ build_script:
 artifacts:
   - path: src\release\deploy
     name: windows
-  - path: src\installPiServer.sh
-    name: pi  
   
 after_build:
     - cd release
@@ -25,10 +23,10 @@ deploy:
   description: 'Auto-generated release'
   provider: GitHub
   auth_token:
-    secure: VtuiEw6NXRRYgPkzk+EHYxBu4T5I+7hATgUnMYvA5zR0CnywuDF/gUp0sfxXv+Vx # your encrypted token from GitHub
-  artifact: windows, yun, pi
-  draft: true
-  prerelease: true
+    secure: EZfx5ERV/rgexlLea7x9M7pto3BtVQD856OTgUhLGpnUkHmoBHg/jL2VAu17uyeB # your encrypted token from GitHub
+  artifact: windows
+  draft: false
+  prerelease: false
   on:
     branch: master                 # release from master branch only
     appveyor_repo_tag: true        # deploy on tag push only
