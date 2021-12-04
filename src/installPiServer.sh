@@ -9,7 +9,10 @@ git clone https://github.com/Saint-Francis-Robotics-Team2367/yunServerSoftware.g
 
 echo "#!/bin/sh
 cd /home/pi/
+while :
+do
 su pi -c 'python /home/pi/yunServerSoftware/src/pi/server.py'" > startServer.sh
+done 
 
 chmod a+x startServer.sh
 
