@@ -11,8 +11,8 @@ echo "#!/bin/sh
 cd /home/pi/
 while :
 do
-su pi -c 'python /home/pi/yunServerSoftware/src/pi/server.py'" > startServer.sh
-done 
+su pi -c 'python /home/pi/yunServerSoftware/src/pi/server.py' > startServer.sh
+done"
 
 chmod a+x startServer.sh
 
