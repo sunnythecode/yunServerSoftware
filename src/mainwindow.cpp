@@ -225,7 +225,7 @@ void MainWindow::on_p4_linkRob_clicked()
 void MainWindow::robotComTimeout()
 {
     //robot 1
-    const int maxTimeout = 6;
+    const int maxTimeout = 1;
     if(this->host->getMasterList()->at(0)->getUpdate().secsTo(QTime::currentTime())> maxTimeout)
     {
         ui->txt_game_p1_robcom->setStyleSheet("background-color:rgba(255, 10, 10, 0.75);");
