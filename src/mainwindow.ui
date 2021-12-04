@@ -53,7 +53,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tb_game">
      <attribute name="title">
@@ -65,7 +65,7 @@
         <x>20</x>
         <y>340</y>
         <width>351</width>
-        <height>25</height>
+        <height>27</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="gameBtnLayout">
@@ -793,7 +793,7 @@
      <attribute name="title">
       <string>Player2</string>
      </attribute>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -909,7 +909,7 @@
      <attribute name="title">
       <string>Player 3</string>
      </attribute>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -1022,7 +1022,7 @@
      <attribute name="title">
       <string>Player 4</string>
      </attribute>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -1291,7 +1291,7 @@
      <x>0</x>
      <y>0</y>
      <width>600</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">
