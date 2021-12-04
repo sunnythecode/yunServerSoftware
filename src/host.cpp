@@ -104,6 +104,12 @@ bool Host::checkValidDgram(QByteArray dgram, QHostAddress sender, quint16 sender
                 dupRob = true;
                 D_MSG("DUPLICATE ROBOT");
 
+                if(robots->at(i).addr != rob.addr || robots->at(i).port != rob.port)
+                {
+                    D_MSG("A ROBOT HAS RECONNECTED WITH A NEW ADDRESS");
+                    this->robots->replace(i, rob);
+                }
+
                 for(int j = 0; j<4;j++)
                 {
                     if(this->masterList->at(j)->getName() == rob.name)
