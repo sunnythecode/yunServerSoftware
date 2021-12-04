@@ -51,7 +51,6 @@ void RobotInfo::setJoyIndex(int value)
 }
 void RobotInfo::setJoystickData(JoystickData data)
 {
-    this->lastUpdate=QTime::currentTime();
     this->joystickData = data;
 }
 void RobotInfo::setName(QString name)
