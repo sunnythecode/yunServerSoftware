@@ -25,9 +25,10 @@ class Transform:
     def slew_limit(input, last, limit):
         if abs(input - last) > limit:
             if input > last:
-                input = last + limit
+                output = last + limit
             else:
-                input = last - limit
+                output = last - limit
+        return output
 
     def transform(self, left_y, right_x):
     if self.SLEW_LIMIT_ON:
