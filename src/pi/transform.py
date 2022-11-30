@@ -49,50 +49,50 @@ class Transform:
             self.last_leftx = left_y
         
         if 127-17 <= left_y <= 127+17:
-            left_y = Transform.MOTOR_IDLE
-        else:
-            left_y = map_range(left_y, 0, 255, Transform.MOTOR_MIN, Transform.MOTOR_MAX)
-            
-        if 127-17 <= right_x <= 127+17:
-            right_x = Transform.MOTOR_IDLE
-        else:
-            right_x = map_range(right_x, 0, 255, Transform.MOTOR_MIN, Transform.MOTOR_MAX)
+		    left_y = Transform.MOTOR_IDLE
+	    else:
+		    left_y = map_range(left_y, 0, 255, Transform.MOTOR_MIN, Transform.MOTOR_MAX)
+        
+	    if 127-17 <= right_x <= 127+17:
+		    right_x = Transform.MOTOR_IDLE
+	    else:
+		    right_x = map_range(right_x, 0, 255, Transform.MOTOR_MIN, Transform.MOTOR_MAX)
 
-            lftMtr = Transform.MOTOR_IDLE
-            rghtMtr = Transform.MOTOR_IDLE
-            if left_y > Transform.MOTOR_IDLE + Transform.L_STICK_DEADZONE:
-                if self.invert_left:
-                    rghtMtr = map_range(left_y, Transform.MOTOR_IDLE + Transform.L_STICK_DEADZONE, Transform.MOTOR_MAX, Transform.MOTOR_IDLE, Transform.MOTOR_MIN)
-                    lftMtr = map_range(left_y, Transform.MOTOR_IDLE + Transform.L_STICK_DEADZONE, Transform.MOTOR_MAX, Transform.MOTOR_IDLE, Transform.MOTOR_MAX)
-                else:
-                    lftMtr = map_range(left_y, Transform.MOTOR_IDLE + Transform.L_STICK_DEADZONE, Transform.MOTOR_MAX, Transform.MOTOR_IDLE, Transform.MOTOR_MIN)
-                    rghtMtr = map_range(left_y, Transform.MOTOR_IDLE + Transform.L_STICK_DEADZONE, Transform.MOTOR_MAX, Transform.MOTOR_IDLE, Transform.MOTOR_MAX)
+        lftMtr = Transform.MOTOR_IDLE
+        rghtMtr = Transform.MOTOR_IDLE
+        if left_y > Transform.MOTOR_IDLE + Transform.L_STICK_DEADZONE:
+           if self.invert_left:
+                rghtMtr = map_range(left_y, Transform.MOTOR_IDLE + Transform.L_STICK_DEADZONE, Transform.MOTOR_MAX, Transform.MOTOR_IDLE, Transform.MOTOR_MIN)
+                lftMtr = map_range(left_y, Transform.MOTOR_IDLE + Transform.L_STICK_DEADZONE, Transform.MOTOR_MAX, Transform.MOTOR_IDLE, Transform.MOTOR_MAX)
+           else:
+                lftMtr = map_range(left_y, Transform.MOTOR_IDLE + Transform.L_STICK_DEADZONE, Transform.MOTOR_MAX, Transform.MOTOR_IDLE, Transform.MOTOR_MIN)
+                rghtMtr = map_range(left_y, Transform.MOTOR_IDLE + Transform.L_STICK_DEADZONE, Transform.MOTOR_MAX, Transform.MOTOR_IDLE, Transform.MOTOR_MAX)
 
-            elif left_y < Transform.MOTOR_IDLE - Transform.L_STICK_DEADZONE:
-                if self.invert_left:
-                    lftMtr = map_range(left_y, Transform.MOTOR_IDLE - Transform.L_STICK_DEADZONE, Transform.MOTOR_MIN, Transform.MOTOR_IDLE, Transform.MOTOR_MIN)
-                    rghtMtr = map_range(left_y, Transform.MOTOR_IDLE - Transform.L_STICK_DEADZONE, Transform.MOTOR_MIN, Transform.MOTOR_IDLE, Transform.MOTOR_MAX)
-                else:
-                    rghtMtr = map_range(left_y, Transform.MOTOR_IDLE - Transform.L_STICK_DEADZONE, Transform.MOTOR_MIN, Transform.MOTOR_IDLE, Transform.MOTOR_MIN)
-                    lftMtr = map_range(left_y, Transform.MOTOR_IDLE - Transform.L_STICK_DEADZONE, Transform.MOTOR_MIN, Transform.MOTOR_IDLE, Transform.MOTOR_MAX)
+        elif left_y < Transform.MOTOR_IDLE - Transform.L_STICK_DEADZONE:
+            if self.invert_left:
+                lftMtr = map_range(left_y, Transform.MOTOR_IDLE - Transform.L_STICK_DEADZONE, Transform.MOTOR_MIN, Transform.MOTOR_IDLE, Transform.MOTOR_MIN)
+                rghtMtr = map_range(left_y, Transform.MOTOR_IDLE - Transform.L_STICK_DEADZONE, Transform.MOTOR_MIN, Transform.MOTOR_IDLE, Transform.MOTOR_MAX)
+            else:
+                rghtMtr = map_range(left_y, Transform.MOTOR_IDLE - Transform.L_STICK_DEADZONE, Transform.MOTOR_MIN, Transform.MOTOR_IDLE, Transform.MOTOR_MIN)
+                lftMtr = map_range(left_y, Transform.MOTOR_IDLE - Transform.L_STICK_DEADZONE, Transform.MOTOR_MIN, Transform.MOTOR_IDLE, Transform.MOTOR_MAX)
 
-            if right_x > Transform.MOTOR_IDLE + Transform.R_STICK_DEADZONE:
-                turnRate = map_range(right_x, Transform.MOTOR_IDLE + Transform.R_STICK_DEADZONE, Transform.MOTOR_MAX, Transform.MOTOR_IDLE, Transform.MOTOR_MAX)
-                if self.invert_right:
-                    rghtMtr -= turnRate - Transform.MOTOR_IDLE
-                    lftMtr -= turnRate - Transform.MOTOR_IDLE
-                else:
-                    lftMtr += turnRate - Transform.MOTOR_IDLE
-                    rghtMtr += turnRate - Transform.MOTOR_IDLE
+        if right_x > Transform.MOTOR_IDLE + Transform.R_STICK_DEADZONE:
+            turnRate = map_range(right_x, Transform.MOTOR_IDLE + Transform.R_STICK_DEADZONE, Transform.MOTOR_MAX, Transform.MOTOR_IDLE, Transform.MOTOR_MAX)
+            if self.invert_right:
+                rghtMtr -= turnRate - Transform.MOTOR_IDLE
+                lftMtr -= turnRate - Transform.MOTOR_IDLE
+            else:
+                lftMtr += turnRate - Transform.MOTOR_IDLE
+                rghtMtr += turnRate - Transform.MOTOR_IDLE
 
-            elif right_x < Transform.MOTOR_IDLE - Transform.R_STICK_DEADZONE:
-                turnRate = map_range(right_x, Transform.MOTOR_IDLE - Transform.R_STICK_DEADZONE, Transform.MOTOR_MIN, Transform.MOTOR_IDLE, Transform.MOTOR_MIN)
-                if self.invert_right:
-                    rghtMtr -= turnRate - Transform.MOTOR_IDLE
-                    lftMtr -= turnRate - Transform.MOTOR_IDLE
-                else:
-                    lftMtr += turnRate - Transform.MOTOR_IDLE
-                    rghtMtr += turnRate - Transform.MOTOR_IDLE
+        elif right_x < Transform.MOTOR_IDLE - Transform.R_STICK_DEADZONE:
+            turnRate = map_range(right_x, Transform.MOTOR_IDLE - Transform.R_STICK_DEADZONE, Transform.MOTOR_MIN, Transform.MOTOR_IDLE, Transform.MOTOR_MIN)
+            if self.invert_right:
+                rghtMtr -= turnRate - Transform.MOTOR_IDLE
+                lftMtr -= turnRate - Transform.MOTOR_IDLE
+            else:
+                lftMtr += turnRate - Transform.MOTOR_IDLE
+                rghtMtr += turnRate - Transform.MOTOR_IDLE
 
         if lftMtr > Transform.MOTOR_MAX:
             lftMtr = Transform.MOTOR_MAX
