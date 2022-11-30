@@ -107,5 +107,5 @@ class Transform:
         return lftMtr,rghtMtr
 
 t = Transform(False,False)
-print t.transform(255,255)
+print t.transform(t, 255,255)
 
