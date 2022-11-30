@@ -20,7 +20,7 @@ class Transform:
     def map_range(x, in_min, in_max, out_min, out_max):
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
-
+    @staticmethod
     def slew_limit(self, input, last, limit):
         output = input
         if abs(last - input) > limit:
@@ -107,5 +107,5 @@ class Transform:
         return lftMtr,rghtMtr
 
 t = Transform(False,False)
-print t.transform(t, 255,255)
+print t.transform(255,255)
 
