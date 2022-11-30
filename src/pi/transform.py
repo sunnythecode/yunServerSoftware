@@ -49,14 +49,14 @@ class Transform:
             self.last_leftx = left_y
         
         if 127-17 <= left_y <= 127+17:
-		    left_y = Transform.MOTOR_IDLE
-	    else:
-		    left_y = map_range(left_y, 0, 255, Transform.MOTOR_MIN, Transform.MOTOR_MAX)
+            left_y = Transform.MOTOR_IDLE
+        else:
+            left_y = map_range(left_y, 0, 255, Transform.MOTOR_MIN, Transform.MOTOR_MAX)
         
-	    if 127-17 <= right_x <= 127+17:
-		    right_x = Transform.MOTOR_IDLE
-	    else:
-		    right_x = map_range(right_x, 0, 255, Transform.MOTOR_MIN, Transform.MOTOR_MAX)
+        if 127-17 <= right_x <= 127+17:
+            right_x = Transform.MOTOR_IDLE
+        else:
+            right_x = map_range(right_x, 0, 255, Transform.MOTOR_MIN, Transform.MOTOR_MAX)
 
         lftMtr = Transform.MOTOR_IDLE
         rghtMtr = Transform.MOTOR_IDLE
