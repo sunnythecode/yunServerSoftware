@@ -21,7 +21,7 @@ class Transform:
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
     @staticmethod
-    def slew_limit(self, input, last, limit):
+    def slew_limit(input, last, limit):
         output = input
         if abs(last - input) > limit:
             print "slewey"
