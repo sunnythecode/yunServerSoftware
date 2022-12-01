@@ -50,7 +50,7 @@ def setServoPulse(channel, pulse):
     # print "%d us per bit" % pulseLength
     pulse /= pulseLength
     # print "%d tick" % pulse
-    pwm.setPWM(channel, 0, pulse)
+    pwm.setPWM(int(channel), 0, int(pulse))
 
 
 # loging wrapper function
