@@ -38,9 +38,10 @@ LEFT_MOT = 0
 RIGHT_MOT = 1
 LEFT_MANIP = 4
 RIGHT_MANIP = 5
+RTY = 2
 
 MANIP_TYPES = list(map(str, [config.get('Main', 'Manip4'), config.get('Main', 'Manip5')]))
-#INTAKEJ(Intake joystick), ARM(arm), "INTAKET"(Intake trigger), "STRONG"(Old ARM/INTAKE) - first goes to 4, second to 5
+#INTAKEJ(Intake joystick), ARM(arm), "INTAKET"(Intake trigger), "DUAL_INTAKE"(Old ARM/INTAKE) - first goes to 4, second to 5
 print(MANIP_TYPES)
 pwm = PWM(0x40)
 
@@ -137,7 +138,7 @@ def pwmControlThread():
 
             if "INTAKEJ" in MANIP_TYPES:
                 #IntakeJStick: -> rightY -> Motor 
-                rstickY = 0
+                rstickY = RTY
                 if (data_nums[rstickY] >= 127 + 17):
                     leftIntake = Transform.MOTOR_IDLE + INTAKE_ABS_SPD
                 elif (data_nums[rstickY] <= 127 + 17):
@@ -170,7 +171,7 @@ def pwmControlThread():
                 else :
                     rightIntake = Transform.MOTOR_IDLE
             
-            if "STRONG" in MANIP_TYPES:
+            if "DUAL_INTAKE" in MANIP_TYPES:
                 #Triggers -> One motor
                 if data_nums[2] > 127 + 10: # if left trigger pressed (i think) spin motors in opposite direction
                     leftIntake = Transform.map_range(data_nums[2],127,255,Transform.MOTOR_IDLE,Transform.MOTOR_MAX)
