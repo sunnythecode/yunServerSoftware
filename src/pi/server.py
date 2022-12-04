@@ -117,6 +117,7 @@ def pwmControlThread():
 
         # if data was recieved parse and update pwm hat
         if dataFlag:
+            print(data) #Check if we are cutting out inputs
             data = data[5:-1] #0 left y, 1 right x, 2 left trigger, 3 right trigger, 4 RB, 5 LB?
             print(data)
             data_nums = [int(x) for x in data.split(':') if x.strip()]

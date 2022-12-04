@@ -24,7 +24,7 @@ class Transform:
     def slew_limit(input, last, limit):
         output = input
         if abs(last - input) > limit:
-            print "slewey"
+            print("slewey")
             if last <= 127:
                 if (input > last):
                     if (input > 127) and (input - 127 > limit):
@@ -107,5 +107,5 @@ class Transform:
         return lftMtr,rghtMtr
 
 t = Transform(False,False)
-print t.transform(255,255)
+print(t.transform(255,255))
 
